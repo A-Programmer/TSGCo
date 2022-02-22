@@ -202,6 +202,7 @@ src/Presentation/Project.BlazorApp/[Rr]eleases/
 src/Presentation/Project.BlazorApp/[Rr]elease/
 src/Presentation/Project.BlazorApp/[Dd]ebugPublic/
 src/Presentation/Project.BlazorApp/[Dd]ebug/
+src/Presentation/Project.BlazorApp/wwwroot/videos/
 
 #Api
 src/Presentation/.vs/
@@ -221,20 +222,6 @@ src/Presentation/Project.Api/[Rr]eleases/
 src/Presentation/Project.Api/[Rr]elease/
 src/Presentation/Project.Api/[Dd]ebugPublic/
 src/Presentation/Project.Api/[Dd]ebug/
-src/Presentation/Project.Angular/.vs/
-src/Presentation/Project.Angular/.code/
-src/Presentation/Project.Angular/.vscode/
-src/Presentation/Project.Angular/[Oo]ut/
-src/Presentation/Project.Angular/[Oo]bj/
-src/Presentation/Project.Angular/[Bb]in/
-src/Presentation/Project.Angular/bld/
-src/Presentation/Project.Angular/build/
-src/Presentation/Project.Angular/x86/
-src/Presentation/Project.Angular/x64/
-src/Presentation/Project.Angular/[Rr]eleases/
-src/Presentation/Project.Angular/[Rr]elease/
-src/Presentation/Project.Angular/[Dd]ebugPublic/
-src/Presentation/Project.Angular/[Dd]ebug/
 
 # Identity Service
 src/IdentityService/.vs/
