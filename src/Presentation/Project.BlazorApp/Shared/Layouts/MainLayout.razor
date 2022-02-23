@@ -1,19 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Project.BlazorApp</PageTitle>
+<PageTitle>White Gold</PageTitle>
 
-<div class="content">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+<div class="page-wrapper">
+    @Body
 </div>
+
+@code {
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await JSRuntime.InvokeAsync<object>("initialize");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

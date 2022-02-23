@@ -1,8 +1,3 @@
-$(function($) {
-
-	
-    
-});
 
 function initialize() {
     "use strict";
@@ -164,34 +159,6 @@ function initialize() {
         if ($(this).attr("data-background")){
             $(this).css("background-image", "url(" + $(this).data("background") + ")");
         }
-    });
-
-
-
-    /*------------------------------------------
-        = HIDE PRELOADER
-    -------------------------------------------*/
-    function preloader() {
-        if($('.preloader').length) {
-            $('.preloader').delay(100).fadeOut(500, function() {
-
-                //active wow
-                wow.init();
-
-            });
-        }
-    }
-
-
-    /*------------------------------------------
-        = WOW ANIMATION SETTING
-    -------------------------------------------*/
-    var wow = new WOW({
-        boxClass:     'wow',      // default
-        animateClass: 'animated', // default
-        offset:       0,          // default
-        mobile:       true,       // default
-        live:         true        // default
     });
 
 

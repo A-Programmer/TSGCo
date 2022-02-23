@@ -1,0 +1,51 @@
+@if(Slides.Any())
+{
+    <section class="hero-slider hero-style-1">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                @foreach(var slide in Slides)
+                {
+                    <div class="swiper-slide">
+                        <div class="slide-inner slide-bg-image" data-background="@slide.ImageUrl">
+                            <div class="container">
+                                <div data-swiper-parallax="300" class="slide-title">
+                                    <h2>@slide.Title</h2>
+                                </div>
+                                <div data-swiper-parallax="400" class="slide-text">
+                                    <p>@slide.Text</p>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div data-swiper-parallax="500" class="slide-btns">
+                                    @if(!string.IsNullOrEmpty(slide.PrimaryButtonText))
+                                    {
+                                        <a href="@slide.PrimaryButtonUrl" class="theme-btn">@slide.PrimaryButtonText</a> 
+                                    }
+                                    @if(!string.IsNullOrEmpty(slide.SecondaryButtonText))
+                                    {
+                                        <a href="@slide.SecondaryButtonUrl" class="theme-btn-s2">@slide.SecondaryButtonText</a> 
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </section>
+}
+
+
+
+@code {
+    public List<Slide> Slides { get; set; } = new List<Slide>();
+    protected override Task OnInitializedAsync()
+    {
+        Slides = FakeData.GetSlides();
+        return base.OnInitializedAsync();
+    }
+}
