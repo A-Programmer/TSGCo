@@ -1,6 +1,7 @@
 @inherits LayoutComponentBase
 
 <div class="page-wrapper">
+    
     <HeaderComponent />
     <SliderComponent />
     <AboutIntroComponent />
@@ -13,3 +14,16 @@
     <CallToActionComponent />
     <FooterComponent />
 </div>
+
+@code {
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await JSRuntime.InvokeAsync<object>("initialize");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}
