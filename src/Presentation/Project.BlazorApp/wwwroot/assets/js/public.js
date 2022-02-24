@@ -517,105 +517,105 @@ function initialize() {
     /*------------------------------------------
         = CONTACT FORM SUBMISSION
     -------------------------------------------*/
-    if ($("#contact-form-main").length) {
-        $("#contact-form-main").validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
+    // if ($("#contact-form-main").length) {
+    //     $("#contact-form-main").validate({
+    //         rules: {
+    //             name: {
+    //                 required: true,
+    //                 minlength: 2
+    //             },
 
-                email: "required",
+    //             email: "required",
 
-                phone: "required",
+    //             phone: "required",
                 
-                subject: {
-                    required: true
-                }
+    //             subject: {
+    //                 required: true
+    //             }
 
 
-            },
+    //         },
 
-            messages: {
-                name: "Please enter your name",
-                email: "Please enter your email address",
-                phone: "Please enter your phone number",
-                subject: "Please select your contact subject"
-            },
+    //         messages: {
+    //             name: "Please enter your name",
+    //             email: "Please enter your email address",
+    //             phone: "Please enter your phone number",
+    //             subject: "Please select your contact subject"
+    //         },
 
-            submitHandler: function (form) {
-                $.ajax({
-                    type: "POST",
-                    url: "mail-contact.php",
-                    data: $(form).serialize(),
-                    success: function () {
-                        $( "#loader").hide();
-                        $( "#success").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#success").slideUp( "slow" );
-                        }, 3000);
-                        form.reset();
-                    },
-                    error: function() {
-                        $( "#loader").hide();
-                        $( "#error").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#error").slideUp( "slow" );
-                        }, 3000);
-                    }
-                });
-                return false; // required to block normal submit since you used ajax
-            }
+    //         // submitHandler: function (form) {
+    //         //     $.ajax({
+    //         //         type: "POST",
+    //         //         url: "mail-contact.php",
+    //         //         data: $(form).serialize(),
+    //         //         success: function () {
+    //         //             $( "#loader").hide();
+    //         //             $( "#success").slideDown( "slow" );
+    //         //             setTimeout(function() {
+    //         //             $( "#success").slideUp( "slow" );
+    //         //             }, 3000);
+    //         //             form.reset();
+    //         //         },
+    //         //         error: function() {
+    //         //             $( "#loader").hide();
+    //         //             $( "#error").slideDown( "slow" );
+    //         //             setTimeout(function() {
+    //         //             $( "#error").slideUp( "slow" );
+    //         //             }, 3000);
+    //         //         }
+    //         //     });
+    //         //     return false; // required to block normal submit since you used ajax
+    //         // }
 
-        });
-    }
+    //     });
+    // }
 
 
-    if ($("#contact-quote-form").length) {
-        $("#contact-quote-form").validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
+    // if ($("#contact-quote-form").length) {
+    //     $("#contact-quote-form").validate({
+    //         rules: {
+    //             name: {
+    //                 required: true,
+    //                 minlength: 2
+    //             },
 
-                email: "required",
+    //             email: "required",
 
-                phone: "required",
-            },
+    //             phone: "required",
+    //         },
 
-            messages: {
-                name: "Please enter your name",
-                email: "Please enter your email address",
-                phone: "Please enter your phone number",
-            },
+    //         messages: {
+    //             name: "Please enter your name",
+    //             email: "Please enter your email address",
+    //             phone: "Please enter your phone number",
+    //         },
 
-            submitHandler: function (form) {
-                $.ajax({
-                    type: "POST",
-                    url: "mail-quote.php",
-                    data: $(form).serialize(),
-                    success: function () {
-                        $( "#loader").hide();
-                        $( "#success").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#success").slideUp( "slow" );
-                        }, 3000);
-                        form.reset();
-                    },
-                    error: function() {
-                        $( "#loader").hide();
-                        $( "#error").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#error").slideUp( "slow" );
-                        }, 3000);
-                    }
-                });
-                return false; // required to block normal submit since you used ajax
-            }
+    //         // submitHandler: function (form) {
+    //         //     $.ajax({
+    //         //         type: "POST",
+    //         //         url: "mail-quote.php",
+    //         //         data: $(form).serialize(),
+    //         //         success: function () {
+    //         //             $( "#loader").hide();
+    //         //             $( "#success").slideDown( "slow" );
+    //         //             setTimeout(function() {
+    //         //             $( "#success").slideUp( "slow" );
+    //         //             }, 3000);
+    //         //             form.reset();
+    //         //         },
+    //         //         error: function() {
+    //         //             $( "#loader").hide();
+    //         //             $( "#error").slideDown( "slow" );
+    //         //             setTimeout(function() {
+    //         //             $( "#error").slideUp( "slow" );
+    //         //             }, 3000);
+    //         //         }
+    //         //     });
+    //         //     return false; // required to block normal submit since you used ajax
+    //         // }
 
-        });
-    }
+    //     });
+    // }
 
 
 
@@ -623,8 +623,6 @@ function initialize() {
         WHEN DOCUMENT LOADING
     ==========================================================================*/
         $(window).on('load', function() {
-
-            preloader();
 
             //sliderBgSetting();
 

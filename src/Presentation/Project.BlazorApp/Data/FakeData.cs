@@ -5,6 +5,108 @@ namespace Project.BlazorApp.Data
 {
     public static class FakeData
     {
+        public static GeneralInformation GetGeneralInformation()
+        {
+            return new GeneralInformation
+            {
+                SiteTitle = "White Gold",
+                SiteDescription = "White Gold factory",
+
+                HeaderPhoneNumber = "+98-17-25844196",
+
+                MaxSlidesCount = 3,
+
+                HomeAboutIntroTitle = "We set the standards others try to live up to.",
+                HomeAboutIntroContent = @"
+                <video width='100%' controls>
+                        <source src='assets/videos/intro.mp4' type='video/mp4'>
+                    </video>
+                    <p>It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright</p>
+                    <div class='clearfix'>
+                        <ul>
+                            <li><i class='ti-check'></i> Cut out of an illustrated magazine</li>
+                            <li><i class='ti-check'></i> Showed a lady fitted out</li>
+                        </ul>
+                        <ul>
+                            <li><i class='ti-check'></i> Raising a heavy fur muff</li>
+                            <li><i class='ti-check'></i> Magazine and housed in a nice</li>
+                        </ul>
+                    </div>
+
+                ",
+                HomeAboutIntroImageUrl = "assets/images/about.jpg",
+
+                IndustriesSectionTitle = "Delivering the Best Global Industry Services.",
+                IndustriesSectionText = @"<p>Recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm </p>",
+
+                HomeFeaturesTitle = "Why Choose Us!",
+                HomeFeaturesText = @"<p>Hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him</p>",
+
+                CustomersCommentTitle = "What people say's About us",
+
+                HomeContactUsTitle = "Get In Touch",
+                HomeContactUsText = @"
+                <p>It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered </p>
+                <div class='clearfix'>
+                    <ul>
+                        <li><i class='ti-check'></i> Cut out of an illustrated magazine</li>
+                        <li><i class='ti-check'></i> Showed a lady fitted out</li>
+                    </ul>
+                    <ul>
+                        <li><i class='ti-check'></i> Raising a heavy fur muff</li>
+                        <li><i class='ti-check'></i> Magazine and housed in a nice</li>
+                    </ul>
+                </div>
+                ",
+                HomeContactUsFormTitle = "Send a Message",
+                HomeContactUsFormText = "Please fill out the form and then our team will contact you as soon as possible.",
+                HomeContactUsFormSuccessText = "The message has been successfully sent.",
+                HomeContactUsFormFailureText = "There are some errors on sending message, Please try again.",
+
+                HomeLatestBlogTitle = "Latest News",
+                HomeLatestBlogText = @"<p>Hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him</p>",
+
+
+
+            };
+        }
+        public static List<BlogPost> GetBlogPosts()
+        {
+            return new List<BlogPost>()
+            {
+                new BlogPost
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Manufacturing is a sector that is constantly evolving",
+                    Description = "Manufacturing is a sector that is constantly evolving Manufacturing is a sector that is constantly evolving",
+                    Content = "Manufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolving",
+                    CreatedDate = DateTimeOffset.Now.AddDays(-23),
+                    ImageUrl = "/assets/images/blog/img-1.jpg",
+                    Category = "Industry, Factory",
+                    Slug = "post-1"
+                },new BlogPost
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "It’s a surefire way to keep abreast of the competition and sometimes",
+                    Description = "Manufacturing is a sector that is constantly evolving Manufacturing is a sector that is constantly evolving",
+                    Content = "Manufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolving",
+                    CreatedDate = DateTimeOffset.Now.AddDays(-85),
+                    ImageUrl = "/assets/images/blog/img-2.jpg",
+                    Category = "Industry, Factory",
+                    Slug = "post-2"
+                },new BlogPost
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Community would not exist if it were not for manufacturing being",
+                    Description = "Manufacturing is a sector that is constantly evolving Manufacturing is a sector that is constantly evolving",
+                    Content = "Manufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolvingManufacturing is a sector that is constantly evolving",
+                    CreatedDate = DateTimeOffset.Now.AddDays(-120),
+                    ImageUrl = "/assets/images/blog/img-3.jpg",
+                    Category = "Industry, Factory",
+                    Slug = "post-3"
+                },
+            };
+        }
         public static List<MenuItem> GetFakeMenu()
         {
             var industriesId = Guid.NewGuid();
@@ -112,48 +214,6 @@ namespace Project.BlazorApp.Data
             };
         }
     
-        public static GeneralInformation GetGeneralInformation()
-        {
-            return new GeneralInformation
-            {
-                SiteTitle = "White Gold",
-                SiteDescription = "White Gold factory",
-
-                HeaderPhoneNumber = "+98-17-25844196",
-
-                MaxSlidesCount = 3,
-
-                HomeAboutIntroTitle = "We set the standards others try to live up to.",
-                HomeAboutIntroContent = @"
-                <video width='100%' controls>
-                        <source src='assets/videos/intro.mp4' type='video/mp4'>
-                    </video>
-                    <p>It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright</p>
-                    <div class='clearfix'>
-                        <ul>
-                            <li><i class='ti-check'></i> Cut out of an illustrated magazine</li>
-                            <li><i class='ti-check'></i> Showed a lady fitted out</li>
-                        </ul>
-                        <ul>
-                            <li><i class='ti-check'></i> Raising a heavy fur muff</li>
-                            <li><i class='ti-check'></i> Magazine and housed in a nice</li>
-                        </ul>
-                    </div>
-
-                ",
-                HomeAboutIntroImageUrl = "assets/images/about.jpg",
-
-                IndustriesSectionTitle = "Delivering the Best Global Industry Services.",
-                IndustriesSectionText = @"<p>Recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm </p>",
-
-                HomeFeaturesTitle = "Why Choose Us!",
-                HomeFeaturesText = @"<p>Hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him</p>",
-
-                CustomersCommentTitle = "What people say's About us"
-
-            };
-        }
-
         public static List<CustomerComment> GetCustomerComments()
         {
             return new List<CustomerComment>()
@@ -291,6 +351,58 @@ namespace Project.BlazorApp.Data
                     Text = "Whole of her lower arm towards the viewer. Gregor then turned to look out the window",
                     AppearanceOrder = 3
                 },
+            };
+        }
+
+        public static List<Certification> GetCertifications()
+        {
+            return new List<Certification>()
+            {
+                new Certification
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "First Certification",
+                    Description = "",
+                    ThumbUrl = "assets/images/partners/img-1.jpg",
+                    OriginalUrl = "assets/images/partners/img-1.jpg",
+                    AppearanceOrder = 0
+                },
+                new Certification
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Second Certification",
+                    Description = "",
+                    ThumbUrl = "assets/images/partners/img-2.jpg",
+                    OriginalUrl = "assets/images/partners/img-2.jpg",
+                    AppearanceOrder = 1
+                },
+                new Certification
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Third Certification",
+                    Description = "",
+                    ThumbUrl = "assets/images/partners/img-3.jpg",
+                    OriginalUrl = "assets/images/partners/img-3.jpg",
+                    AppearanceOrder = 2
+                },
+                new Certification
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "4th Certification",
+                    Description = "",
+                    ThumbUrl = "assets/images/partners/img-4.jpg",
+                    OriginalUrl = "assets/images/partners/img-4.jpg",
+                    AppearanceOrder = 3
+                },
+                new Certification
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "5th Certification",
+                    Description = "",
+                    ThumbUrl = "assets/images/partners/img-5.jpg",
+                    OriginalUrl = "assets/images/partners/img-5.jpg",
+                    AppearanceOrder = 4
+                }
             };
         }
 

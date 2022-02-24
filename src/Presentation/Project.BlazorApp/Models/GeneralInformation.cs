@@ -30,6 +30,17 @@ namespace Project.BlazorApp.Models
         //Home Customers Commets Section
         public string CustomersCommentTitle { get; set; }
 
+        //Home ContactUS Section
+        public string HomeContactUsTitle { get; set; }
+        public string HomeContactUsText { get; set; }
+        public string HomeContactUsFormTitle { get; set; }
+        public string HomeContactUsFormText { get; set; }
+        public string HomeContactUsFormSuccessText { get; set; }
+        public string HomeContactUsFormFailureText { get; set; }
+
+        //Home Latest Blog Section
+        public string HomeLatestBlogTitle { get; set; }
+        public string HomeLatestBlogText { get; set; }
 
     }
 }
