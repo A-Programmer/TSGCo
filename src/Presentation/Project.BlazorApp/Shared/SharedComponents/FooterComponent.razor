@@ -8,14 +8,22 @@
                         <div class="logo widget-title">
                             <img src="assets/images/footer-logo.png" alt>
                         </div>
-                        <p>Mikago arm towards the viewer gregor then turned to look out the window at the dull weather</p>
+                        @((MarkupString)FooterInfo.FooterAboutText)
                         <div class="social-icons">
                             <ul>
-                                <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                <li><a href="#"><i class="ti-linkedin"></i></a></li>
-                                <li><a href="#"><i class="ti-pinterest"></i></a></li>
-                                <li><a href="#"><i class="ti-vimeo-alt"></i></a></li>
+                                @if(!string.IsNullOrEmpty(FooterInfo.FooterFacebookLink))
+                                {
+                                    <li><a href="@FooterInfo.FooterFacebookLink"><i class="ti-facebook"></i></a></li>
+                                }
+                                @if(!string.IsNullOrEmpty(FooterInfo.FooterTwitterLink))
+                                {
+                                    <li><a href="@FooterInfo.FooterTwitterLink"><i class="ti-twitter-alt"></i></a></li>
+                                }
+                                @if(!string.IsNullOrEmpty(FooterInfo.FooterLinkedinLink))
+                                {
+                                    <li><a href="@FooterInfo.FooterLinkedinLink"><i class="ti-linkedin"></i></a></li>
+                                }
+                                
                             </ul>
                         </div>
                     </div>
@@ -23,32 +31,30 @@
                 <div class="col col-lg-3 col-md-3 col-sm-6">
                     <div class="widget link-widget">
                         <div class="widget-title">
-                            <h3>Usefull Links</h3>
+                            <h3>White Gold Links</h3>
                         </div>
                         <ul>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">Our services</a></li>
-                            <li><a href="#">Contact us</a></li>
-                            <li><a href="#">Meet team</a></li>
+                            <li><a href="/about">About us</a></li>
+                            <li><a href="/industries">Industries</a></li>
+                            <li><a href="/contact">Contact us</a></li>
                         </ul>
                         <ul>
-                            <li><a href="#">Provacu Policy</a></li>
-                            <li><a href="#">Testimonials</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="/announcements">Announcements</a></li>
+                            <li><a href="/blog">Blog</a></li>
+                            <li><a href="/news">News</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col col-lg-3 col-md-3 col-sm-6">
                     <div class="widget contact-widget service-link-widget">
                         <div class="widget-title">
-                            <h3>Our Address</h3>
+                            <h3>Contact Us</h3>
                         </div>
                         <ul>
-                            <li>25/19 Duel aveniew, new Booston town, Ghana</li>
-                            <li><span>Phone:</span> 84667441</li>
-                            <li><span>Email:</span> demo@example.com</li>
-                            <li><span>Office Time:</span> 10AM- 5PM</li>
+                            <li>@FooterInfo.FooterAddress</li>
+                            <li><span>Phone:</span> @FooterInfo.FooterSupportPhone</li>
+                            <li><span>Email:</span> @FooterInfo.FooterEmail</li>
+                            <li><span>Office Time:</span> @FooterInfo.FooterOpenTime</li>
                         </ul>
                     </div>
                 </div>
@@ -57,15 +63,20 @@
                         <div class="widget-title">
                             <h3>Newsletter</h3>
                         </div>
-                        <p>You will be notified when somthing new will be appear.</p>
-                        <form>
+                        @FooterInfo.FooterNewsLetterText
+                        <EditForm OnSubmit=SubmitNewsLetter Model=NewsLetter>
                             <div class="input-1">
-                                <input type="email" class="form-control" placeholder="Email Address *" required>
+                                <InputText @bind-Value=NewsLetter.Email type="email" class="form-control" placeholder="Email Address *" />
                             </div>
                             <div class="submit clearfix">
-                                <button type="submit"><i class="ti-email"></i></button>
+                                <button onclick="@ShowLoading" type="submit"><i class="ti-email"></i></button>
                             </div>
-                        </form>
+                        </EditForm>
+                            @if(IsLoading)
+                            {
+                                <span>Registering your email ...</span>
+                            }
+                            <span>@ResultMessage</span>
                     </div>
                 </div>
             </div>
@@ -76,13 +87,11 @@
             <div class="row">
                 <div class="separator"></div>
                 <div class="col col-xs-12">
-                    <p class="copyright"><a href="templateshub.net">Templates Hub</a></p>
+                    <p class="copyright">Created by <a href="https://sadin.dev">SadinCo</a></p>
                     <div class="extra-link">
                         <ul>
-                            <li><a href="#">Privace & Policy</a></li>
-                            <li><a href="#">Terms</a></li>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="/about">About us</a></li>
                         </ul>
                     </div>
                 </div>
@@ -90,4 +99,41 @@
         </div>
     </div>
 </footer>
-<!-- end site-footer -->
+
+
+
+@code {
+    public GeneralInformation FooterInfo { get; set; }
+    public bool IsSucceeded { get; set; }
+    public string ResultMessage { get; set; }
+    public bool IsLoading { get; set; } = false;
+    private NewsLetterViewModel NewsLetter = new NewsLetterViewModel();
+    public void ShowLoading()
+    {
+        IsLoading = true;
+    }
+
+    void SubmitNewsLetter(EditContext context)
+    {
+        Thread.Sleep(3000);
+        bool isValidForm = context.Validate();
+        //Call HTTP Client Api Call
+        if(isValidForm /*&& httpPostResult == true*/)
+        {
+            IsSucceeded = true;
+            ResultMessage = "Your email successfully submitted.";
+        }
+        else
+        {
+            IsSucceeded = false;
+            ResultMessage = "There are some errors in registering on newsletter, please try again later.";
+        }
+        IsLoading = false;
+    }
+    protected override Task OnInitializedAsync()
+    {
+        FooterInfo = FakeData.GetGeneralInformation();
+        
+        return base.OnInitializedAsync();
+    }
+}

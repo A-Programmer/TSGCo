@@ -66,7 +66,21 @@ namespace Project.BlazorApp.Data
                 HomeLatestBlogTitle = "Latest News",
                 HomeLatestBlogText = @"<p>Hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him</p>",
 
+                CallToActionTitle = "Lets Get in Touch!",
+                CallToActionText = "<p>Raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned to look out the window at the dull weather.</p>",
+                CallToActionPhone = "+98-17-35844196",
+                CallToActionEmail = "info@tsgco.ir",
+                CallToActionAddress = "18 km of Horse Racing Association Road, Gonbade Kavous, Golestan, Iran",
 
+                FooterAboutText = "<p>Mikago arm towards the viewer gregor then turned to look out the window at the dull weather</p>",
+                FooterFacebookLink = "https://facebook.com/mrsadin",
+                FooterTwitterLink = "https://twitter.com/enkamran",
+                FooterLinkedinLink = "https://linkedin.com/me/enkamran",
+                FooterAddress = "18 km of Horse Racing Association Road, Gonbade Kavous, Golestan, Iran",
+                FooterEmail = "info@tsgco.ir",
+                FooterNewsLetterText = "You will be notified when somthing new will be appear.",
+                FooterOpenTime  = "10AM- 5PM",
+                FooterSupportPhone = "+98-17-35844196"
 
             };
         }

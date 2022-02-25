@@ -42,5 +42,24 @@ namespace Project.BlazorApp.Models
         public string HomeLatestBlogTitle { get; set; }
         public string HomeLatestBlogText { get; set; }
 
+        //Call To Action Section
+        public string CallToActionTitle { get; set; }
+        public string CallToActionText { get; set; }
+        public string CallToActionPhone { get; set; }
+        public string CallToActionEmail { get; set; }
+        public string CallToActionAddress { get; set; }
+
+        //Footer Information
+        public string FooterAboutText { get; set; }
+        public string FooterSupportPhone { get; set; }
+        public string FooterEmail { get; set; }
+        public string FooterAddress { get; set; }
+        public string FooterOpenTime { get; set; }
+        public string FooterNewsLetterText { get; set; }
+        public string FooterTwitterLink { get; set; }
+        public string FooterFacebookLink { get; set; }
+        public string FooterLinkedinLink { get; set; }
+        
+
     }
 }
