@@ -1,0 +1,87 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Project.Domain\Project.Domain.csproj" />
+    <ProjectReference Include="..\..\Common\Project.Common\Project.Common.csproj" />
+  </ItemGroup>
+ <!-- <ItemGroup>
+    <Folder Include="Dtos\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Queries\PostCategoryQueries\" />
+    <Folder Include="Dtos\PostCategoryDtos\" />
+    <Folder Include="Handlers\PostCategoryHandlers\" />
+    <Folder Include="Commands\PostCategoryCommands\" />
+    <Folder Include="Dtos\Posts\" />
+    <Folder Include="Queries\PostQueries\" />
+    <Folder Include="Handlers\PostHandlers\" />
+    <Folder Include="Services\" />
+    <Folder Include="Commands\UserCommands\" />
+    <Folder Include="Queries\UserQueries\" />
+    <Folder Include="Dtos\UserDtos\" />
+    <Folder Include="Handlers\UserHandlers\" />
+    <Folder Include="Commands\PostCommands\" />
+    <Folder Include="Commands\DepartmentCommands\" />
+    <Folder Include="Dtos\DepartmentDtos\" />
+    <Folder Include="Handlers\DepartmentHandlers\" />
+    <Folder Include="Queries\DepartmentQueries\" />
+    <Folder Include="Queries\DepartmentQueries\DepartmentProductQueries\" />
+    <Folder Include="Queries\DepartmentQueries\DepartmentImageQueries\" />
+    <Folder Include="Commands\DepartmentCommands\DepartmentProductCommands\" />
+    <Folder Include="Commands\DepartmentCommands\DepartmentImageCommands\" />
+    <Folder Include="Dtos\DepartmentDtos\DepartmentProductDtos\" />
+    <Folder Include="Dtos\DepartmentDtos\DepartmentImageDtos\" />
+    <Folder Include="Handlers\DepartmentHandlers\DepartmentProductHandlers\" />
+    <Folder Include="Handlers\DepartmentHandlers\DepartmentImageHandlers\" />
+    <Folder Include="Queries\ContactUsQueries\" />
+    <Folder Include="Dtos\ContactUsDtos\" />
+    <Folder Include="Commands\ContactUsCommands\" />
+    <Folder Include="Handlers\ContactUsHandlers\" />
+    <Folder Include="Queries\AnnouncementQueries\" />
+    <Folder Include="Dtos\AnnouncementDtos\" />
+    <Folder Include="Handlers\AnnouncementHandlers\" />
+    <Folder Include="Commands\AnnouncementCommands\" />
+    <Folder Include="Queries\AgencyQueries\" />
+    <Folder Include="Queries\CertificateQueries\" />
+    <Folder Include="Handlers\AgencyHandlers\" />
+    <Folder Include="Handlers\CertificateHandlers\" />
+    <Folder Include="Dtos\AgencyDtos\" />
+    <Folder Include="Dtos\CertificateDtos\" />
+    <Folder Include="Commands\AgencyCommands\" />
+    <Folder Include="Commands\CertificateCommands\" />
+    <Folder Include="Handlers\RoleHandlers\" />
+    <Folder Include="Queries\RoleQueries\" />
+    <Folder Include="Dtos\RoleDtos\" />
+    <Folder Include="Commands\RoleCommands\" />
+    <Folder Include="Handlers\MenuHandlers\" />
+    <Folder Include="Queries\MenuQueries\" />
+    <Folder Include="Dtos\MenuDtos\" />
+    <Folder Include="Commands\MenuCommands\" />
+    <Folder Include="Services\JwtServices\" />
+    <Folder Include="Dtos\DynamicPageDtos\" />
+    <Folder Include="Queries\DynamicPageQueries\" />
+    <Folder Include="Commands\DynamicPageCommands\" />
+    <Folder Include="Handlers\DynamicPageHandlers\" />
+  </ItemGroup>-->
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dtos\DashboardDtos\" />
+    <Folder Include="Dtos\StaticContentDtos\" />
+    <Folder Include="Services\NotificationServices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Dtos\Posts\SlideDto.cs" />
+    <Compile Remove="Queries\PostQueries\GetAllPostCommentsQuery.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Services\NotificationServices\" />
+  </ItemGroup>
+</Project>

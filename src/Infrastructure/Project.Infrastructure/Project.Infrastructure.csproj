@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Project.Application\Project.Application.csproj" />
+    <ProjectReference Include="..\..\Common\Project.Common\Project.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\PostRepositories\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Repositories\UserRepositories\" />
+    <Folder Include="Repositories\ContactUsRepositories\" />
+    <Folder Include="Repositories\AnnouncementRepositories\" />
+    <Folder Include="Repositories\MenuRepositories\" />
+    <Folder Include="Repositories\DynamicPageRepositories\" />
+    <Folder Include="Repositories\CategoryRepositories\" />
+    <Folder Include="Repositories\RoleRepositories\" />
+    <Folder Include="Repositories\StaticContentRepositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20210518090720_AddingShowSlideInPostModel.cs" />
+    <Compile Remove="Migrations\20210518090720_AddingShowSlideInPostModel.Designer.cs" />
+  </ItemGroup>
+</Project>
