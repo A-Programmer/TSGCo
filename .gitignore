@@ -105,6 +105,8 @@ temp/
 # Templates
 template/
 
+TempSrc/
+
 #### Build results
 
 # Common Project

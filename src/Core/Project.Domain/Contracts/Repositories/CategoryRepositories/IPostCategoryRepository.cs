@@ -7,5 +7,6 @@ namespace Project.Domain.Contracts.Repositories.CategoryRepositories
 {
     public interface IPostCategoryRepository : IRepository<PostCategory>
     {
+        Task<List<PostCategory>> GetCategoriesByIds(Guid[] ids);
     }
 }

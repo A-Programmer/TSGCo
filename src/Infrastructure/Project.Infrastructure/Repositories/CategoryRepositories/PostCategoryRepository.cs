@@ -20,5 +20,20 @@ namespace Project.Infrastructure.Repositories.BlogRepositories
         {
         }
 
+        public async Task<List<PostCategory>> GetCategoriesByIds(Guid[] ids)
+        {
+            return await DbContext.Set<PostCategory>().Where(x => ids.Contains(x.Id)).ToListAsync();
+        }
+
+
+
+
+        private ProjectDbContext DbContext
+        {
+            get
+            {
+                return Context as ProjectDbContext;
+            }
+        }
     }
 }

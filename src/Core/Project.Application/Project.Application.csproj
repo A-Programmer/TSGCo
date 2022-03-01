@@ -76,6 +76,10 @@
     <Folder Include="Dtos\DashboardDtos\" />
     <Folder Include="Dtos\StaticContentDtos\" />
     <Folder Include="Services\NotificationServices\" />
+    <Folder Include="Queries\PostQueries\" />
+    <Folder Include="Dtos\AdminDtos\" />
+    <Folder Include="Dtos\PublicDtos\" />
+    <Folder Include="Dtos\PublicDtos\PostPublicDtos\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Dtos\Posts\SlideDto.cs" />
@@ -83,5 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Services\NotificationServices\" />
+    <None Remove="Queries\PostQueries\" />
+    <None Remove="Dtos\AdminDtos\" />
+    <None Remove="Dtos\PublicDtos\" />
+    <None Remove="Dtos\PublicDtos\PostPublicDtos\" />
   </ItemGroup>
 </Project>

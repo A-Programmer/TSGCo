@@ -26,6 +26,7 @@
     <Folder Include="Contracts\Services\" />
     <Folder Include="Contracts\Services\NotificationServices\" />
     <Folder Include="Consts\" />
+    <Folder Include="DomainServices\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
@@ -45,5 +46,6 @@
     <None Remove="Contracts\Services\NotificationServices\" />
     <None Remove="Binance.Net" />
     <None Remove="Consts\" />
+    <None Remove="DomainServices\" />
   </ItemGroup>
 </Project>
