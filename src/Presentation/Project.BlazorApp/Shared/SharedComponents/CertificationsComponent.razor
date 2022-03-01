@@ -1,0 +1,27 @@
+<!-- start partners-section -->
+<section class="partners-section">
+    <h2 class="hidden">Partners</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col col-xs-12">
+                <div class="partner-grids partners-slider">
+                    @foreach(var certification in Certifications)
+                    {
+                        <div class="grid">
+                            <img src="@certification.ThumbUrl" alt="@certification.Title">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    public List<Certification> Certifications { get; set; }
+    protected override Task OnInitializedAsync()
+    {
+        Certifications = FakeData.GetCertifications();
+        return base.OnInitializedAsync();
+    }
+}
