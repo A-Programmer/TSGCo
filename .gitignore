@@ -105,6 +105,8 @@ temp/
 # Templates
 template/
 
+TempSrc/
+
 #### Build results
 
 # Common Project
@@ -203,6 +205,9 @@ src/Presentation/Project.BlazorApp/[Rr]elease/
 src/Presentation/Project.BlazorApp/[Dd]ebugPublic/
 src/Presentation/Project.BlazorApp/[Dd]ebug/
 src/Presentation/Project.BlazorApp/wwwroot/videos/
+src/Presentation/Project.BlazorApp/wwwroot/assets/videos/
+src/Presentation/Project.BlazorApp/node_modules/
+src/Presentation/Project.BlazorApp/wwwroot/node_modules/
 
 #Api
 src/Presentation/.vs/
