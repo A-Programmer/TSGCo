@@ -8,10 +8,10 @@ using Project.Common;
 using Project.Common.Exceptions;
 using Project.Common.Utilities;
 
-namespace Project.Domain.Models.PostEntities
+namespace Project.Domain.Models.PostKeywordEntities
 {
     [Serializable]
-    public class PostKeyword : ValueObject, ISerializable
+    public class PostKeyword : BaseEntity<Guid>, IAggregateRoot, ISerializable
     {
 
         public PostKeyword(string title)
@@ -58,12 +58,6 @@ namespace Project.Domain.Models.PostEntities
         }
         #endregion
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return PostId;
-            yield return Title;
-            yield return Name;
-        }
     }
 
     public class KeywordConfigurations : IEntityTypeConfiguration<PostKeyword>
@@ -71,7 +65,7 @@ namespace Project.Domain.Models.PostEntities
         public void Configure(EntityTypeBuilder<PostKeyword> builder)
         {
             builder.ToTable("PostKeywords");
-            builder.HasNoKey();
+            builder.HasKey(x => x.Id);
 
         }
     }

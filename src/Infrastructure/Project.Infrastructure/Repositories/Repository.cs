@@ -35,9 +35,24 @@ namespace Project.Infrastructure.Repositories
             return Context.Set<TEntity>().Where(predicate);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Context.Set<TEntity>().ToListAsync();
+            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity> specs = null)
+        {
+            if(specs != null)
+            {
+                return await Context.Set<TEntity>()
+                    .Where(specs.ToExpression())
+                    .ToListAsync();
+            }
+            else
+            {
+                return await Context.Set<TEntity>()
+                    .ToListAsync();
+            }
         }
         protected IQueryable<TEntity> GetAll()
         {

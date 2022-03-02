@@ -27,6 +27,12 @@
     <Folder Include="Contracts\Services\NotificationServices\" />
     <Folder Include="Consts\" />
     <Folder Include="DomainServices\" />
+    <Folder Include="Specifications\" />
+    <Folder Include="DomainServices\PostAggregate\" />
+    <Folder Include="Specifications\PostSpecifications\" />
+    <Folder Include="Specifications\PostCategorySpecifications\" />
+    <Folder Include="Specifications\PostKeywordSpecifications\" />
+    <Folder Include="Models\PostKeywordEntities\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
@@ -47,5 +53,11 @@
     <None Remove="Binance.Net" />
     <None Remove="Consts\" />
     <None Remove="DomainServices\" />
+    <None Remove="Specifications\" />
+    <None Remove="DomainServices\PostAggregate\" />
+    <None Remove="Specifications\PostSpecifications\" />
+    <None Remove="Specifications\PostCategorySpecifications\" />
+    <None Remove="Specifications\PostKeywordSpecifications\" />
+    <None Remove="Models\PostKeywordEntities\" />
   </ItemGroup>
 </Project>

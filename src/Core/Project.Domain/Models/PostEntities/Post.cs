@@ -95,12 +95,12 @@ namespace Project.Domain.Models.PostEntities
                 _categories.Add(new PostsCategories(this.Id, categoryId));
         }
 
-        public void AddKeyword(PostKeyword keyword)
+        public void AddKeyword(PostsKeywords keyword)
         {
             _keywords.Add(keyword);
         }
 
-        public void RemoveKeyword(PostKeyword keyword)
+        public void RemoveKeyword(PostsKeywords keyword)
         {
             _keywords.Remove(keyword);
         }
@@ -174,9 +174,9 @@ namespace Project.Domain.Models.PostEntities
         }
 
 
-        private List<PostKeyword> _keywords = new List<PostKeyword>();
+        private List<PostsKeywords> _keywords = new List<PostsKeywords>();
         [NotMapped]
-        public IReadOnlyCollection<PostKeyword> Keywords
+        public IReadOnlyCollection<PostsKeywords> Keywords
         {
             get { return _keywords.AsReadOnly(); }
         }

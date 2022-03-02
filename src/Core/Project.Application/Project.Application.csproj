@@ -80,6 +80,7 @@
     <Folder Include="Dtos\AdminDtos\" />
     <Folder Include="Dtos\PublicDtos\" />
     <Folder Include="Dtos\PublicDtos\PostPublicDtos\" />
+    <Folder Include="Handlers\PostHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Dtos\Posts\SlideDto.cs" />
@@ -91,5 +92,6 @@
     <None Remove="Dtos\AdminDtos\" />
     <None Remove="Dtos\PublicDtos\" />
     <None Remove="Dtos\PublicDtos\PostPublicDtos\" />
+    <None Remove="Handlers\PostHandlers\" />
   </ItemGroup>
 </Project>

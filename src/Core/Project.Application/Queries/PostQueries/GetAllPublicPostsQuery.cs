@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Project.Application.Dtos.PublicDtos.PostPublicDtos;
 using Project.Common.Utilities;
 
 namespace Project.Application.Queries.PostQueries

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Project.Domain;
 using Project.Domain.Contracts.Repositories.SliderRepositories;
 using Project.Domain.Models.SliderEntitie;
 using System;
@@ -26,8 +27,8 @@ namespace Project.Infrastructure.Repositories.SliderRepository
             return await DbContext.Set<Slide>().Where(x => x.Status == status)
                 .OrderBy(x => x.AppearanceOrder).ToListAsync();
         }
-
-        public override async Task<IEnumerable<Slide>> GetAllAsync()
+        
+        public override async Task<IEnumerable<Slide>> GetAllAsync(ISpecification<Slide> spec)
         {
             return (await base.GetAllAsync()).OrderBy(x => x.AppearanceOrder).ToList();
         }
