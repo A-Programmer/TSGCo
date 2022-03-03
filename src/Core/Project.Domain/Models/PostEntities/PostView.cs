@@ -7,13 +7,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Project.Domain.Models.PostEntities
 {
     [Serializable]
-    public class PostView : ValueObject, ISerializable, IEntity
+    public class PostView : ValueObject, ISerializable
     {
 
         public DateTimeOffset CreatedDate { get; private set; }
         public string UserIp { get; private set; }
 
-        public Guid? PostId { get; private set; }
+        public Guid PostId { get; private set; }
+        public Post Post { get; private set; }
 
         protected PostView()
         {
@@ -34,13 +35,13 @@ namespace Project.Domain.Models.PostEntities
         }
     }
 
-    public class PostViewsConfigurations : IEntityTypeConfiguration<PostView>
-    {
-        public void Configure(EntityTypeBuilder<PostView> builder)
-        {
-            builder.ToTable("PostViews");
-            builder.HasNoKey();
+    //public class PostViewsConfigurations : IEntityTypeConfiguration<PostView>
+    //{
+    //    public void Configure(EntityTypeBuilder<PostView> builder)
+    //    {
+    //        builder.ToTable("PostViews");
+    //        builder.HasNoKey();
 
-        }
-    }
+    //    }
+    //}
 }

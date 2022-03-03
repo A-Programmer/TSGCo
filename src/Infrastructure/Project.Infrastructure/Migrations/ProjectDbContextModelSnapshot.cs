@@ -265,46 +265,9 @@ namespace Project.Infrastructure.Migrations
 
                     b.HasIndex("PostCommentId");
 
+                    b.HasIndex("PostId");
+
                     b.ToTable("PostComments");
-                });
-
-            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostView", b =>
-                {
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserIp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("PostViews");
-                });
-
-            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostVote", b =>
-                {
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserIp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("PostVotes");
-                });
-
-            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostsCategories", b =>
-                {
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.ToTable("PostsCategories");
                 });
 
             modelBuilder.Entity("Project.Domain.Models.PostKeywordEntities.PostKeyword", b =>
@@ -316,9 +279,6 @@ namespace Project.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -519,11 +479,133 @@ namespace Project.Infrastructure.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("Project.Domain.Models.PostEntities.Post", b =>
+                {
+                    b.OwnsMany("Project.Domain.Models.PostEntities.PostView", "Views", b1 =>
+                        {
+                            b1.Property<Guid>("PostId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTimeOffset>("CreatedDate")
+                                .HasColumnType("datetimeoffset");
+
+                            b1.Property<string>("UserIp")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("PostId", "Id");
+
+                            b1.ToTable("PostViews");
+
+                            b1.WithOwner("Post")
+                                .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
+                        });
+
+                    b.OwnsMany("Project.Domain.Models.PostEntities.PostVote", "Votes", b1 =>
+                        {
+                            b1.Property<Guid>("PostId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTimeOffset>("CreatedDate")
+                                .HasColumnType("datetimeoffset");
+
+                            b1.Property<string>("UserIp")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("PostId", "Id");
+
+                            b1.ToTable("PostVotes");
+
+                            b1.WithOwner("Post")
+                                .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
+                        });
+
+                    b.OwnsMany("Project.Domain.Models.PostEntities.PostsCategories", "Categories", b1 =>
+                        {
+                            b1.Property<Guid>("PostId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<Guid>("CategoryId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("PostId", "Id");
+
+                            b1.ToTable("PostsCategories");
+
+                            b1.WithOwner("Post")
+                                .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
+                        });
+
+                    b.OwnsMany("Project.Domain.Models.PostEntities.PostsKeywords", "Keywords", b1 =>
+                        {
+                            b1.Property<Guid>("PostId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<Guid>("KeywordId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("PostId", "Id");
+
+                            b1.ToTable("PostsKeywords");
+
+                            b1.WithOwner("Post")
+                                .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
+                        });
+
+                    b.Navigation("Categories");
+
+                    b.Navigation("Keywords");
+
+                    b.Navigation("Views");
+
+                    b.Navigation("Votes");
+                });
+
             modelBuilder.Entity("Project.Domain.Models.PostEntities.PostComment", b =>
                 {
                     b.HasOne("Project.Domain.Models.PostEntities.PostComment", null)
                         .WithMany("Replies")
                         .HasForeignKey("PostCommentId");
+
+                    b.HasOne("Project.Domain.Models.PostEntities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Project.Domain.Models.PostEntities.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Project.Domain.Models.PostEntities.PostComment", b =>

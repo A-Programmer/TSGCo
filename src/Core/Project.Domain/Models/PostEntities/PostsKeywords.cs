@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Domain.Models.PostEntities
 {
     [Serializable]
     public class PostsKeywords : ValueObject, ISerializable
     {
-        public PostsKeywords()
+        public PostsKeywords(Guid postId, Guid keywordId)
+        {
+            PostId = postId;
+            KeywordId = keywordId;
+        }
+        protected PostsKeywords()
         {
         }
 
         public Guid PostId { get; private set; }
+        public Post Post { get; private set; }
         public Guid KeywordId { get; private set; }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -26,4 +34,14 @@ namespace Project.Domain.Models.PostEntities
             yield return KeywordId;
         }
     }
+
+    //public class PostsKeywordsConfigurations : IEntityTypeConfiguration<PostsKeywords>
+    //{
+    //    public void Configure(EntityTypeBuilder<PostsKeywords> builder)
+    //    {
+    //        builder.ToTable("PostsKeywords");
+    //        builder.HasNoKey();
+
+    //    }
+    //}
 }

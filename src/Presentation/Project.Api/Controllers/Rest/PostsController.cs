@@ -31,7 +31,7 @@ namespace Project.Api.Controllers
             var posts = await _mediator.Send(query);
 
             var result = posts.Select(x => new Posts_VM(x.Id, x.Title, x.Slug, x.Description,
-                x.ImageUrl, x.Status, x.CreatedAt, x.ModifiedAt, x.VotesCount, x.ViewsCount, x.Categories.ToList(),
+                x.ImageUrl, x.Status, x.CreatedAt, x.ModifiedAt, x.AuthorName, x.VotesCount, x.ViewsCount, x.Categories.ToList(),
                 x.Keywords.ToList()));
 
             return CustomOk(result);

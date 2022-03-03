@@ -41,5 +41,15 @@ namespace Project.Domain
                 .Aggregate((x, y) => x ^ y);
         }
         // Other utility methods
+
+        public static bool operator ==(ValueObject one, ValueObject two)
+        {
+            return one?.Equals(two) ?? (one is null && two is null ? true : false);
+        }
+
+        public static bool operator !=(ValueObject one, ValueObject two)
+        {
+            return !(one?.Equals(two) ?? (one is null && two is null ? true : false));
+        }
     }
 }

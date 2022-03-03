@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Project.Domain.Models.CategoryEntities;
 
 namespace Project.Domain.Models.PostEntities
 {
     [Serializable]
-    public class PostsCategories : ValueObject, ISerializable, IEntity
+    public class PostsCategories : ValueObject, ISerializable
     {
         public PostsCategories(Guid postId, Guid categoryId)
         {
@@ -20,6 +22,9 @@ namespace Project.Domain.Models.PostEntities
         }
 
         public Guid PostId { get; private set; }
+        [ForeignKey(nameof(PostId))]
+        public Post Post { get; private set; }
+
         public Guid CategoryId { get; private set; }
 
 
@@ -36,13 +41,12 @@ namespace Project.Domain.Models.PostEntities
         }
     }
 
-    public class PostsCategoriesConfigurations : IEntityTypeConfiguration<PostsCategories>
-    {
-        public void Configure(EntityTypeBuilder<PostsCategories> builder)
-        {
-            builder.ToTable("PostsCategories");
-            builder.HasNoKey();
-
-        }
-    }
+    //public class PostsCategoriesConfigurations : IEntityTypeConfiguration<PostsCategories>
+    //{
+    //    public void Configure(EntityTypeBuilder<PostsCategories> builder)
+    //    {
+    //        builder.ToTable("PostsCategories");
+    //        builder.HasNoKey();
+    //    }
+    //}
 }

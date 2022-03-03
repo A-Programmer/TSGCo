@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Domain.Models.PostEntities
 {
-    public class PostVote : ValueObject, ISerializable, IEntity
+    public class PostVote : ValueObject, ISerializable
     {
         public DateTimeOffset CreatedDate { get; private set; }
         public string UserIp { get; private set; }
 
-        public Guid? PostId { get; private set; }
+        public Guid PostId { get; private set; }
+        public Post Post { get; private set; }
 
         protected PostVote()
         {
@@ -32,13 +33,13 @@ namespace Project.Domain.Models.PostEntities
         }
     }
 
-    public class PostVotesConfigurations : IEntityTypeConfiguration<PostVote>
-    {
-        public void Configure(EntityTypeBuilder<PostVote> builder)
-        {
-            builder.ToTable("PostVotes");
-            builder.HasNoKey();
+    //public class PostVotesConfigurations : IEntityTypeConfiguration<PostVote>
+    //{
+    //    public void Configure(EntityTypeBuilder<PostVote> builder)
+    //    {
+    //        builder.ToTable("PostVotes");
+    //        builder.HasNoKey();
 
-        }
-    }
+    //    }
+    //}
 }

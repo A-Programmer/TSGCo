@@ -95,17 +95,6 @@ namespace Project.Domain.Models.PostEntities
                 _categories.Add(new PostsCategories(this.Id, categoryId));
         }
 
-        public void AddKeyword(PostsKeywords keyword)
-        {
-            _keywords.Add(keyword);
-        }
-
-        public void RemoveKeyword(PostsKeywords keyword)
-        {
-            _keywords.Remove(keyword);
-        }
-
-
         public void UpdateSlug(string slug)
         {
             Slug = slug.CreateSlug();
@@ -121,6 +110,12 @@ namespace Project.Domain.Models.PostEntities
             UserId = userId;
         }
 
+        public void SetComments(List<PostComment> comments)
+        {
+            _comments.Clear();
+            _comments = comments;
+        }
+
         public void AddComment(PostComment comment)
         {
             _comments.Add(comment);
@@ -131,6 +126,18 @@ namespace Project.Domain.Models.PostEntities
             _comments.Remove(comment);
         }
 
+        public void SetKeywords(Guid[] keywordsIds)
+        {
+            _keywords.Clear();
+            foreach (var keywordId in keywordsIds)
+                _keywords.Add(new PostsKeywords(this.Id, keywordId));
+        }
+
+        public void SetVotes(List<PostVote> votes)
+        {
+            _votes.Clear();
+            _votes = votes;
+        }
         public void AddVote(PostVote vote)
         {
             if (!_votes.Contains(vote))
@@ -145,6 +152,11 @@ namespace Project.Domain.Models.PostEntities
                 _votes.Remove(vote);
         }
 
+        public void SetViews(List<PostView> views)
+        {
+            _views.Clear();
+            _views = views;
+        }
         public void AddView(PostView view)
         {
             _views.Add(view);
@@ -166,41 +178,22 @@ namespace Project.Domain.Models.PostEntities
         public bool ShowInSlides { get; private set; }
         public Guid UserId { get; private set; }
 
-        public List<PostsCategories> _categories = new List<PostsCategories>();
-        [NotMapped]
-        public virtual IReadOnlyCollection<PostsCategories> Categories
-        {
-            get { return _categories.AsReadOnly(); }
-        }
+
+        public virtual IReadOnlyCollection<PostsCategories> Categories => _categories;
+        protected List<PostsCategories> _categories = new List<PostsCategories>();
 
 
-        private List<PostsKeywords> _keywords = new List<PostsKeywords>();
-        [NotMapped]
-        public IReadOnlyCollection<PostsKeywords> Keywords
-        {
-            get { return _keywords.AsReadOnly(); }
-        }
+        public virtual IReadOnlyCollection<PostsKeywords> Keywords => _keywords;
+        protected List<PostsKeywords> _keywords = new List<PostsKeywords>();
 
-        private List<PostComment> _comments = new List<PostComment>();
-        [NotMapped]
-        public IReadOnlyCollection<PostComment> Comments
-        {
-            get { return _comments.AsReadOnly(); }
-        }
+        public virtual IReadOnlyCollection<PostComment> Comments => _comments;
+        protected List<PostComment> _comments = new List<PostComment>();
 
-        private List<PostView> _views = new List<PostView>();
-        [NotMapped]
-        public IReadOnlyCollection<PostView> Views
-        {
-            get { return _views.AsReadOnly(); }
-        }
+        public virtual IReadOnlyCollection<PostView> Views => _views;
+        protected List<PostView> _views = new List<PostView>();
 
-        private List<PostVote> _votes = new List<PostVote>();
-        [NotMapped]
-        public IReadOnlyCollection<PostVote> Votes
-        {
-            get { return _votes.AsReadOnly(); }
-        }
+        public virtual IReadOnlyCollection<PostVote> Votes => _votes;
+        protected List<PostVote> _votes = new List<PostVote>();
 
         #region Serialization
 
@@ -236,6 +229,23 @@ namespace Project.Domain.Models.PostEntities
             builder.HasKey(x => x.Id);
             builder.Property(x => x.ShowInSlides).HasDefaultValue(false);
 
+
+            builder.OwnsMany(x => x.Categories, c =>
+            {
+                c.ToTable("PostsCategories");
+            });
+            builder.OwnsMany(x => x.Keywords, c =>
+            {
+                c.ToTable("PostsKeywords");
+            });
+            builder.OwnsMany(x => x.Views, c =>
+            {
+                c.ToTable("PostViews");
+            });
+            builder.OwnsMany(x => x.Votes, c =>
+            {
+                c.ToTable("PostVotes");
+            });
 
         }
     }

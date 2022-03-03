@@ -36,18 +36,12 @@ namespace Project.Domain.Models.PostKeywordEntities
                 Title = name;
         }
 
-        public void SetPostId(Guid postId)
-        {
-            PostId = postId;
-        }
-
         protected PostKeyword()
         {
         }
 
         public string Title { get; private set; }
         public string Name { get; private set; }
-        public Guid PostId { get; private set; }
 
 
         #region Serialization
