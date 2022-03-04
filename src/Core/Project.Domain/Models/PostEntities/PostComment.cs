@@ -24,7 +24,6 @@ namespace Project.Domain.Models.PostEntities
         public Guid? ParentId { get; private set; }
 
         public Guid PostId { get; private set; }
-        public Post Post { get; private set; }
 
 
         public void SetParentId(Guid? parentId)

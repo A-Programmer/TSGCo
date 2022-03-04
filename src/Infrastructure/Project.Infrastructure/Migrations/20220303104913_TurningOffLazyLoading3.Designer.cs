@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Infrastructure;
 
 namespace Project.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220303104913_TurningOffLazyLoading3")]
+    partial class TurningOffLazyLoading3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -270,6 +272,38 @@ namespace Project.Infrastructure.Migrations
                     b.ToTable("PostComments");
                 });
 
+            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostView", b =>
+                {
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserIp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostViews");
+                });
+
+            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostVote", b =>
+                {
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserIp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostVotes");
+                });
+
             modelBuilder.Entity("Project.Domain.Models.PostKeywordEntities.PostKeyword", b =>
                 {
                     b.Property<Guid>("Id")
@@ -481,54 +515,6 @@ namespace Project.Infrastructure.Migrations
 
             modelBuilder.Entity("Project.Domain.Models.PostEntities.Post", b =>
                 {
-                    b.OwnsMany("Project.Domain.Models.PostEntities.PostView", "Views", b1 =>
-                        {
-                            b1.Property<Guid>("PostId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTimeOffset>("CreatedDate")
-                                .HasColumnType("datetimeoffset");
-
-                            b1.Property<string>("UserIp")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("PostId", "Id");
-
-                            b1.ToTable("PostViews");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PostId");
-                        });
-
-                    b.OwnsMany("Project.Domain.Models.PostEntities.PostVote", "Votes", b1 =>
-                        {
-                            b1.Property<Guid>("PostId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTimeOffset>("CreatedDate")
-                                .HasColumnType("datetimeoffset");
-
-                            b1.Property<string>("UserIp")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("PostId", "Id");
-
-                            b1.ToTable("PostVotes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PostId");
-                        });
-
                     b.OwnsMany("Project.Domain.Models.PostEntities.PostsCategories", "Categories", b1 =>
                         {
                             b1.Property<Guid>("PostId")
@@ -546,8 +532,10 @@ namespace Project.Infrastructure.Migrations
 
                             b1.ToTable("PostsCategories");
 
-                            b1.WithOwner()
+                            b1.WithOwner("Post")
                                 .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
                         });
 
                     b.OwnsMany("Project.Domain.Models.PostEntities.PostsKeywords", "Keywords", b1 =>
@@ -567,17 +555,15 @@ namespace Project.Infrastructure.Migrations
 
                             b1.ToTable("PostsKeywords");
 
-                            b1.WithOwner()
+                            b1.WithOwner("Post")
                                 .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
                         });
 
                     b.Navigation("Categories");
 
                     b.Navigation("Keywords");
-
-                    b.Navigation("Views");
-
-                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("Project.Domain.Models.PostEntities.PostComment", b =>
@@ -586,16 +572,35 @@ namespace Project.Infrastructure.Migrations
                         .WithMany("Replies")
                         .HasForeignKey("PostCommentId");
 
-                    b.HasOne("Project.Domain.Models.PostEntities.Post", null)
-                        .WithMany("Comments")
+                    b.HasOne("Project.Domain.Models.PostEntities.Post", "Post")
+                        .WithMany()
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Project.Domain.Models.PostEntities.Post", b =>
+            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostView", b =>
                 {
-                    b.Navigation("Comments");
+                    b.HasOne("Project.Domain.Models.PostEntities.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Project.Domain.Models.PostEntities.PostVote", b =>
+                {
+                    b.HasOne("Project.Domain.Models.PostEntities.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Project.Domain.Models.PostEntities.PostComment", b =>

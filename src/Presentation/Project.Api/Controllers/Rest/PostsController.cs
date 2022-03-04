@@ -27,7 +27,7 @@ namespace Project.Api.Controllers
         [HttpGet(Routes.Posts.Get.GetAll)]
         public async Task<ActionResult<List<Posts_VM>>> Get()
         {
-            var query = new GetAllPublicPostsQuery(0, 10);
+            var query = new GetAllPublicPostsQuery(0, 10, false, false, false);
             var posts = await _mediator.Send(query);
 
             var result = posts.Select(x => new Posts_VM(x.Id, x.Title, x.Slug, x.Description,

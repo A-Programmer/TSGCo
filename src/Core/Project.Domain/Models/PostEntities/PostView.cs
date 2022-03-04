@@ -14,7 +14,6 @@ namespace Project.Domain.Models.PostEntities
         public string UserIp { get; private set; }
 
         public Guid PostId { get; private set; }
-        public Post Post { get; private set; }
 
         protected PostView()
         {

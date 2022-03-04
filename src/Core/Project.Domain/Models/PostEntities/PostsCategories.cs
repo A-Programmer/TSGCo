@@ -22,8 +22,6 @@ namespace Project.Domain.Models.PostEntities
         }
 
         public Guid PostId { get; private set; }
-        [ForeignKey(nameof(PostId))]
-        public Post Post { get; private set; }
 
         public Guid CategoryId { get; private set; }
 

@@ -7,7 +7,7 @@ namespace Project.Domain.Contracts.Repositories.PostRepositories
 {
     public interface IPostRepository : IRepository<Post>
     {
-        
-
+        Task<IEnumerable<Post>> GetAllAsync(bool includeComments = false, bool includeViews = false,
+            bool includeVotes = false, ISpecification<Post> specs = null);
     }
 }

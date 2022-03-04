@@ -26,7 +26,8 @@ namespace Project.Application.Handlers.PostHandlers
             CancellationToken cancellationToken)
         {
             var publicPostsSpecification = new PublicPostSpecification();
-            var publicPosts = await _unitOfWork.Posts.GetAllAsync(publicPostsSpecification);
+            var publicPosts = await _unitOfWork.Posts.GetAllAsync(request.IncludeComments,
+                request.IncludeViews, request.IncludeVotes, publicPostsSpecification);
 
             var postsDto = new List<PublicPostsListDto>();
             foreach(var publicPost in publicPosts)

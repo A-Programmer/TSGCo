@@ -19,7 +19,6 @@ namespace Project.Domain.Models.PostEntities
         }
 
         public Guid PostId { get; private set; }
-        public Post Post { get; private set; }
         public Guid KeywordId { get; private set; }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -17,6 +17,22 @@ namespace Project.Infrastructure.Repositories.BlogRepositories
         {
         }
 
+        public async Task<IEnumerable<Post>> GetAllAsync(bool includeComments = false, bool includeViews = false,
+            bool includeVotes = false, ISpecification<Post> specs = null)
+        {
+            var result = Entity.AsQueryable();
+            if(specs != null)
+                result = result.Where(specs.ToExpression());
+            if (includeComments)
+                result = result.Include(x => x.Comments);
+            if (includeViews)
+                result = result.Include(x => x.Views);
+            if (includeVotes)
+                result = result.Include(x => x.Votes);
+
+            return await result.ToListAsync();
+        }
+
         //public override async Task<IEnumerable<Post>> GetAllAsync(ISpecification<Post> specs = null)
         //{
         //    var query = Entity.AsQueryable();

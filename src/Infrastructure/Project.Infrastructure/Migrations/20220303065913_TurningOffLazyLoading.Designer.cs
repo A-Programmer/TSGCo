@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Infrastructure;
 
 namespace Project.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220303065913_TurningOffLazyLoading")]
+    partial class TurningOffLazyLoading
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -501,8 +503,10 @@ namespace Project.Infrastructure.Migrations
 
                             b1.ToTable("PostViews");
 
-                            b1.WithOwner()
+                            b1.WithOwner("Post")
                                 .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
                         });
 
                     b.OwnsMany("Project.Domain.Models.PostEntities.PostVote", "Votes", b1 =>
@@ -525,8 +529,10 @@ namespace Project.Infrastructure.Migrations
 
                             b1.ToTable("PostVotes");
 
-                            b1.WithOwner()
+                            b1.WithOwner("Post")
                                 .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
                         });
 
                     b.OwnsMany("Project.Domain.Models.PostEntities.PostsCategories", "Categories", b1 =>
@@ -546,8 +552,10 @@ namespace Project.Infrastructure.Migrations
 
                             b1.ToTable("PostsCategories");
 
-                            b1.WithOwner()
+                            b1.WithOwner("Post")
                                 .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
                         });
 
                     b.OwnsMany("Project.Domain.Models.PostEntities.PostsKeywords", "Keywords", b1 =>
@@ -567,8 +575,10 @@ namespace Project.Infrastructure.Migrations
 
                             b1.ToTable("PostsKeywords");
 
-                            b1.WithOwner()
+                            b1.WithOwner("Post")
                                 .HasForeignKey("PostId");
+
+                            b1.Navigation("Post");
                         });
 
                     b.Navigation("Categories");
@@ -586,11 +596,13 @@ namespace Project.Infrastructure.Migrations
                         .WithMany("Replies")
                         .HasForeignKey("PostCommentId");
 
-                    b.HasOne("Project.Domain.Models.PostEntities.Post", null)
+                    b.HasOne("Project.Domain.Models.PostEntities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Project.Domain.Models.PostEntities.Post", b =>

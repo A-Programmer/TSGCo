@@ -186,13 +186,13 @@ namespace Project.Domain.Models.PostEntities
         public virtual IReadOnlyCollection<PostsKeywords> Keywords => _keywords;
         protected List<PostsKeywords> _keywords = new List<PostsKeywords>();
 
-        public virtual IReadOnlyCollection<PostComment> Comments => _comments;
+        public IReadOnlyCollection<PostComment> Comments => _comments;
         protected List<PostComment> _comments = new List<PostComment>();
 
-        public virtual IReadOnlyCollection<PostView> Views => _views;
+        public IReadOnlyCollection<PostView> Views => _views;
         protected List<PostView> _views = new List<PostView>();
 
-        public virtual IReadOnlyCollection<PostVote> Votes => _votes;
+        public IReadOnlyCollection<PostVote> Votes => _votes;
         protected List<PostVote> _votes = new List<PostVote>();
 
         #region Serialization

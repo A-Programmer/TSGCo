@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Project.Application.Dtos.PostCategoryDtos;
-using Project.Application.Dtos.UserDtos;
-using Project.Domain.Models.CategoryEntities;
-using Project.Domain.Models.PostEntities;
-using Project.Domain.Models.UserEntities;
 
 namespace Project.Application.Dtos.Posts
 {
