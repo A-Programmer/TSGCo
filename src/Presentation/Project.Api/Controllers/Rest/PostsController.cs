@@ -27,12 +27,12 @@ namespace Project.Api.Controllers
         [HttpGet(Routes.Posts.Get.GetAll)]
         public async Task<ActionResult<List<Posts_VM>>> Get()
         {
-            var query = new GetAllPublicPostsQuery(0, 10, false, false, false);
+            var query = new GetAllPublicPostsQuery(0, 10, false, false, true);
             var posts = await _mediator.Send(query);
 
             var result = posts.Select(x => new Posts_VM(x.Id, x.Title, x.Slug, x.Description,
-                x.ImageUrl, x.Status, x.CreatedAt, x.ModifiedAt, x.AuthorName, x.VotesCount, x.ViewsCount, x.Categories.ToList(),
-                x.Keywords.ToList()));
+                x.ImageUrl, x.Status, x.CreatedAt, x.ModifiedAt, x.AuthorName, x.VotesCount, x.ViewsCount,
+                x.CommentsCount, x.Categories.ToList(), x.Keywords.ToList()));
 
             return CustomOk(result);
         }

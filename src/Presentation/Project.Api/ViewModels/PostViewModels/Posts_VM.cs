@@ -7,7 +7,7 @@ namespace Project.Api.ViewModels.PostViewModels
     {
         public Posts_VM(Guid id, string title, string slug, string description, string imageUrl, bool status,
             DateTimeOffset createdAt, DateTimeOffset modifiedAt, string authorName,
-            int votes_count, int views_count, List<string> categories, List<string> keywords)
+            int votes_count, int views_count, int commentsCount, List<string> categories, List<string> keywords)
         {
             this.Id = id;
             this.AuthorName = authorName;
@@ -24,6 +24,7 @@ namespace Project.Api.ViewModels.PostViewModels
 
             this.VotesCount = votes_count;
             this.ViewsCount = views_count;
+            this.CommentsCount = commentsCount;
         }
 
         public Guid Id { get; private set; }
@@ -35,6 +36,7 @@ namespace Project.Api.ViewModels.PostViewModels
         public string Slug { get; private set; }
         public int ViewsCount { get; private set; }
         public int VotesCount { get; private set; }
+        public int CommentsCount { get; private set; }
         public string[] Categories { get; private set; }
         public string[] Keywords { get; private set; }
         public DateTimeOffset CreatedAt { get; private set; }

@@ -27,8 +27,8 @@ namespace Project.Infrastructure.Repositories.BlogRepositories
                 result = result.Include(x => x.Comments);
             if (includeViews)
                 result = result.Include(x => x.Views);
-            if (includeVotes)
-                result = result.Include(x => x.Votes);
+            //if (includeVotes)
+            //    result = result.Include(x => x.Votes);
 
             return await result.ToListAsync();
         }

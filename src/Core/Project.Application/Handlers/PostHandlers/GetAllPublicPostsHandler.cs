@@ -49,7 +49,7 @@ namespace Project.Application.Handlers.PostHandlers
 
                 postsDto.Add(
                     new PublicPostsListDto(publicPost.Id, publicPost.Title, publicPost.Slug, publicPost.Description,
-                    publicPost.ImageUrl, publicPost.Status, publicPost.Votes.Count, publicPost.Views.Count,
+                    publicPost.ImageUrl, publicPost.Status, publicPost.Votes.Count, publicPost.Views.Count, publicPost.Comments.Count(),
                     authorName, categories, keywords, publicPost.ShowInSlides, publicPost.CreatedAt, publicPost.ModifiedAt)
                 );
             }

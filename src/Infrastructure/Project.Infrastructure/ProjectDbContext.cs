@@ -14,6 +14,7 @@ namespace Project.Infrastructure
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
             : base(options)
         {
+            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

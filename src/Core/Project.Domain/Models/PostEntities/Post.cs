@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using Microsoft.EntityFrameworkCore;
@@ -191,6 +192,20 @@ namespace Project.Domain.Models.PostEntities
 
         public IReadOnlyCollection<PostView> Views => _views;
         protected List<PostView> _views = new List<PostView>();
+        public long AllViewsCount
+        {
+            get
+            {
+                return _views.Count;
+            }
+        }
+        public long UniqueViewsCount
+        {
+            get
+            {
+                return _views.Distinct().Count(); ;
+            }
+        }
 
         public IReadOnlyCollection<PostVote> Votes => _votes;
         protected List<PostVote> _votes = new List<PostVote>();

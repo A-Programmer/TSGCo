@@ -4,7 +4,7 @@ namespace Project.Application.Dtos.PublicDtos.PostPublicDtos
     public class PublicPostsListDto
     {
         public PublicPostsListDto(Guid id, string title, string slug, string description, string imageUrl, bool status,
-            int votesCount, int viewsCount, string authorName, string[] categories, string[] keywords, bool showInSlide, DateTimeOffset createdDate, DateTimeOffset modifiedDate)
+            int votesCount, int viewsCount, int commentsCount, string authorName, string[] categories, string[] keywords, bool showInSlide, DateTimeOffset createdDate, DateTimeOffset modifiedDate)
         {
             Id = id;
             Title = title;
@@ -15,6 +15,7 @@ namespace Project.Application.Dtos.PublicDtos.PostPublicDtos
             ShowInSlide = showInSlide;
             VotesCount = votesCount;
             ViewsCount = viewsCount;
+            CommentsCount = commentsCount;
             AuthorName = authorName;
             Categories = categories;
             Keywords = keywords;
@@ -32,6 +33,7 @@ namespace Project.Application.Dtos.PublicDtos.PostPublicDtos
         public int VotesCount { get; private set; }
         public bool ShowInSlide { get; private set; }
         public int ViewsCount { get; private set; }
+        public int CommentsCount { get; private set; }
         public string AuthorName { get; private set; }
         public string[] Categories { get; private set; }
         public string[] Keywords { get; private set; }
