@@ -10,6 +10,7 @@ using Project.Api.ViewModels.RoleViewModels;
 using Project.WebFrameworks.Api;
 using Project.Application.Commands.RoleCommands;
 using Project.Application.Queries.RoleQueries;
+using Project.Domain.Shared;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,7 +46,7 @@ namespace Project.Api.Controllers
             var result = await _mediator.Send(query);
 
             if (result == null)
-                return CustomError(Common.Status.NotFound, "نقش مورد نظر یافت نشد");
+                return CustomError(Status.NotFound, "نقش مورد نظر یافت نشد");
 
             return CustomOk(result);
         }

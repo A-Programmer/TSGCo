@@ -8,10 +8,10 @@ using Project.Api.ViewModels.UserViewModels;
 using Project.WebFrameworks.Api;
 using Project.Application.Commands.UserCommands;
 using Project.Application.Queries.UserQueries;
-using Project.Common;
+using Project.Domain.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Project.Api.ViewModels;
-using Project.Common.Utilities;
+using Project.Domain.Shared.Utilities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -48,7 +48,7 @@ namespace Project.Api.Controllers
             var result = await _mediator.Send(query);
 
             if (result == null)
-                return CustomError(Common.Status.NotFound, "کاربر مورد نظر یافت نشد");
+                return CustomError(Status.NotFound, "کاربر مورد نظر یافت نشد");
 
             var user = new user_vm(result.Id, result.UserName, result.Email, result.PhoneNumber, result.RegisteredDate, result.IsActive, result.Roles);
 

@@ -1,4 +1,4 @@
-﻿using Project.Common.Utilities;
+﻿using Project.Domain.Shared.Utilities;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Pluralize.NET;
 using Swashbuckle.AspNetCore.Swagger;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Project.Common.Utilities;
+using Project.Domain.Shared.Utilities;
 
 namespace Project.WebFrameworks.Api
 {

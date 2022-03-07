@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Project.Common.Utilities;
-using Project.Infrastructure;
+using Project.Domain.Shared.Utilities;
+using Project.EntityFrameworkCore;
 using Project.Webframeworks.Middlewares;
 
 namespace Project.Webframeworks.Configurations

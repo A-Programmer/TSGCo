@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Project.Common.Utilities;
+using Project.Domain.Shared.Utilities;
 using System;
 using System.Linq;
 using Project.Webframeworks.SwaggerConfig;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using Project.Infrastructure;
 using Project.Domain.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +20,14 @@ using System.Security.Claims;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Exceptions;
-using Project.Common;
-using Project.Common.Exceptions;
+using Project.Domain.Shared;
+using Project.Domain.Shared.Exceptions;
 using System.Net;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
 using Project.Application.Queries.UserQueries;
 using Project.Application.Commands.UserCommands;
+using Project.EntityFrameworkCore;
 
 namespace WebFramework.Configuration
 {
@@ -69,7 +69,7 @@ namespace WebFramework.Configuration
             services.AddDbContext<ProjectDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("SqlServerConnectionString"),
-                    x => x.MigrationsAssembly("Project.Infrastructure"));
+                    x => x.MigrationsAssembly("Project.EntityFrameworkCore"));
                 //options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
                 //    x => x.MigrationsAssembly("Project.Data"));
             });

@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 using Project.WebFrameworks.Api;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Project.Common;
+using Project.Domain.Shared;
 using System.Net;
 using Newtonsoft.Json;
-using Project.Common.Exceptions;
+using Project.Domain.Shared.Exceptions;
 using System.Collections.Generic;
 using Microsoft.IdentityModel.Tokens;
 

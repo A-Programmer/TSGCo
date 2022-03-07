@@ -104,7 +104,7 @@ namespace Project.Api.Helpers
                     {
                         await Compress(physicallyPath);
                     }
-                    catch (TinifyAPI.Exception ex)
+                    catch (TinifyException ex)
                     {
                         var exMessage = ex.Message;
                         if (ex.InnerException != null)
