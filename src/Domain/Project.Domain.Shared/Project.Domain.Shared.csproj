@@ -17,5 +17,9 @@
 
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />
+    <None Remove="SharedModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SharedModels\" />
   </ItemGroup>
 </Project>

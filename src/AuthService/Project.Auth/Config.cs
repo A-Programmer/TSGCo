@@ -77,6 +77,57 @@ namespace Project.Auth
         {
             return new List<Client>
             {
+                //Admin Panel : .NET Core MVC App
+                new Client
+                {
+                    IdentityTokenLifetime = 300,
+                    AuthorizationCodeLifetime = 300,
+                    AccessTokenLifetime = 300,
+
+                    AllowOfflineAccess = true,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    AbsoluteRefreshTokenLifetime = 2592000,
+                    RefreshTokenExpiration = TokenExpiration.Sliding,
+
+                    AccessTokenType = AccessTokenType.Reference,
+                    
+                    ClientName = "Admin Panel",
+                    ClientId = "adminpanel",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    RequirePkce = false,
+                    RequireConsent = true,                     
+                    RedirectUris = 
+                    {
+                        "https://localhost:8001/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = 
+                    {
+                        "https://localhost:8001/signout-callback-oidc"
+                    },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Address,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "roles",
+                        "cms.posts.list",
+                        "cms.posts.add",
+                        "cms.posts.update",
+                        "cms.posts.delete",
+                        "cms.posts.comments.list",
+                        "cms.posts.comments.delete",
+                        "cms.posts.keywords.list",
+                        "cms.posts.keywords.add",
+                        "cms.posts.keywords.update",
+                        "cms.posts.keywords.delete"
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("AdminPanelClientPassword".Sha256())
+                    }
+
+                },
+                //CMS Client : Blazor Server App
                 new Client
                 {
                     IdentityTokenLifetime = 300,
@@ -108,18 +159,7 @@ namespace Project.Auth
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Address,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "country",
-                        "roles",
-                        "cms.posts.list",
-                        "cms.posts.add",
-                        "cms.posts.update",
-                        "cms.posts.delete",
-                        "cms.posts.comments.list",
-                        "cms.posts.comments.delete",
-                        "cms.posts.keywords.list",
-                        "cms.posts.keywords.add",
-                        "cms.posts.keywords.update",
-                        "cms.posts.keywords.delete"
+                        "roles"
                     },
                     ClientSecrets =
                     {
