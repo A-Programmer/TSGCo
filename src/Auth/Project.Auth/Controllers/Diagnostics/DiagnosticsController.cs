@@ -1,12 +1,16 @@
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Project.Auth.Models;
-using Project.Auth.Helpers;
+using Project.Auth.Utilities;
+using Project.Auth.ViewModels.Diagnostics;
 
-namespace Project.Auth.Controllers
+namespace Project.Auth.Controllers.Diagnostics
 {
     [SecurityHeaders]
     [Authorize]

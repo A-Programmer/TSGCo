@@ -14,10 +14,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Project.Auth.Models;
-using Project.Auth.Helpers;
+using Project.Auth.Utilities;
+using Project.Auth.Settings;
 
-namespace Project.Auth.Controllers
+namespace Project.Auth.Controllers.External
 {
     [SecurityHeaders]
     [AllowAnonymous]

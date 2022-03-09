@@ -1,24 +1,71 @@
+using Microsoft.EntityFrameworkCore;
 using Project.Auth;
+using Project.Auth.Contracts;
+using Project.Auth.Data;
+using Project.Auth.Services;
+using Project.Auth.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+IConfiguration Configuration;
+
+if(builder.Environment.IsProduction())
+{
+    Configuration = Configuration = new ConfigurationBuilder()
+                            .AddJsonFile("appsettings.Production.json")
+                            .Build();
+}
+else
+{
+    Configuration = Configuration = new ConfigurationBuilder()
+                            .AddJsonFile("appsettings.Development.json")
+                            .Build();
+}
+
+builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(
+        Configuration.GetConnectionString("AuthServiceConnectionString"),
+        serverDbContextOptionsBuilder =>
+        {
+            var minutes = (int)TimeSpan.FromMinutes(3).TotalSeconds;
+            serverDbContextOptionsBuilder.CommandTimeout(minutes);
+            serverDbContextOptionsBuilder.EnableRetryOnFailure();
+        });
+});
+
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddIdentityServer()
+var identityServer = builder.Services.AddIdentityServer();
+
+identityServer
     .AddDeveloperSigningCredential()
-    .AddTestUsers(Config.GetUsers())
+    .AddCustomUserStore()
     .AddInMemoryIdentityResources(Config.GetIdentityResources())
+    .AddInMemoryApiResources(Config.GetApiResources())
+    .AddInMemoryApiScopes(Config.GetApiScopes())
     .AddInMemoryClients(Config.GetClients());
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+else
+{
+    var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+    using (var scope = scopeFactory.CreateScope())
+    {
+        using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
+        {
+            context.Database.Migrate();
+        }
+    }
 }
 
 app.UseIdentityServer();

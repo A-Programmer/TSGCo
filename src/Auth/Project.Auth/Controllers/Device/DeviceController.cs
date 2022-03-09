@@ -1,3 +1,7 @@
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +16,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Project.Auth.Models;
-using Project.Auth.Helpers;
+using Project.Auth.Models.Device;
+using Project.Auth.Settings.Consent;
+using Project.Auth.Utilities;
+using Project.Auth.ViewModels.Consent;
+using Project.Auth.ViewModels.Device;
 
-namespace Project.Auth.Controllers
+namespace Project.Auth.Controllers.Device
 {
     [Authorize]
     [SecurityHeaders]

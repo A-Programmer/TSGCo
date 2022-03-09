@@ -13,10 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Project.Auth.Models;
-using Project.Auth.Helpers;
+using Project.Auth.Utilities;
+using Project.Auth.Models.Account;
+using Project.Auth.Settings.Account;
+using Project.Auth.ViewModels.Account;
+using Project.Auth.Services;
+using Project.Auth.Settings;
 
-namespace Project.Auth.Controllers
+namespace Project.Auth.Controllers.Account
 {
     /// <summary>
     /// This sample controller implements a typical login/logout/provision workflow for local and external accounts.
@@ -32,12 +36,14 @@ namespace Project.Auth.Controllers
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly IUsersService _usersService;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
+            IUsersService usersService,
             TestUserStore users = null)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
@@ -48,6 +54,7 @@ namespace Project.Auth.Controllers
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _usersService = usersService;
         }
 
         /// <summary>
@@ -108,9 +115,9 @@ namespace Project.Auth.Controllers
             if (ModelState.IsValid)
             {
                 // validate username/password against in-memory store
-                if (_users.ValidateCredentials(model.Username, model.Password))
+                if (await _usersService.AreUserCredentialsValidAsync(model.Username, model.Password))
                 {
-                    var user = _users.FindByUsername(model.Username);
+                    var user = await _usersService.GetUserByUsernameAsync(model.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username, clientId: context?.Client.ClientId));
 
                     // only set explicit expiration here if user chooses "remember me". 
@@ -222,7 +229,8 @@ namespace Project.Auth.Controllers
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
-            return View("LoggedOut", vm);
+            //return View("LoggedOut", vm);
+            return Redirect(vm.PostLogoutRedirectUri);
         }
 
         [HttpGet]
@@ -330,10 +338,13 @@ namespace Project.Auth.Controllers
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interaction.GetLogoutContextAsync(logoutId);
 
+            var postLogoutRedirectUrl = logout?.PostLogoutRedirectUri != null ? logout?.PostLogoutRedirectUri : "/";
+            
+
             var vm = new LoggedOutViewModel
             {
                 AutomaticRedirectAfterSignOut = AccountOptions.AutomaticRedirectAfterSignOut,
-                PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
+                PostLogoutRedirectUri = postLogoutRedirectUrl,
                 ClientName = string.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
                 SignOutIframeUrl = logout?.SignOutIFrameUrl,
                 LogoutId = logoutId
