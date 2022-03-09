@@ -109,140 +109,45 @@ TempSrc/
 
 #### Build results
 
-# Common Project
-src/Common/.vs/
-src/Common/.code/
-src/Common/.vscode/
-src/Common/Project.Common/.vs/
-src/Common/Project.Common/.code/
-src/Common/Project.Common/.vscode/
-src/Common/Project.Common/[Oo]ut/
-src/Common/Project.Common/[Oo]bj/
-src/Common/Project.Common/[Bb]in/
-src/Common/Project.Common/bld/
-src/Common/Project.Common/build/
-src/Common/Project.Common/x86/
-src/Common/Project.Common/x64/
-src/Common/Project.Common/[Rr]eleases/
-src/Common/Project.Common/[Rr]elease/
-src/Common/Project.Common/[Dd]ebugPublic/
-src/Common/Project.Common/[Dd]ebug/
+# AdminUI
+src/AdminUI/.vs/
+src/AdminUI/.code/
+src/AdminUI/.vscode/
+src/AdminUI/Project.AdminUI/.vs/
+src/AdminUI/Project.AdminUI/.code/
+src/AdminUI/Project.AdminUI/.vscode/
+src/AdminUI/Project.AdminUI/[Oo]ut/
+src/AdminUI/Project.AdminUI/[Oo]bj/
+src/AdminUI/Project.AdminUI/[Bb]in/
+src/AdminUI/Project.AdminUI/bld/
+src/AdminUI/Project.AdminUI/build/
+src/AdminUI/Project.AdminUI/x86/
+src/AdminUI/Project.AdminUI/x64/
+src/AdminUI/Project.AdminUI/[Rr]eleases/
+src/AdminUI/Project.AdminUI/[Rr]elease/
+src/AdminUI/Project.AdminUI/[Dd]ebugPublic/
+src/AdminUI/Project.AdminUI/[Dd]ebug/
 
-# Core Layer
-src/Core/.vs/
-src/Core/.code/
-src/Core/.vscode/
-src/Core/Project.Domain/.vs/
-src/Core/Project.Domain/.code/
-src/Core/Project.Domain/.vscode/
-src/Core/Project.Domain/[Oo]ut/
-src/Core/Project.Domain/[Oo]bj/
-src/Core/Project.Domain/[Bb]in/
-src/Core/Project.Domain/bld/
-src/Core/Project.Domain/build/
-src/Core/Project.Domain/x86/
-src/Core/Project.Domain/x64/
-src/Core/Project.Domain/[Rr]eleases/
-src/Core/Project.Domain/[Rr]elease/
-src/Core/Project.Domain/[Dd]ebugPublic/
-src/Core/Project.Domain/[Dd]ebug/
-src/Core/Project.Application/.vs/
-src/Core/Project.Application/.code/
-src/Core/Project.Application/.vscode/
-src/Core/Project.Application/[Oo]ut/
-src/Core/Project.Application/[Oo]bj/
-src/Core/Project.Application/[Bb]in/
-src/Core/Project.Application/bld/
-src/Core/Project.Application/build/
-src/Core/Project.Application/x86/
-src/Core/Project.Application/x64/
-src/Core/Project.Application/[Rr]eleases/
-src/Core/Project.Application/[Rr]elease/
-src/Core/Project.Application/[Dd]ebugPublic/
-src/Core/Project.Application/[Dd]ebug/
+# Auth Service
+src/Auth/.vs/
+src/Auth/.code/
+src/Auth/.vscode/
+src/Auth/Project.Auth/.vs/
+src/Auth/Project.Auth/.code/
+src/Auth/Project.Auth/.vscode/
+src/Auth/Project.Auth/[Oo]ut/
+src/Auth/Project.Auth/[Oo]bj/
+src/Auth/Project.Auth/[Bb]in/
+src/Auth/Project.Auth/bld/
+src/Auth/Project.Auth/build/
+src/Auth/Project.Auth/x86/
+src/Auth/Project.Auth/x64/
+src/Auth/Project.Auth/[Rr]eleases/
+src/Auth/Project.Auth/[Rr]elease/
+src/Auth/Project.Auth/[Dd]ebugPublic/
+src/Auth/Project.Auth/[Dd]ebug/
 
 
-# Infrastructure Layer
-src/Infrastructure/.vs/
-src/Infrastructure/.code/
-src/Infrastructure/.vscode/
-
-src/Infrastructure/Project.Infrastructure/.vs/
-src/Infrastructure/Project.Infrastructure/.code/
-src/Infrastructure/Project.Infrastructure/.vscode/
-src/Infrastructure/Project.Infrastructure/[Oo]ut/
-src/Infrastructure/Project.Infrastructure/[Oo]bj/
-src/Infrastructure/Project.Infrastructure/[Bb]in/
-src/Infrastructure/Project.Infrastructure/bld/
-src/Infrastructure/Project.Infrastructure/build/
-src/Infrastructure/Project.Infrastructure/x86/
-src/Infrastructure/Project.Infrastructure/x64/
-src/Infrastructure/Project.Infrastructure/[Rr]eleases/
-src/Infrastructure/Project.Infrastructure/[Rr]elease/
-src/Infrastructure/Project.Infrastructure/[Dd]ebugPublic/
-src/Infrastructure/Project.Infrastructure/[Dd]ebug/
-
-
-
-# Presentation Project
-src/Presentation/.DS_Store
-src/Presentation/Project.BlazorApp/.DS_Store
-src/Presentation/.vs/
-src/Presentation/.code/
-src/Presentation/.vscode/
-src/Presentation/Project.BlazorApp/.vs/
-src/Presentation/Project.BlazorApp/.code/
-src/Presentation/Project.BlazorApp/.vscode/
-src/Presentation/Project.BlazorApp/[Oo]ut/
-src/Presentation/Project.BlazorApp/[Oo]bj/
-src/Presentation/Project.BlazorApp/[Bb]in/
-src/Presentation/Project.BlazorApp/bld/
-src/Presentation/Project.BlazorApp/build/
-src/Presentation/Project.BlazorApp/x86/
-src/Presentation/Project.BlazorApp/x64/
-src/Presentation/Project.BlazorApp/[Rr]eleases/
-src/Presentation/Project.BlazorApp/[Rr]elease/
-src/Presentation/Project.BlazorApp/[Dd]ebugPublic/
-src/Presentation/Project.BlazorApp/[Dd]ebug/
-src/Presentation/Project.BlazorApp/wwwroot/videos/
-src/Presentation/Project.BlazorApp/wwwroot/assets/videos/
-src/Presentation/Project.BlazorApp/node_modules/
-src/Presentation/Project.BlazorApp/wwwroot/node_modules/
-
-#Api
-src/Presentation/.vs/
-src/Presentation/.code/
-src/Presentation/.vscode/
-src/Presentation/Project.Api/.vs/
-src/Presentation/Project.Api/.code/
-src/Presentation/Project.Api/.vscode/
-src/Presentation/Project.Api/[Oo]ut/
-src/Presentation/Project.Api/[Oo]bj/
-src/Presentation/Project.Api/[Bb]in/
-src/Presentation/Project.Api/bld/
-src/Presentation/Project.Api/build/
-src/Presentation/Project.Api/x86/
-src/Presentation/Project.Api/x64/
-src/Presentation/Project.Api/[Rr]eleases/
-src/Presentation/Project.Api/[Rr]elease/
-src/Presentation/Project.Api/[Dd]ebugPublic/
-src/Presentation/Project.Api/[Dd]ebug/
-
-# Identity Service
-src/IdentityService/.vs/
-src/IdentityService/.code/
-src/IdentityService/.vscode/
-src/IdentityService/[Oo]ut/
-src/IdentityService/[Oo]bj/
-src/IdentityService/[Bb]in/
-src/IdentityService/bld/
-src/IdentityService/build/
-src/IdentityService/x86/
-src/IdentityService/x64/
-src/IdentityService/[Rr]eleases/
-src/IdentityService/[Rr]elease/
-src/IdentityService/[Dd]ebugPublic/
-src/IdentityService/[Dd]ebug/
 
 
 
