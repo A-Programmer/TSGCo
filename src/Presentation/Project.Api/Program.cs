@@ -19,7 +19,7 @@ using Project.Application.Handlers.PostHandlers;
 using Project.Application.Queries.PostQueries;
 using Project.Application.Queries.RoleQueries;
 using Project.Application.Queries.UserQueries;
-using Project.Domain.Common;
+using Project.Domain.Shared;
 using Project.EntityFrameworkCore;
 using Project.EntityFrameworkCore.Repositories.BlogRepositories;
 using Project.Webframeworks.Configurations;

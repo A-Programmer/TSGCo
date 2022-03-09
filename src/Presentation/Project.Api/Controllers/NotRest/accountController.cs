@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.WebFrameworks.Api;
 using Project.Api.ViewModels.UserViewModels;
 using Project.Application.Commands.UserCommands;
-using Project.Domain.Common;
+using Project.Domain.Shared;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Project.Application.Queries.UserQueries;
@@ -15,7 +15,6 @@ using System.Security.Claims;
 using Project.Domain.Shared.Utilities;
 using Project.Application.Queries.RoleQueries;
 using Project.Application.Commands.RoleCommands;
-using Project.Api.ViewModels.DashboardViewModels;
 using Project.Domain.Shared;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -306,41 +305,6 @@ namespace Project.Api.Controllers
 
             return CustomOk(result);
         }
-
-        //[Authorize]
-        //[HttpGet(Routes.Account.Dashboard)]
-        //[ProducesResponseType(typeof(user_dashboard), 200)]
-        //public async Task<IActionResult> Dashboard()
-        //{
-
-        //    var isLoggedIn = HttpContext.User.Identity.IsAuthenticated;
-
-        //    if (!isLoggedIn)
-        //        return CustomError(Status.NotAuthenticated, "احازه دسترسی ندارید");
-
-        //    var userId = HttpContext.User.Identity.GetUserId();
-
-        //    if (string.IsNullOrEmpty(userId))
-        //        return CustomError(Status.NotAuthenticated, "احازه دسترسی ندارید");
-
-
-        //    var convertResult = Guid.TryParse(userId, out Guid id);
-
-        //    if (!convertResult)
-        //        return CustomError(Status.NotAuthenticated, "اجازه دسترسی ندارید");
-
-        //    var query = new GetUserDashboardQuery(id);
-
-        //    var result = await _mediator.Send(query);
-
-        //    if (result == null)
-        //        return CustomError(Status.NotFound, "کاربر مورد نظر یافت نشد");
-
-        //    var dashboard = new user_dashboard(result.Profile, result.LoginDates, result.Tickets);
-
-        //    return CustomOk(dashboard);
-        //}
-
 
     }
 }

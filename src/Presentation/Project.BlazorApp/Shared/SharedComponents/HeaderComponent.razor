@@ -1,4 +1,3 @@
-@using System.Text
 
 <!-- Start header -->
 <header id="header" class="site-header header-style-1">
@@ -40,7 +39,8 @@
                         <p>Call us anytime</p>
                         <h5><a class="header-call" href="call:+981735844196">+98-17-35844196</a></h5>
                     </div>
-                    <a href="/contact" class="theme-btn">Contact us</a>
+                    @* <a href="/contact" class="theme-btn">Contact us</a> *@
+                    <LoginDisplay />
                 </div>
             </div>
         </div><!-- end of container -->
@@ -59,7 +59,7 @@
 
     private void GenerateMenu()
     {
-        var result = new StringBuilder();
+        var result = new System.Text.StringBuilder();
         result.AppendLine("<ul class='nav navbar-nav'>");
         var treeMenu = GetTreeMenu();
         foreach(var item in treeMenu)
@@ -87,9 +87,9 @@
 
         GeneratedMenu = (MarkupString)result.ToString();
     }
-    private StringBuilder GenerateSubMenus(MenuItemsListViewModel parentItem)
+    private System.Text.StringBuilder GenerateSubMenus(MenuItemsListViewModel parentItem)
     {
-        var result = new StringBuilder();
+        var result = new System.Text.StringBuilder();
         var children = parentItem.Children;
         foreach(var child in children)
         {

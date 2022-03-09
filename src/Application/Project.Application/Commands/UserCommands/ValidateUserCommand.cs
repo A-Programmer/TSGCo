@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 using Project.Application.Dtos.UserDtos;
-using Project.Domain.Common;
+using Project.Domain.Shared;
 
 namespace Project.Application.Commands.UserCommands
 {

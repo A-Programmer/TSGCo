@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Project.Domain;
-using Project.Domain.Common;
+using Project.Domain.Shared;
 using Project.Domain.Models.RoleEntities;
 using Project.Domain.Models.UserEntities;
 

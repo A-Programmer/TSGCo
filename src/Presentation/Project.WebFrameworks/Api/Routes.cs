@@ -10,6 +10,17 @@ namespace Project.WebFrameworks.Api
             public const string Get = "";
         }
 
+        public static class Login
+        {
+            public const string SignIn = "";
+        }
+        public static class Register
+        {
+            public const string SignUp = "";
+        }
+        
+
+        // TODO: Delete Later
         public static class Account
         {
 

@@ -1,0 +1,11 @@
+<AuthorizeView>
+    <Authorized>
+        Hello, 
+        <form method="post" action="Account/Logout">
+            <button type="submit" class="theme-btn btn-theme">Log out</button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <a class="theme-btn btn-theme" href="Account/Login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
