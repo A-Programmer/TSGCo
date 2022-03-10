@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
+using Project.Auth.Models;
 using Project.Auth.ViewModels.Account;
 
 namespace Project.Auth.Utilities

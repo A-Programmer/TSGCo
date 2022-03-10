@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Project.Auth.Models.Account;
+using Project.Auth.Models;
 
 namespace Project.Auth.ViewModels.Account
 {

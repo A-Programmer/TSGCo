@@ -1,7 +1,3 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
 using IdentityServer4.Events;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -15,9 +11,9 @@ using IdentityServer4.Validation;
 using System.Collections.Generic;
 using System;
 using Project.Auth.Utilities;
-using Project.Auth.Models.Consent;
 using Project.Auth.ViewModels.Consent;
-using Project.Auth.Settings.Consent;
+using Project.Auth.Models;
+using Project.Auth.Settings;
 
 namespace Project.Auth.Controllers.Consent
 {
@@ -130,8 +126,7 @@ namespace Project.Auth.Controllers.Consent
                     grantedConsent = new ConsentResponse
                     {
                         RememberConsent = model.RememberConsent,
-                        ScopesValuesConsented = scopes.ToArray(),
-                        Description = model.Description
+                        ScopesValuesConsented = scopes.ToArray()
                     };
 
                     // emit event
@@ -188,7 +183,6 @@ namespace Project.Auth.Controllers.Consent
             {
                 RememberConsent = model?.RememberConsent ?? true,
                 ScopesConsented = model?.ScopesConsented ?? Enumerable.Empty<string>(),
-                Description = model?.Description,
 
                 ReturnUrl = returnUrl,
 

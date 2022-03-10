@@ -16,8 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Project.Auth.Models.Device;
-using Project.Auth.Settings.Consent;
+using Project.Auth.Settings;
 using Project.Auth.Utilities;
 using Project.Auth.ViewModels.Consent;
 using Project.Auth.ViewModels.Device;
@@ -113,8 +112,7 @@ namespace Project.Auth.Controllers.Device
                     grantedConsent = new ConsentResponse
                     {
                         RememberConsent = model.RememberConsent,
-                        ScopesValuesConsented = scopes.ToArray(),
-                        Description = model.Description
+                        ScopesValuesConsented = scopes.ToArray()
                     };
 
                     // emit event
@@ -164,7 +162,6 @@ namespace Project.Auth.Controllers.Device
             var vm = new DeviceAuthorizationViewModel
             {
                 UserCode = userCode,
-                Description = model?.Description,
 
                 RememberConsent = model?.RememberConsent ?? true,
                 ScopesConsented = model?.ScopesConsented ?? Enumerable.Empty<string>(),

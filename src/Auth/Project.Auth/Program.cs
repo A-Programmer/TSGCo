@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Auth;
 using Project.Auth.Contracts;
-using Project.Auth.Data;
 using Project.Auth.Services;
 using Project.Auth.Utilities;
+
+const string TwoFactorAuthenticationScheme = "idsrv.2FA";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ else
 
 builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
+builder.Services.AddScoped<IConfigSeedDataService, ConfigSeedDataService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -44,10 +47,22 @@ var identityServer = builder.Services.AddIdentityServer();
 identityServer
     .AddDeveloperSigningCredential()
     .AddCustomUserStore()
-    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-    .AddInMemoryApiResources(Config.GetApiResources())
-    .AddInMemoryApiScopes(Config.GetApiScopes())
-    .AddInMemoryClients(Config.GetClients());
+    .AddConfigurationStore()
+    .AddOperationalStore();
+    // .AddInMemoryIdentityResources(Config.GetIdentityResources())
+    // .AddInMemoryApiResources(Config.GetApiResources())
+    // .AddInMemoryApiScopes(Config.GetApiScopes())
+    // .AddInMemoryClients(Config.GetClients());
+
+
+builder.Services.AddAuthentication();
+    // .AddCookie(authenticationScheme: TwoFactorAuthenticationScheme)
+    // .AddGoogle(authenticationScheme: "Google", configureOptions: options =>
+    // {
+    //     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+    //     options.ClientId = Configuration["Authentication:Google:ClientId"];
+    //     options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+    // });
 
 var app = builder.Build();
 

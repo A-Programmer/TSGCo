@@ -14,11 +14,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Project.Auth.Utilities;
-using Project.Auth.Models.Account;
-using Project.Auth.Settings.Account;
 using Project.Auth.ViewModels.Account;
 using Project.Auth.Services;
 using Project.Auth.Settings;
+using Project.Auth.Models;
 
 namespace Project.Auth.Controllers.Account
 {

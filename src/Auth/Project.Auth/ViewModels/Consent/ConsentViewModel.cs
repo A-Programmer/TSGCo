@@ -3,7 +3,7 @@
 
 
 using System.Collections.Generic;
-using Project.Auth.Models.Consent;
+using Project.Auth.Models;
 
 namespace Project.Auth.ViewModels.Consent
 {
