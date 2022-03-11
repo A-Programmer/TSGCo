@@ -10,11 +10,11 @@ namespace Project.Auth.Services
 {
     public interface IUserClaimsService
     {
-        Task<UserClaim> GetUserClaimAsync(string subjectId, string claimType);
-        Task<List<UserClaim>> GetUserClaimsAsync(string subjectId, IList<string> claimTypes);
-        Task AddOrUpdateUserClaimValueAsync(string subjectId, string claimType, string claimValue);
+        Task<UserClaim> GetUserClaimAsync(Guid subjectId, string claimType);
+        Task<List<UserClaim>> GetUserClaimsAsync(Guid subjectId, IList<string> claimTypes);
+        Task AddOrUpdateUserClaimValueAsync(Guid subjectId, string claimType, string claimValue);
         Task AddOrUpdateUserClaimValuesAsync(
-            string subjectId,
+            Guid subjectId,
             IEnumerable<(string ClaimType, string ClaimValue)> userClaims);
     }
 
@@ -29,63 +29,57 @@ namespace Project.Auth.Services
             _userClaims = _uow.Set<UserClaim>();
         }
 
-        public Task<UserClaim> GetUserClaimAsync(string subjectId, string claimType)
+        public Task<UserClaim> GetUserClaimAsync(Guid subjectId, string claimType)
         {
             return _userClaims.FirstOrDefaultAsync(userClaim =>
-                userClaim.ClaimType == claimType && userClaim.SubjectId == subjectId);
+                userClaim.ClaimType == claimType && userClaim.UserId == subjectId);
         }
 
-        public Task<List<UserClaim>> GetUserClaimsAsync(string subjectId, IList<string> claimTypes)
+        public Task<List<UserClaim>> GetUserClaimsAsync(Guid subjectId, IList<string> claimTypes)
         {
             return _userClaims.Where(
-                    userClaim => userClaim.SubjectId == subjectId && claimTypes.Contains(userClaim.ClaimType))
+                    userClaim => userClaim.UserId == subjectId && claimTypes.Contains(userClaim.ClaimType))
                 .ToListAsync();
         }
 
         public async Task AddOrUpdateUserClaimValuesAsync(
-            string subjectId,
+            Guid subjectId,
             IEnumerable<(string ClaimType, string ClaimValue)> userClaims)
         {
             foreach (var userClaim in userClaims)
             {
                 var dbRecord = await _userClaims.FirstOrDefaultAsync(dbClaim =>
                     dbClaim.ClaimType == userClaim.ClaimType &&
-                    dbClaim.SubjectId == subjectId);
+                    dbClaim.UserId == subjectId);
                 if (dbRecord == null)
                 {
-                    _userClaims.Add(new UserClaim
-                    {
-                        ClaimType = userClaim.ClaimType,
-                        ClaimValue = userClaim.ClaimValue,
-                        SubjectId = subjectId
-                    });
+                    var claim = new UserClaim(userClaim.ClaimType, userClaim.ClaimValue);
+                    claim.SetUserId(subjectId);
+                    _userClaims.Add(claim);
                 }
                 else
                 {
-                    dbRecord.ClaimValue = userClaim.ClaimValue;
+                    dbRecord.UpdateClaimValue(userClaim.ClaimValue);
                 }
             }
 
             await _uow.SaveChangesAsync();
         }
 
-        public async Task AddOrUpdateUserClaimValueAsync(string subjectId, string claimType, string claimValue)
+        public async Task AddOrUpdateUserClaimValueAsync(Guid subjectId, string claimType, string claimValue)
         {
             var dbRecord = await _userClaims.FirstOrDefaultAsync(dbClaim =>
                 dbClaim.ClaimType == claimType &&
-                dbClaim.SubjectId == subjectId);
+                dbClaim.UserId == subjectId);
             if (dbRecord == null)
             {
-                _userClaims.Add(new UserClaim
-                {
-                    ClaimType = claimType,
-                    ClaimValue = claimValue,
-                    SubjectId = subjectId
-                });
+                var claim = new UserClaim(claimType, claimValue);
+                claim.SetUserId(subjectId);
+                _userClaims.Add(claim);
             }
             else
             {
-                dbRecord.ClaimValue = claimValue;
+                dbRecord.UpdateClaimValue(claimValue);
             }
             await _uow.SaveChangesAsync();
         }

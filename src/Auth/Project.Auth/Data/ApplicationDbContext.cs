@@ -4,6 +4,8 @@ using Project.Auth.Domain.IdentityServer4Entities;
 using Microsoft.EntityFrameworkCore;
 using UserClaim = Project.Auth.Domain.UserClaim;
 using Project.Auth.DataLayer.Configurations;
+using KSFramework.Utilities;
+using System.Reflection;
 
 namespace Project.Auth
 {
@@ -12,43 +14,143 @@ namespace Project.Auth
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }
 
-        public virtual DbSet<User> Users { set; get; }
-        public virtual DbSet<UserClaim> UserClaims { set; get; }
-        public virtual DbSet<UserLogin> UserLogins { set; get; }
-        
-        public virtual DbSet<Client> Clients { get; set; }
-        public virtual DbSet<IdentityResource> IdentityResources { get; set; }
-        public virtual DbSet<ApiResource> ApiResources { get; set; }
-        public virtual DbSet<PersistedGrant> PersistedGrants { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // it should be placed here, otherwise it will rewrite the following settings!
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
 
-            // Custom application mappings
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new UserClaimConfiguration());
-            builder.ApplyConfiguration(new UserLoginConfiguration());
-            
-            builder.ApplyConfiguration(new PersistedGrantConfiguration());
-            builder.ApplyConfiguration(new IdentityResourceConfiguration());
-            builder.ApplyConfiguration(new IdentityClaimConfiguration());
-            builder.ApplyConfiguration(new ClientSecretConfiguration());
-            builder.ApplyConfiguration(new ClientScopeConfiguration());
-            builder.ApplyConfiguration(new ClientRedirectUriConfiguration());
-            builder.ApplyConfiguration(new ClientPropertyConfiguration());
-            builder.ApplyConfiguration(new ClientPostLogoutRedirectUriConfiguration());
-            builder.ApplyConfiguration(new ClientIdPRestrictionConfiguration());
-            builder.ApplyConfiguration(new ClientGrantTypeConfiguration());
-            builder.ApplyConfiguration(new ClientCorsOriginConfiguration());
-            builder.ApplyConfiguration(new ClientConfiguration());
-            builder.ApplyConfiguration(new ClientClaimConfiguration());
-            builder.ApplyConfiguration(new ApiSecretConfiguration());
-            builder.ApplyConfiguration(new ApiScopeConfiguration());
-            builder.ApplyConfiguration(new ApiScopeClaimConfiguration());
-            builder.ApplyConfiguration(new ApiResourceConfiguration());
-            builder.ApplyConfiguration(new ApiResourceClaimConfiguration());
+            var entitiesAssembly = typeof(User).Assembly;
+
+            #region Register All Entities
+            modelBuilder.RegisterAllEntities<User>(entitiesAssembly);
+            #endregion
+
+            #region Apply Entities Configuration
+            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
+            #endregion
+
+            #region Config Delete Behevior for not Cascade Delete
+            modelBuilder.AddRestrictDeleteBehaviorConvention();
+            #endregion
+
+            #region Add Sequential GUID for Id properties
+            modelBuilder.AddSequentialGuidForIdConvention();
+            #endregion
+
+            #region Pluralize Table Names
+            modelBuilder.AddPluralizingTableNameConvention();
+            #endregion
+
         }
+
+
+
+
+        #region Override SaveChanges methods
+        public override int SaveChanges()
+        {
+            FixYeke();
+            SetDetailFields();
+            return base.SaveChanges();
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            FixYeke();
+            SetDetailFields();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            FixYeke();
+            SetDetailFields();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            FixYeke();
+            SetDetailFields();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+        #endregion
+
+        #region Fix Persian Chars
+        public void FixYeke()
+        {
+            var changedEntities = ChangeTracker.Entries()
+                .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
+            foreach (var item in changedEntities)
+            {
+                if (item.Entity == null)
+                    continue;
+
+                var properties = item.Entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(p => p.CanRead && p.CanWrite && p.PropertyType == typeof(string));
+
+                foreach (var property in properties)
+                {
+                    var propName = property.Name;
+                    var val = (string)property.GetValue(item.Entity, null);
+
+                    if (val.HasValue())
+                    {
+                        var newVal = val.Fa2En().FixPersianChars();
+                        if (newVal == val)
+                            continue;
+                        property.SetValue(item.Entity, newVal, null);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Setting detail fields
+
+        public void SetDetailFields()
+        {
+            //x.State == EntityState.Modified
+            var addedEntities = ChangeTracker.Entries()
+                .Where(x => x.State == EntityState.Added);
+            foreach (var item in addedEntities)
+            {
+                if (item.Entity == null)
+                    continue;
+
+                var createdAtProperty = item.Entity.GetType().GetProperties()
+                    .FirstOrDefault(x => x.Name == "CreatedAt");
+                var modifiedAtProperty = item.Entity.GetType().GetProperties()
+                    .FirstOrDefault(x => x.Name == "ModifiedAt");
+                
+                if (createdAtProperty != null)
+                {
+                    createdAtProperty.SetValue(item.Entity, DateTimeOffset.UtcNow);
+                }
+
+                if (modifiedAtProperty != null)
+                {
+                    modifiedAtProperty.SetValue(item.Entity, DateTimeOffset.UtcNow);
+                }
+            }
+
+
+            var changedEntities = ChangeTracker.Entries()
+                .Where(x => x.State == EntityState.Modified);
+            foreach (var item in changedEntities)
+            {
+                if (item.Entity == null)
+                    continue;
+
+                var modifiedAtProperty = item.Entity.GetType().GetProperties()
+                    .FirstOrDefault(x => x.Name == "ModifiedAt");
+                
+                if (modifiedAtProperty != null)
+                {
+                    modifiedAtProperty.SetValue(item.Entity, DateTimeOffset.Now);
+                }
+
+            }
+
+        }
+        #endregion
     }
 }

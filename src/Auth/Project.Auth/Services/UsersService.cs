@@ -15,14 +15,14 @@ namespace Project.Auth.Services
         Task<bool> AreUserCredentialsValidAsync(string username, string password);
         Task<User> GetUserByEmailAsync(string email);
         Task<User> GetUserByProviderAsync(string loginProvider, string providerKey);
-        Task<User> GetUserBySubjectIdAsync(string subjectId);
+        Task<User> GetUserByIdAsync(Guid subjectId);
         Task<User> GetUserByUsernameAsync(string username);
-        Task<IEnumerable<UserClaim>> GetUserClaimsBySubjectIdAsync(string subjectId);
-        Task<IEnumerable<UserLogin>> GetUserLoginsBySubjectIdAsync(string subjectId);
-        Task<bool> IsUserActiveAsync(string subjectId);
+        Task<IEnumerable<UserClaim>> GetUserClaimsBySubjectIdAsync(Guid subjectId);
+        Task<IEnumerable<UserLogin>> GetUserLoginsBySubjectIdAsync(Guid subjectId);
+        Task<bool> IsUserActiveAsync(Guid subjectId);
         Task AddUserAsync(User user);
-        Task AddUserLoginAsync(string subjectId, string loginProvider, string providerKey);
-        Task AddUserClaimAsync(string subjectId, string claimType, string claimValue);
+        Task AddUserLoginAsync(Guid subjectId, string loginProvider, string providerKey);
+        Task AddUserClaimAsync(Guid subjectId, string claimType, string claimValue);
     }
 
     public class UsersService : IUsersService
@@ -45,7 +45,7 @@ namespace Project.Auth.Services
                 return false;
             }
 
-            return user.Password == password.GetSha256Hash();
+            return user.HashedPassword == password.GetSha256Hash();
         }
 
         public Task<User> GetUserByEmailAsync(string email)
@@ -61,34 +61,34 @@ namespace Project.Auth.Services
                     u.UserLogins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey));
         }
 
-        public Task<User> GetUserBySubjectIdAsync(string subjectId)
+        public Task<User> GetUserByIdAsync(Guid subjectId)
         {
-            return _users.FirstOrDefaultAsync(u => u.SubjectId == subjectId);
+            return _users.FirstOrDefaultAsync(u => u.Id == subjectId);
         }
 
         public Task<User> GetUserByUsernameAsync(string username)
         {
-            return _users.FirstOrDefaultAsync(u => u.Username == username);
+            return _users.FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<IEnumerable<UserClaim>> GetUserClaimsBySubjectIdAsync(string subjectId)
+        public async Task<IEnumerable<UserClaim>> GetUserClaimsBySubjectIdAsync(Guid subjectId)
         {
-            var user = await _users.Include(x => x.UserClaims).FirstOrDefaultAsync(u => u.SubjectId == subjectId);
+            var user = await _users.Include(x => x.UserClaims).FirstOrDefaultAsync(u => u.Id == subjectId);
             return user == null ? new List<UserClaim>() : user.UserClaims.ToList();
         }
 
-        public async Task<IEnumerable<UserLogin>> GetUserLoginsBySubjectIdAsync(string subjectId)
+        public async Task<IEnumerable<UserLogin>> GetUserLoginsBySubjectIdAsync(Guid subjectId)
         {
-            var user = await _users.Include(x => x.UserLogins).FirstOrDefaultAsync(u => u.SubjectId == subjectId);
+            var user = await _users.Include(x => x.UserLogins).FirstOrDefaultAsync(u => u.Id == subjectId);
             return user == null ? new List<UserLogin>() : user.UserLogins.ToList();
         }
 
-        public async Task<bool> IsUserActiveAsync(string subjectId)
+        public async Task<bool> IsUserActiveAsync(Guid subjectId)
         {
-            var user = await GetUserBySubjectIdAsync(subjectId);
+            var user = await GetUserByIdAsync(subjectId);
             if (user == null)
             {
-                throw new ArgumentException("User with given subjectId not found.", subjectId);
+                throw new ArgumentException("User with given subjectId not found.", subjectId.ToString());
             }
 
             return user.IsActive;
@@ -100,32 +100,27 @@ namespace Project.Auth.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task AddUserLoginAsync(string subjectId, string loginProvider, string providerKey)
+        public async Task AddUserLoginAsync(Guid subjectId, string loginProvider, string providerKey)
         {
-            var user = await GetUserBySubjectIdAsync(subjectId);
+            var rnd = new Random();
+            var id = rnd.Next(1, 99999);
+            var user = await GetUserByIdAsync(subjectId);
             if (user == null)
             {
-                throw new ArgumentException("User with given subjectId not found.", subjectId);
+                throw new ArgumentException("User with given subjectId not found.", subjectId.ToString());
             }
-
-            user.UserLogins.Add(new UserLogin
-            {
-                SubjectId = subjectId,
-                LoginProvider = loginProvider,
-                ProviderKey = providerKey
-            });
+            user.AddLogin(new UserLogin(loginProvider, providerKey));
             await _uow.SaveChangesAsync();
         }
 
-        public async Task AddUserClaimAsync(string subjectId, string claimType, string claimValue)
+        public async Task AddUserClaimAsync(Guid subjectId, string claimType, string claimValue)
         {
-            var user = await GetUserBySubjectIdAsync(subjectId);
+            var user = await GetUserByIdAsync(subjectId);
             if (user == null)
             {
-                throw new ArgumentException("User with given subjectId not found.", subjectId);
+                throw new ArgumentException("User with given subjectId not found.", subjectId.ToString());
             }
-
-            user.UserClaims.Add(new UserClaim { ClaimType = claimType, ClaimValue = claimValue });
+            user.AddClaim(new UserClaim(claimType, claimValue));
             await _uow.SaveChangesAsync();
         }
     }

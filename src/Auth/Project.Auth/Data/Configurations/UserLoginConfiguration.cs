@@ -10,9 +10,9 @@ namespace Project.Auth.DataLayer.Configurations
         {
             builder.HasOne(userLogin => userLogin.User)
                 .WithMany(user => user.UserLogins)
-                .HasForeignKey(userLogin => userLogin.SubjectId);
+                .HasForeignKey(userLogin => userLogin.UserId);
 
-            builder.HasIndex(userLogin => new {userLogin.SubjectId, userLogin.LoginProvider}).IsUnique();
+            builder.HasIndex(userLogin => new {userLogin.UserId, userLogin.LoginProvider}).IsUnique();
         }
     }
 }

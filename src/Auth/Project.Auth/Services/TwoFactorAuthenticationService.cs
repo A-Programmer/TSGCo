@@ -8,8 +8,8 @@ namespace Project.Auth.Services
 {
     public interface ITwoFactorAuthenticationService
     {
-        Task SendTemporaryCodeAsync(string subjectId);
-        Task<bool> IsValidTemporaryCodeAsync(string subjectId, string code);
+        Task SendTemporaryCodeAsync(Guid subjectId);
+        Task<bool> IsValidTemporaryCodeAsync(Guid subjectId, string code);
     }
 
     public class TwoFactorAuthenticationService : ITwoFactorAuthenticationService
@@ -33,21 +33,21 @@ namespace Project.Auth.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task SendTemporaryCodeAsync(string subjectId)
+        public async Task SendTemporaryCodeAsync(Guid subjectId)
         {
             var randomCode = _randomNumberProvider.Next();
             await saveTwoFactorCodeClaimsAsync(subjectId, randomCode);
             await sendCodeToUserAsync(subjectId, randomCode);
         }
 
-        private async Task sendCodeToUserAsync(string subjectId, int randomCode)
+        private async Task sendCodeToUserAsync(Guid subjectId, int randomCode)
         {
             var userEmail = await _userClaimsService.GetUserClaimAsync(subjectId, "email");
             // TODO: replace it with send_email or send_sms
             _logger.LogInformation($"Hello {userEmail}! Your TwoFactorCode is: {randomCode}");
         }
 
-        public async Task<bool> IsValidTemporaryCodeAsync(string subjectId, string code)
+        public async Task<bool> IsValidTemporaryCodeAsync(Guid subjectId, string code)
         {
             var twoFactorCodeClaim = await _userClaimsService.GetUserClaimAsync(subjectId, TwoFactorCodeClaimType);
             var expirationDateClaim = await _userClaimsService.GetUserClaimAsync(subjectId, ExpirationDateClaimType);
@@ -57,7 +57,7 @@ namespace Project.Auth.Services
                    DateTime.Parse(expirationDateClaim.ClaimValue).ToUniversalTime() >= DateTime.UtcNow;
         }
 
-        private async Task saveTwoFactorCodeClaimsAsync(string subjectId, int randomCode)
+        private async Task saveTwoFactorCodeClaimsAsync(Guid subjectId, int randomCode)
         {
             var expirationDate =
                 DateTime.UtcNow.AddHours(TemporaryCodeExpirationHours).ToString("o", CultureInfo.InvariantCulture);

@@ -9,21 +9,34 @@ namespace Project.Auth.DataLayer.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            
+            var admin = new User("admin", "admin".GetSha256Hash(), true) { Id = Guid.NewGuid() };
+            
+            var adminFirstName = new UserClaim("given_name", "Kamran") { Id = Guid.NewGuid() };
+            adminFirstName.SetUserId(admin.Id);
+            
+            var adminLastName = new UserClaim("family_name", "Sadin") { Id = Guid.NewGuid() };
+            adminLastName.SetUserId(admin.Id);
+            
+            var adminRole = new UserClaim("role", "admin") { Id = Guid.NewGuid() };
+            adminRole.SetUserId(admin.Id);
+
+            var user = new User("user", "user".GetSha256Hash(), true) { Id = Guid.NewGuid() };
+            
+            var userFName = new UserClaim("given_name", "Mohsen") { Id = Guid.NewGuid() };
+            userFName.SetUserId(admin.Id);
+            
+            var userLName = new UserClaim("family_name", "Safari") { Id = Guid.NewGuid() };
+            userLName.SetUserId(admin.Id);
+            
+            var userRole = new UserClaim("role", "user");
+            userRole.SetUserId(admin.Id);
+
             builder.HasData(
-                new User
-                {
-                    IsActive = true,
-                    SubjectId = "d860efca-22d9-47fd-8249-791ba61b07c7",
-                    Username = "User 1",
-                    Password = "password".GetSha256Hash()
-                },
-                new User
-                {
-                    IsActive = true,
-                    SubjectId = "b7539694-97e7-4dfe-84da-b4256e1ff5c7",
-                    Username = "User 2",
-                    Password = "password".GetSha256Hash()
-                }
+                admin,
+                user
             );
         }
     }

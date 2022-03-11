@@ -1,25 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using KSFramework.Domain;
 
 namespace Project.Auth.Domain
 {
-    public class UserClaim
-    {         
-        public int Id { get; set; }
+    public class UserClaim : BaseEntity<Guid>
+    {
 
-        [MaxLength(50)]
-        [Required]
-        public string SubjectId { get; set; }
+        public string ClaimType { get; private set; }
+        public string ClaimValue { get; private set; }
         
-        public User User { get; set; }
+        public Guid UserId { get; private set; }
+        public virtual User User { get; protected set; }
+        
 
-        [Required]
-        [MaxLength(250)]
-        public string ClaimType { get; set; }
-
-        [Required]
-        [MaxLength(250)]
-        public string ClaimValue { get; set; }
+        public void UpdateClaimValue(string value)
+        {
+            ClaimValue = value;
+        }
         
         public UserClaim(string claimType, string claimValue)
         {
@@ -27,14 +23,13 @@ namespace Project.Auth.Domain
             ClaimValue = claimValue;
         }
 
-        public UserClaim(string subjectId, string claimType, string claimValue)
+
+        public void SetUserId(Guid userId)
         {
-            SubjectId = subjectId;
-            ClaimType = claimType;
-            ClaimValue = claimValue;
+            UserId = userId;
         }
 
-        public UserClaim()
+        private UserClaim()
         {
         }
     }

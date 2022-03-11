@@ -40,19 +40,13 @@ namespace Project.Auth.Controllers
 
             var subjectId = Guid.NewGuid();
 
-            var userToCreate = new User
-            {
-                SubjectId = subjectId.ToString(),
-                Password = model.Password.GetSha256Hash(),
-                Username = model.Username,
-                IsActive = true
-            };
-
-            userToCreate.UserClaims.Add(new UserClaim(userToCreate.SubjectId ,"address", model.Address));
-            userToCreate.UserClaims.Add(new UserClaim(userToCreate.SubjectId, "given_name", model.Firstname));
-            userToCreate.UserClaims.Add(new UserClaim(userToCreate.SubjectId, "family_name", model.Lastname));
-            userToCreate.UserClaims.Add(new UserClaim(userToCreate.SubjectId, "subscription", "user"));
-            userToCreate.UserClaims.Add(new UserClaim(userToCreate.SubjectId, "country", model.Country));
+            var userToCreate = new User(model.Username, model.Password.GetSha256Hash());
+            userToCreate.Active();
+            
+            var firstNameClaim = new UserClaim("given_name", model.Firstname);
+            firstNameClaim.SetUserId(userToCreate.Id);
+            var lastNameClaim = new UserClaim("family_name", model.Lastname);
+            lastNameClaim.SetUserId(userToCreate.Id);
 
             await _usersService.AddUserAsync(userToCreate);
 

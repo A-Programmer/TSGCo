@@ -109,6 +109,27 @@ TempSrc/
 
 #### Build results
 
+# Libraries and Frameworks
+# KSFramework
+src/Shared/.vs/
+src/Shared/.code/
+src/Shared/.vscode/
+src/Shared/KSFramework/.vs/
+src/Shared/KSFramework/.code/
+src/Shared/KSFramework/.vscode/
+src/Shared/KSFramework/[Oo]ut/
+src/Shared/KSFramework/[Oo]bj/
+src/Shared/KSFramework/[Bb]in/
+src/Shared/KSFramework/bld/
+src/Shared/KSFramework/build/
+src/Shared/KSFramework/x86/
+src/Shared/KSFramework/x64/
+src/Shared/KSFramework/[Rr]eleases/
+src/Shared/KSFramework/[Rr]elease/
+src/Shared/KSFramework/[Dd]ebugPublic/
+src/Shared/KSFramework/[Dd]ebug/
+
+
 # AdminUI
 src/AdminUI/.vs/
 src/AdminUI/.code/
@@ -148,7 +169,8 @@ src/Auth/Project.Auth/[Dd]ebugPublic/
 src/Auth/Project.Auth/[Dd]ebug/
 
 
-
+#### Test Projects
+src/TestProjects/
 
 
 ## others

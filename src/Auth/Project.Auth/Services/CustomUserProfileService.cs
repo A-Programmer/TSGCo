@@ -19,14 +19,20 @@ namespace Project.Auth.Services
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var subjectId = context.Subject.GetSubjectId();
-            var claimsForUser = await _usersService.GetUserClaimsBySubjectIdAsync(subjectId);
+            var convertToGuidResult = Guid.TryParse(subjectId, out var guidSubjectId);
+            if(!convertToGuidResult)
+                throw new ArgumentException("Id must be a guid.");
+            var claimsForUser = await _usersService.GetUserClaimsBySubjectIdAsync(guidSubjectId);
             context.IssuedClaims = claimsForUser.Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList();
         }
 
         public async Task IsActiveAsync(IsActiveContext context)
         {
             var subjectId = context.Subject.GetSubjectId();
-            context.IsActive = await _usersService.IsUserActiveAsync(subjectId);
+            var convertToGuidResult = Guid.TryParse(subjectId, out var guidSubjectId);
+            if(!convertToGuidResult)
+                throw new ArgumentException("Id must be a guid.");
+            context.IsActive = await _usersService.IsUserActiveAsync(guidSubjectId);
         }
     }
 }
