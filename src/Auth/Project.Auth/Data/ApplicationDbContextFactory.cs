@@ -4,7 +4,7 @@
 // using Microsoft.EntityFrameworkCore.Design;
 // using Microsoft.Extensions.Configuration;
 
-// namespace Project.Auth
+// namespace Project.Auth.Data
 // {
 //     /// <summary>
 //     /// Only used by EF Tooling

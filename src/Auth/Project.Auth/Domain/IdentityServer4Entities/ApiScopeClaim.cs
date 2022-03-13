@@ -3,14 +3,36 @@
 
 #pragma warning disable 1591
 
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ApiScopeClaim : UserClaim
+    public class ApiScopeClaim : BaseEntity<Guid>
     {
-        public ApiScope ApiScope { get; set; }
+        public string Type { get; private set; }
+        public virtual ApiScope ApiScope { get; protected set; }
+        public Guid ApiScopeId { get; private set; }
+
+        private ApiScopeClaim()
+        {
+        }
+
+        public ApiScopeClaim(string type)
+        {
+            Type = type;
+        }
+
+        public void Update(string type)
+        {
+            Type = type;
+        }
+
+        public void SetApiScopeId(Guid apiScopeId)
+        {
+            ApiScopeId = apiScopeId;
+        }
     }
 
     public class ApiScopeClaimConfiguration : IEntityTypeConfiguration<ApiScopeClaim>

@@ -4,23 +4,76 @@
 #pragma warning disable 1591
 
 using System.Collections.Generic;
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ApiScope
+    public class ApiScope : BaseEntity<Guid>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public bool Required { get; set; }
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; } = true;
-        public List<ApiScopeClaim> UserClaims { get; set; }
+        private List<ApiScopeClaim> _apiScopeClaims = new List<ApiScopeClaim>();
+        public IReadOnlyCollection<ApiScopeClaim> ApiScopeClaims
+        {
+            get { return _apiScopeClaims.AsReadOnly(); }
+        }
 
-        public ApiResource ApiResource { get; set; }
+        public virtual ApiResource ApiResource { get; protected set; }
+        public Guid ApiResourceId { get; private set; }
+
+        private ApiScope()
+        {
+        }
+
+        public ApiScope(string name, string displayName, string description, bool isRequired, bool emphasize, bool showInDiscoveryDocument = true)
+        {
+            Name = name;
+            DisplayName = displayName;
+            Description = description;
+            Required = isRequired;
+            Emphasize = emphasize;
+            ShowInDiscoveryDocument = showInDiscoveryDocument;
+        }
+
+        public void Update(string name, string displayName, string description, bool isRequired, bool emphasize)
+        {
+            Name = name;
+            DisplayName = displayName;
+            Description = description;
+            Required = isRequired;
+            Emphasize = emphasize;
+        }
+
+        public void SetRequired()
+        {
+            Required = true;
+        }
+        public void SetNotRequired()
+        {
+            Required = false;
+        }
+        public void EmphasizeItem()
+        {
+            Emphasize = false;
+        }
+        public void NotEmphasize()
+        {
+            Emphasize = false;
+        }
+        public void ShowItInDiscoveryDocument()
+        {
+            ShowInDiscoveryDocument = true;
+        }
+        public void DontShowInDiscoveryDocument()
+        {
+            ShowInDiscoveryDocument = false;
+        }
     }
 
     public class ApiScopeConfiguration : IEntityTypeConfiguration<ApiScope>
@@ -35,7 +88,7 @@ namespace Project.Auth.Domain.IdentityServer4Entities
 
             apiScope.HasIndex(x => x.Name).IsUnique();
 
-            apiScope.HasMany(x => x.UserClaims).WithOne(x => x.ApiScope).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            apiScope.HasMany(x => x.ApiScopeClaims).WithOne(x => x.ApiScope).IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

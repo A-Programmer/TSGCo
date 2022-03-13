@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Project.Auth;
+using Project.Auth.Data;
 
 #nullable disable
 
@@ -24,11 +24,10 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiResource", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -58,14 +57,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiResourceClaim", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ApiResourceId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ApiResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -81,14 +79,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiScope", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ApiResourceId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ApiResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -126,14 +123,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiScopeClaim", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ApiScopeId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ApiScopeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -149,14 +145,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiSecret", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ApiResourceId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ApiResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -185,11 +180,10 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.Client", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
                     b.Property<int>("AbsoluteRefreshTokenLifetime")
                         .HasColumnType("int");
@@ -323,14 +317,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientClaim", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -351,14 +344,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientCorsOrigin", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Origin")
                         .IsRequired()
@@ -374,14 +366,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientGrantType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("GrantType")
                         .IsRequired()
@@ -397,14 +388,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientIdPRestriction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Provider")
                         .IsRequired()
@@ -420,14 +410,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientPostLogoutRedirectUri", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PostLogoutRedirectUri")
                         .IsRequired()
@@ -443,14 +432,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientProperty", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Key")
                         .IsRequired()
@@ -471,14 +459,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientRedirectUri", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RedirectUri")
                         .IsRequired()
@@ -494,14 +481,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientScope", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Scope")
                         .IsRequired()
@@ -517,14 +503,13 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ClientSecret", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -553,11 +538,10 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.IdentityClaim", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
                     b.Property<Guid>("IdentityResourceId")
                         .HasColumnType("uniqueidentifier");
@@ -614,31 +598,18 @@ namespace Project.Auth.Migrations
                         .IsUnique();
 
                     b.ToTable("IdentityResources");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("57a6db13-1489-498c-89ba-5c72df94e8bb"),
-                            Description = "Your roles",
-                            DisplayName = "Roles",
-                            Emphasize = false,
-                            Enabled = true,
-                            Name = "roles",
-                            Required = true,
-                            ShowInDiscoveryDocument = true
-                        });
                 });
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.PersistedGrant", b =>
                 {
-                    b.Property<string>("Key")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
+                    b.Property<Guid>("ClientId")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -651,19 +622,18 @@ namespace Project.Auth.Migrations
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SubjectId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Key");
+                    b.Property<Guid>("UserId")
+                        .HasMaxLength(200)
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("SubjectId", "ClientId", "Type");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "ClientId", "Type");
 
                     b.ToTable("PersistedGrants");
                 });
@@ -689,31 +659,14 @@ namespace Project.Auth.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("bd2ba071-4e06-4df8-8d40-4d1ab3c098ca"),
-                            HashedPassword = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
-                            IsActive = true,
-                            UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("3a4dce42-8a05-462d-8307-d9caaa0c094e"),
-                            HashedPassword = "BPiZbadjt6lpsQKO4wB1aerzpjVIbdqyEdUSyFud+Ps=",
-                            IsActive = true,
-                            UserName = "user"
-                        });
                 });
 
             modelBuilder.Entity("Project.Auth.Domain.UserClaim", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
                     b.Property<string>("ClaimType")
                         .IsRequired()
@@ -765,7 +718,7 @@ namespace Project.Auth.Migrations
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiResourceClaim", b =>
                 {
                     b.HasOne("Project.Auth.Domain.IdentityServer4Entities.ApiResource", "ApiResource")
-                        .WithMany("UserClaims")
+                        .WithMany("ApiResourceClaims")
                         .HasForeignKey("ApiResourceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -787,7 +740,7 @@ namespace Project.Auth.Migrations
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiScopeClaim", b =>
                 {
                     b.HasOne("Project.Auth.Domain.IdentityServer4Entities.ApiScope", "ApiScope")
-                        .WithMany("UserClaims")
+                        .WithMany("ApiScopeClaims")
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -908,7 +861,7 @@ namespace Project.Auth.Migrations
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.IdentityClaim", b =>
                 {
                     b.HasOne("Project.Auth.Domain.IdentityServer4Entities.IdentityResource", "IdentityResource")
-                        .WithMany("UserClaims")
+                        .WithMany("IdentityClaims")
                         .HasForeignKey("IdentityResourceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -940,16 +893,16 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiResource", b =>
                 {
+                    b.Navigation("ApiResourceClaims");
+
                     b.Navigation("Scopes");
 
                     b.Navigation("Secrets");
-
-                    b.Navigation("UserClaims");
                 });
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.ApiScope", b =>
                 {
-                    b.Navigation("UserClaims");
+                    b.Navigation("ApiScopeClaims");
                 });
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.Client", b =>
@@ -975,7 +928,7 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.IdentityResource", b =>
                 {
-                    b.Navigation("UserClaims");
+                    b.Navigation("IdentityClaims");
                 });
 
             modelBuilder.Entity("Project.Auth.Domain.User", b =>

@@ -4,14 +4,45 @@
 
 #pragma warning disable 1591
 
+using IdentityServer4;
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ApiSecret : Secret
+    public class ApiSecret : BaseEntity<Guid>
     {
-        public ApiResource ApiResource { get; set; }
+        public string Description { get; private set; }
+        public string Value { get; private set; }
+        public DateTime? Expiration { get; private set; }
+        public string Type { get; private set; } = IdentityServerConstants.SecretTypes.SharedSecret;
+        public virtual ApiResource ApiResource { get; protected set; }
+        public Guid ApiResourceId { get; private set; }
+
+        private ApiSecret()
+        {
+        }
+        public ApiSecret(string description, string value, string type = IdentityServerConstants.SecretTypes.SharedSecret)
+        {
+            Description = description;
+            Value = value;
+            Type = type;
+        }
+        public void Update(string description, string value, string type = IdentityServerConstants.SecretTypes.SharedSecret)
+        {
+            Description = description;
+            Value = value;
+            Type = type;
+        }
+        public void SetExpirationDate(DateTime? expirationDate)
+        {
+            Expiration = expirationDate;
+        }
+        public void SetApiResourceId(Guid apiResourceId)
+        {
+            ApiResourceId = apiResourceId;
+        }
     }
 
     public class ApiSecretConfiguration : IEntityTypeConfiguration<ApiSecret>

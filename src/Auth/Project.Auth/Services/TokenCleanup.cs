@@ -113,7 +113,7 @@ namespace Project.Auth.Services
                         {
                             var expired = context.Set<PersistedGrant>()
                                 .Where(x => x.Expiration < DateTime.UtcNow)
-                                .OrderBy(x => x.Key)
+                                .OrderBy(x => x.Id)
                                 .Take(_options.Value.TokenCleanupBatchSize)
                                 .ToArray();
 

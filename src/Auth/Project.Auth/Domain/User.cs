@@ -100,32 +100,6 @@ namespace Project.Auth.Domain
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.Id);
-            
-            var admin = new User("admin", "admin".GetSha256Hash(), true) { Id = Guid.NewGuid() };
-            #region UserClaims
-            var adminFirstName = new UserClaim("given_name", "Kamran");
-            adminFirstName.SetUserId(admin.Id);
-            var adminLastName = new UserClaim("family_name", "Sadin");
-            adminLastName.SetUserId(admin.Id);
-            var adminRole = new UserClaim("role", "admin");
-            adminRole.SetUserId(admin.Id);
-            #endregion
-
-
-            var user = new User("user", "user".GetSha256Hash(), true) { Id = Guid.NewGuid() };
-            #region UserClaims
-            var userFName = new UserClaim("given_name", "Mohsen");
-            userFName.SetUserId(admin.Id);
-            var userLName = new UserClaim("family_name", "Safari");
-            userLName.SetUserId(admin.Id);
-            var userRole = new UserClaim("role", "user");
-            userRole.SetUserId(admin.Id);
-            #endregion
-
-            builder.HasData(
-                admin,
-                user
-            );
         }
     }
 }

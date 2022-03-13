@@ -18,11 +18,11 @@ namespace Project.Auth.Mappings
         {
             // entity to model
             CreateMap<ApiScope, IdentityServer4.Models.ApiScope>(MemberList.Destination)
-                .ForMember(x => x.UserClaims, opt => opt.MapFrom(src => src.UserClaims.Select(x => x.Type)));
+                .ForMember(x => x.UserClaims, opt => opt.MapFrom(src => src.ApiScopeClaims.Select(x => x.Type)));
 
             // model to entity
             CreateMap<IdentityServer4.Models.ApiScope, ApiScope>(MemberList.Source)
-                .ForMember(x => x.UserClaims, opts => opts.MapFrom(src => src.UserClaims.Select(x => new ApiScopeClaim { Type = x })));
+                .ForMember(x => x.ApiScopeClaims, opts => opts.MapFrom(src => src.UserClaims.Select(x => new ApiScopeClaim(x))));
         }
     }
 }

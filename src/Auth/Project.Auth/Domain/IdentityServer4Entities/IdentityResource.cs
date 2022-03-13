@@ -29,6 +29,25 @@ namespace Project.Auth.Domain.IdentityServer4Entities
             ShowInDiscoveryDocument = showInDiscoveryDocument;
             Enabled = enabled;
         }
+        public void Update(string name, string displayName, string description)
+        {
+            Name = name;
+            DisplayName = displayName;
+            Description = description;
+        }
+
+        public void AddIdentityClaim(IdentityClaim identityClaim)
+        {
+            _identityClaims.Add(identityClaim);
+        }
+        public void RemoveIdentityClaim(IdentityClaim identityClaim)
+        {
+            _identityClaims.Remove(identityClaim);
+        }
+        public void ClearIdentityClaims()
+        {
+            _identityClaims.Clear();
+        }
 
         public void Enable() => Enabled = true;
         public void Disable() => Enabled = false;
@@ -49,10 +68,10 @@ namespace Project.Auth.Domain.IdentityServer4Entities
         public bool Required { get; private set; }
         public bool Emphasize { get; private set; }
         public bool ShowInDiscoveryDocument { get; private set; } = true;
-        private List<IdentityClaim> _userClaims = new List<IdentityClaim>();
-        public IReadOnlyCollection<IdentityClaim> UserClaims
+        private List<IdentityClaim> _identityClaims = new List<IdentityClaim>();
+        public IReadOnlyCollection<IdentityClaim> IdentityClaims
         {
-            get { return _userClaims.AsReadOnly(); }
+            get { return _identityClaims.AsReadOnly(); }
         }
     }
 
@@ -69,17 +88,10 @@ namespace Project.Auth.Domain.IdentityServer4Entities
 
             identityResource.HasIndex(x => x.Name).IsUnique();
 
-            identityResource.HasMany(x => x.UserClaims)
+            identityResource.HasMany(x => x.IdentityClaims)
                 .WithOne(x => x.IdentityResource)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-
-            identityResource.HasData(
-                new IdentityResource("roles", "Roles", "Your roles", true, false, true, true)
-                {
-                    Id = Guid.NewGuid()
-                }
-            );
         }
     }
 }

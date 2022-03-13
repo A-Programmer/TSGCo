@@ -4,14 +4,33 @@
 
 #pragma warning disable 1591
 
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class IdentityClaim : UserClaim
+    public class IdentityClaim : BaseEntity<Guid>
     {
-        public IdentityResource IdentityResource { get; set; }
+        public string Type { get; private set; }
+        public virtual IdentityResource IdentityResource { get; protected set; }
+        public Guid IdentityResourceId { get; private set; }
+
+        private IdentityClaim()
+        {
+        }
+        public IdentityClaim(string type)
+        {
+            Type = type;
+        }
+        public void SetIdentityResourceId(Guid identityResourceId)
+        {
+            IdentityResourceId = identityResourceId;
+        }
+        public void Update(string type)
+        {
+            Type = type;
+        }
     }
 
     public class IdentityClaimConfiguration : IEntityTypeConfiguration<IdentityClaim>

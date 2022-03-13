@@ -6,12 +6,12 @@
 
 using System;
 using IdentityServer4;
+using KSFramework.Domain;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public abstract class Secret
+    public abstract class Secret : BaseEntity<Guid>
     {
-        public int Id { get; set; }
         public string Description { get; set; }
         public string Value { get; set; }
         public DateTime? Expiration { get; set; }

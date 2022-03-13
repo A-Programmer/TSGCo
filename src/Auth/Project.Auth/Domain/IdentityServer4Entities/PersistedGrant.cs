@@ -5,38 +5,63 @@
 #pragma warning disable 1591
 
 using System;
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class PersistedGrant
+    public class PersistedGrant : BaseEntity<Guid>
     {
-        public string Key { get; set; }
         public string Type { get; set; }
-        public string SubjectId { get; set; }
-        public string ClientId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid ClientId { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? Expiration { get; set; }
         public string Data { get; set; }
+
+        private PersistedGrant()
+        {
+        }
+        public PersistedGrant(string type, string data, DateTime? expirationDate)
+        {
+            Type = type;
+            Data = data;
+            CreationTime = DateTime.Now;
+            Expiration = expirationDate;
+        }
+        public void Update(string type, string data, DateTime? expirationDate)
+        {
+            Type = type;
+            Data = data;
+            Expiration = expirationDate;
+        }
+        public void SetUserId(Guid userId)
+        {
+            UserId = userId;
+        }
+        public void SetClientId(Guid clientId)
+        {
+            ClientId = clientId;
+        }
     }
 
     public class PersistedGrantConfiguration : IEntityTypeConfiguration<PersistedGrant>
     {
         public void Configure(EntityTypeBuilder<PersistedGrant> grant)
         {
-            grant.Property(x => x.Key).HasMaxLength(200).ValueGeneratedNever();
+            grant.Property(x => x.Id).HasMaxLength(200).ValueGeneratedNever();
             grant.Property(x => x.Type).HasMaxLength(50).IsRequired();
-            grant.Property(x => x.SubjectId).HasMaxLength(200);
+            grant.Property(x => x.UserId).HasMaxLength(200);
             grant.Property(x => x.ClientId).HasMaxLength(200).IsRequired();
             grant.Property(x => x.CreationTime).IsRequired();
             // 50000 chosen to be explicit to allow enough size to avoid truncation, yet stay beneath the MySql row size limit of ~65K
             // apparently anything over 4K converts to nvarchar(max) on SqlServer
             grant.Property(x => x.Data).HasMaxLength(50000).IsRequired();
 
-            grant.HasKey(x => x.Key);
+            grant.HasKey(x => x.Id);
 
-            grant.HasIndex(x => new { x.SubjectId, x.ClientId, x.Type });
+            grant.HasIndex(x => new { x.UserId, x.ClientId, x.Type });
         }
     }
 }

@@ -6,7 +6,7 @@ using UserClaim = Project.Auth.Domain.UserClaim;
 using KSFramework.Utilities;
 using System.Reflection;
 
-namespace Project.Auth
+namespace Project.Auth.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {

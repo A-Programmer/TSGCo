@@ -45,27 +45,27 @@ namespace Project.Auth.Mappings
             // model to entity
             CreateMap<IdentityServer4.Models.Client, Client>(MemberList.Source)
                 .ForMember(x=>x.Properties, 
-                    opt=> opt.MapFrom(src => src.Properties.ToList().Select(x=>new ClientProperty { Key = x.Key, Value = x.Value })))
+                    opt=> opt.MapFrom(src => src.Properties.ToList().Select(x=>new ClientProperty(x.Key, x.Value))))
                 .ForMember(x => x.AllowedGrantTypes,
-                    opt => opt.MapFrom(src => src.AllowedGrantTypes.Select(x => new ClientGrantType { GrantType = x })))
+                    opt => opt.MapFrom(src => src.AllowedGrantTypes.Select(x => new ClientGrantType(x))))
                 .ForMember(x => x.RedirectUris,
-                    opt => opt.MapFrom(src => src.RedirectUris.Select(x => new ClientRedirectUri { RedirectUri = x })))
+                    opt => opt.MapFrom(src => src.RedirectUris.Select(x => new ClientRedirectUri(x))))
                 .ForMember(x => x.PostLogoutRedirectUris,
                     opt =>
                         opt.MapFrom(
                             src =>
                                 src.PostLogoutRedirectUris.Select(
-                                    x => new ClientPostLogoutRedirectUri { PostLogoutRedirectUri = x })))
+                                    x => new ClientPostLogoutRedirectUri(x))))
                 .ForMember(x => x.AllowedScopes,
-                    opt => opt.MapFrom(src => src.AllowedScopes.Select(x => new ClientScope { Scope = x })))
+                    opt => opt.MapFrom(src => src.AllowedScopes.Select(x => new ClientScope(x))))
                 .ForMember(x => x.Claims,
-                    opt => opt.MapFrom(src => src.Claims.Select(x => new ClientClaim { Type = x.Type, Value = x.Value })))
+                    opt => opt.MapFrom(src => src.Claims.Select(x => new ClientClaim(x.Type, x.Value))))
                 .ForMember(x => x.IdentityProviderRestrictions,
                     opt =>
                         opt.MapFrom(
-                            src => src.IdentityProviderRestrictions.Select(x => new ClientIdPRestriction { Provider = x })))
+                            src => src.IdentityProviderRestrictions.Select(x => new ClientIdPRestriction(x))))
                 .ForMember(x => x.AllowedCorsOrigins,
-                    opt => opt.MapFrom(src => src.AllowedCorsOrigins.Select(x => new ClientCorsOrigin { Origin = x })));
+                    opt => opt.MapFrom(src => src.AllowedCorsOrigins.Select(x => new ClientCorsOrigin(x))));
             CreateMap<IdentityServer4.Models.Secret, ClientSecret>(MemberList.Source);
 
         }

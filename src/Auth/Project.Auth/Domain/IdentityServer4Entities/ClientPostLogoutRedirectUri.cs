@@ -4,22 +4,40 @@
 
 #pragma warning disable 1591
 
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ClientPostLogoutRedirectUri
+    public class ClientPostLogoutRedirectUri : BaseEntity<Guid>
     {
-        public int Id { get; set; }
-        public string PostLogoutRedirectUri { get; set; }
-        public Client Client { get; set; }
+        public string PostLogoutRedirectUri { get; private set; }
+        public virtual Client Client { get; protected set; }
+        public Guid ClientId { get; private set; }
+
+        private ClientPostLogoutRedirectUri()
+        {
+        }
+        public ClientPostLogoutRedirectUri(string postLogoutRedirectUri)
+        {
+            PostLogoutRedirectUri = postLogoutRedirectUri;
+        }
+        public void SetClientId(Guid clientId)
+        {
+            ClientId = clientId;
+        }
+        public void Update(string postLogoutRedirectUri)
+        {
+            PostLogoutRedirectUri = postLogoutRedirectUri;
+        }
     }
 
     public class ClientPostLogoutRedirectUriConfiguration : IEntityTypeConfiguration<ClientPostLogoutRedirectUri>
     {
         public void Configure(EntityTypeBuilder<ClientPostLogoutRedirectUri> postLogoutRedirectUri)
         {
+            postLogoutRedirectUri.HasKey(x => x.Id);
             postLogoutRedirectUri.Property(x => x.PostLogoutRedirectUri).HasMaxLength(2000).IsRequired();
         }
     }

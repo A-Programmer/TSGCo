@@ -13,8 +13,7 @@ namespace Project.Auth.Migrations
                 name: "ApiResources",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Enabled = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -29,27 +28,17 @@ namespace Project.Auth.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     ClientId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ProtocolType = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    RequireClientSecret = table.Column<bool>(type: "bit", nullable: false),
                     ClientName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     ClientUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     LogoUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    RequireConsent = table.Column<bool>(type: "bit", nullable: false),
-                    AllowRememberConsent = table.Column<bool>(type: "bit", nullable: false),
-                    AlwaysIncludeUserClaimsInIdToken = table.Column<bool>(type: "bit", nullable: false),
-                    RequirePkce = table.Column<bool>(type: "bit", nullable: false),
-                    AllowPlainTextPkce = table.Column<bool>(type: "bit", nullable: false),
-                    AllowAccessTokensViaBrowser = table.Column<bool>(type: "bit", nullable: false),
                     FrontChannelLogoutUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    FrontChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
                     BackChannelLogoutUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    BackChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
-                    AllowOfflineAccess = table.Column<bool>(type: "bit", nullable: false),
+                    PairWiseSubjectSalt = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ProtocolType = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ClientClaimsPrefix = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     IdentityTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     AccessTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     AuthorizationCodeLifetime = table.Column<int>(type: "int", nullable: false),
@@ -57,14 +46,23 @@ namespace Project.Auth.Migrations
                     AbsoluteRefreshTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     SlidingRefreshTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     RefreshTokenUsage = table.Column<int>(type: "int", nullable: false),
-                    UpdateAccessTokenClaimsOnRefresh = table.Column<bool>(type: "bit", nullable: false),
                     RefreshTokenExpiration = table.Column<int>(type: "int", nullable: false),
                     AccessTokenType = table.Column<int>(type: "int", nullable: false),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    RequireClientSecret = table.Column<bool>(type: "bit", nullable: false),
+                    RequireConsent = table.Column<bool>(type: "bit", nullable: false),
+                    AllowRememberConsent = table.Column<bool>(type: "bit", nullable: false),
+                    AlwaysIncludeUserClaimsInIdToken = table.Column<bool>(type: "bit", nullable: false),
+                    FrontChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
+                    BackChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
                     EnableLocalLogin = table.Column<bool>(type: "bit", nullable: false),
+                    AllowOfflineAccess = table.Column<bool>(type: "bit", nullable: false),
+                    RequirePkce = table.Column<bool>(type: "bit", nullable: false),
+                    AllowPlainTextPkce = table.Column<bool>(type: "bit", nullable: false),
+                    AllowAccessTokensViaBrowser = table.Column<bool>(type: "bit", nullable: false),
+                    UpdateAccessTokenClaimsOnRefresh = table.Column<bool>(type: "bit", nullable: false),
                     IncludeJwtId = table.Column<bool>(type: "bit", nullable: false),
-                    AlwaysSendClientClaims = table.Column<bool>(type: "bit", nullable: false),
-                    ClientClaimsPrefix = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    PairWiseSubjectSalt = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    AlwaysSendClientClaims = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,41 +91,17 @@ namespace Project.Auth.Migrations
                 name: "PersistedGrants",
                 columns: table => new
                 {
-                    Key = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 200, nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SubjectId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ClientId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 200, nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 200, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Data = table.Column<string>(type: "nvarchar(max)", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersistedGrants", x => x.Key);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserClaims",
-                columns: table => new
-                {
-                    ClaimType = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserLogins",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
+                    table.PrimaryKey("PK_PersistedGrants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,10 +122,9 @@ namespace Project.Auth.Migrations
                 name: "ApiResourceClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApiResourceId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ApiResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,15 +141,14 @@ namespace Project.Auth.Migrations
                 name: "ApiScopes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Required = table.Column<bool>(type: "bit", nullable: false),
                     Emphasize = table.Column<bool>(type: "bit", nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "bit", nullable: false),
-                    ApiResourceId = table.Column<int>(type: "int", nullable: false)
+                    ApiResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,13 +165,12 @@ namespace Project.Auth.Migrations
                 name: "ApiSecrets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApiResourceId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                    Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    ApiResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,11 +187,10 @@ namespace Project.Auth.Migrations
                 name: "ClientClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,10 +207,9 @@ namespace Project.Auth.Migrations
                 name: "ClientCorsOrigins",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Origin = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -257,10 +226,9 @@ namespace Project.Auth.Migrations
                 name: "ClientGrantTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     GrantType = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,10 +245,9 @@ namespace Project.Auth.Migrations
                 name: "ClientIdPRestrictions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Provider = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -297,10 +264,9 @@ namespace Project.Auth.Migrations
                 name: "ClientPostLogoutRedirectUris",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     PostLogoutRedirectUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -317,11 +283,10 @@ namespace Project.Auth.Migrations
                 name: "ClientProperties",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Key = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -338,10 +303,9 @@ namespace Project.Auth.Migrations
                 name: "ClientRedirectUris",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     RedirectUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -358,10 +322,9 @@ namespace Project.Auth.Migrations
                 name: "ClientScopes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Scope = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -378,13 +341,12 @@ namespace Project.Auth.Migrations
                 name: "ClientSecrets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                    Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -401,10 +363,9 @@ namespace Project.Auth.Migrations
                 name: "IdentityClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    IdentityResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -418,13 +379,52 @@ namespace Project.Auth.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 50, nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    ClaimValue = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserClaims_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLogins",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserLogins_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ApiScopeClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApiScopeId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ApiScopeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -436,21 +436,6 @@ namespace Project.Auth.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.InsertData(
-                table: "IdentityResources",
-                columns: new[] { "Id", "Description", "DisplayName", "Emphasize", "Enabled", "Name", "Required", "ShowInDiscoveryDocument" },
-                values: new object[] { new Guid("789361cb-01c5-4245-858f-c4488d787ab0"), "Your roles", "Roles", false, true, "roles", true, true });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "HashedPassword", "IsActive", "UserName" },
-                values: new object[] { new Guid("2689d5d5-2508-4568-900b-ba03ff8103a3"), "BPiZbadjt6lpsQKO4wB1aerzpjVIbdqyEdUSyFud+Ps=", true, "user" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "HashedPassword", "IsActive", "UserName" },
-                values: new object[] { new Guid("e617647a-e5fd-43f2-aa45-0bd3a1ea563e"), "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=", true, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApiResourceClaims_ApiResourceId",
@@ -547,9 +532,9 @@ namespace Project.Auth.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersistedGrants_SubjectId_ClientId_Type",
+                name: "IX_PersistedGrants_UserId_ClientId_Type",
                 table: "PersistedGrants",
-                columns: new[] { "SubjectId", "ClientId", "Type" });
+                columns: new[] { "UserId", "ClientId", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId_ClaimType",
@@ -614,9 +599,6 @@ namespace Project.Auth.Migrations
                 name: "UserLogins");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "ApiScopes");
 
             migrationBuilder.DropTable(
@@ -624,6 +606,9 @@ namespace Project.Auth.Migrations
 
             migrationBuilder.DropTable(
                 name: "IdentityResources");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "ApiResources");

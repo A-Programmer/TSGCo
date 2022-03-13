@@ -4,22 +4,40 @@
 
 #pragma warning disable 1591
 
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ClientGrantType
+    public class ClientGrantType : BaseEntity<Guid>
     {
-        public int Id { get; set; }
-        public string GrantType { get; set; }
-        public Client Client { get; set; }
+        public string GrantType { get; private set; }
+        public virtual Client Client { get; protected set; }
+        public Guid ClientId { get; private set; }
+
+        private ClientGrantType()
+        {
+        }
+        public ClientGrantType(string grantType)
+        {
+            GrantType = grantType;
+        }
+        public void SetClientId(Guid clientId)
+        {
+            ClientId = clientId;
+        }
+        public void Update(string grantType)
+        {
+            GrantType = grantType;
+        }
     }
 
     public class ClientGrantTypeConfiguration : IEntityTypeConfiguration<ClientGrantType>
     {
         public void Configure(EntityTypeBuilder<ClientGrantType> grantType)
         {
+            grantType.HasKey(x => x.Id);
             grantType.Property(x => x.GrantType).HasMaxLength(250).IsRequired();
         }
     }

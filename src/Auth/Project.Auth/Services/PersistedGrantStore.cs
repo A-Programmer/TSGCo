@@ -42,7 +42,8 @@ namespace Project.Auth.Services
         /// <returns></returns>
         public Task StoreAsync(IdentityServer4.Models.PersistedGrant token)
         {
-            var existing = _persistedGrants.SingleOrDefault(x => x.Key == token.Key);
+            var tokenId = Guid.Parse(token.Key);
+            var existing = _persistedGrants.SingleOrDefault(x => x.Id == tokenId);
             if (existing == null)
             {
                 _logger.LogDebug("{persistedGrantKey} not found in database", token.Key);
@@ -76,7 +77,8 @@ namespace Project.Auth.Services
         /// <returns></returns>
         public Task<IdentityServer4.Models.PersistedGrant> GetAsync(string key)
         {
-            var persistedGrant = _persistedGrants.FirstOrDefault(x => x.Key == key);
+            var convertedKey = Guid.Parse(key);
+            var persistedGrant = _persistedGrants.FirstOrDefault(x => x.Id == convertedKey);
             var model = persistedGrant?.ToModel();
 
             _logger.LogDebug("{persistedGrantKey} found in database: {persistedGrantKeyFound}", key, model != null);
@@ -91,7 +93,8 @@ namespace Project.Auth.Services
         /// <returns></returns>
         public Task<IEnumerable<IdentityServer4.Models.PersistedGrant>> GetAllAsync(string subjectId)
         {
-            var persistedGrants = _persistedGrants.Where(x => x.SubjectId == subjectId).ToList();
+            var userId = Guid.Parse(subjectId);
+            var persistedGrants = _persistedGrants.Where(x => x.UserId == userId).ToList();
             var model = persistedGrants.Select(x => x.ToModel());
 
             _logger.LogDebug("{persistedGrantCount} persisted grants found for {subjectId}", persistedGrants.Count, subjectId);
@@ -106,7 +109,8 @@ namespace Project.Auth.Services
         /// <returns></returns>
         public Task RemoveAsync(string key)
         {
-            var persistedGrant = _persistedGrants.FirstOrDefault(x => x.Key == key);
+            var convertedKey = Guid.Parse(key);
+            var persistedGrant = _persistedGrants.FirstOrDefault(x => x.Id == convertedKey);
             if (persistedGrant!= null)
             {
                 _logger.LogDebug("removing {persistedGrantKey} persisted grant from database", key);
@@ -138,7 +142,9 @@ namespace Project.Auth.Services
         /// <returns></returns>
         public Task RemoveAllAsync(string subjectId, string clientId)
         {
-            var persistedGrants = _persistedGrants.Where(x => x.SubjectId == subjectId && x.ClientId == clientId).ToList();
+            var userId = Guid.Parse(subjectId);
+            var convertedClientId = Guid.Parse(clientId);
+            var persistedGrants = _persistedGrants.Where(x => x.UserId == userId && x.ClientId == convertedClientId).ToList();
 
             _logger.LogDebug("removing {persistedGrantCount} persisted grants from database for subject {subjectId}, clientId {clientId}", persistedGrants.Count, subjectId, clientId);
 
@@ -165,9 +171,11 @@ namespace Project.Auth.Services
         /// <returns></returns>
         public Task RemoveAllAsync(string subjectId, string clientId, string type)
         {
+            var userId = Guid.Parse(subjectId);
+            var convertedClientId = Guid.Parse(clientId);
             var persistedGrants = _persistedGrants.Where(x =>
-                x.SubjectId == subjectId &&
-                x.ClientId == clientId &&
+                x.UserId == userId &&
+                x.ClientId == convertedClientId &&
                 x.Type == type).ToList();
 
             _logger.LogDebug("removing {persistedGrantCount} persisted grants from database for subject {subjectId}, clientId {clientId}, grantType {persistedGrantType}", persistedGrants.Count, subjectId, clientId, type);
@@ -188,7 +196,8 @@ namespace Project.Auth.Services
 
         public Task<IEnumerable<IdentityServer4.Models.PersistedGrant>> GetAllAsync(PersistedGrantFilter filter)
         {
-            var persistedGrants = _persistedGrants.Where(x => x.SubjectId == filter.SubjectId).ToList();
+            var convertedKey = Guid.Parse(filter.SubjectId);
+            var persistedGrants = _persistedGrants.Where(x => x.UserId == convertedKey).ToList();
             var model = persistedGrants.Select(x => x.ToModel());
 
             _logger.LogDebug("{persistedGrantCount} persisted grants found for {subjectId}", persistedGrants.Count, filter.SubjectId);
@@ -198,9 +207,11 @@ namespace Project.Auth.Services
 
         public Task RemoveAllAsync(PersistedGrantFilter filter)
         {
+            var userId = Guid.Parse(filter.SubjectId);
+            var convertedClientId = Guid.Parse(filter.ClientId);
             var persistedGrants = _persistedGrants.Where(x =>
-                x.SubjectId == filter.SubjectId &&
-                x.ClientId == filter.ClientId &&
+                x.UserId == userId &&
+                x.ClientId == convertedClientId &&
                 x.Type == filter.Type).ToList();
 
             _logger.LogDebug("removing {persistedGrantCount} persisted grants from database for subject {subjectId}, clientId {clientId}, grantType {persistedGrantType}", persistedGrants.Count, filter.SubjectId, filter.ClientId, filter.Type);

@@ -4,22 +4,40 @@
 
 #pragma warning disable 1591
 
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ClientScope
+    public class ClientScope : BaseEntity<Guid>
     {
-        public int Id { get; set; }
-        public string Scope { get; set; }
-        public Client Client { get; set; }
+        public string Scope { get; private set; }
+        public virtual Client Client { get; protected set; }
+        public Guid ClientId { get; private set; }
+
+        private ClientScope()
+        {
+        }
+        public ClientScope(string scope)
+        {
+            Scope = scope;
+        }
+        public void SetClientId(Guid clientId)
+        {
+            ClientId = clientId;
+        }
+        public void Update(string scope)
+        {
+            Scope = scope;
+        }
     }
 
     public class ClientScopeConfiguration : IEntityTypeConfiguration<ClientScope>
     {
         public void Configure(EntityTypeBuilder<ClientScope> scope)
         {
+            scope.HasKey(x => x.Id);
             scope.Property(x => x.Scope).HasMaxLength(200).IsRequired();
         }
     }

@@ -1,15 +1,32 @@
 #pragma warning disable 1591
 
+using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class ClientIdPRestriction
+    public class ClientIdPRestriction : BaseEntity<Guid>
     {
-        public int Id { get; set; }
-        public string Provider { get; set; }
-        public Client Client { get; set; }
+        public string Provider { get; private set; }
+        public virtual Client Client { get; protected set; }
+        public Guid ClientId { get; private set; }
+        private ClientIdPRestriction()
+        {
+        }
+
+        public ClientIdPRestriction(string povider)
+        {
+            Provider = povider;
+        }
+        public void SetClientId(Guid clientId)
+        {
+            ClientId = clientId;
+        }
+        public void Update(string povider)
+        {
+            Provider = povider;
+        }
     }
 
     public class ClientIdPRestrictionConfiguration : IEntityTypeConfiguration<ClientIdPRestriction>

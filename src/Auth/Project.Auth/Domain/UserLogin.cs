@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using KSFramework.Domain;
+﻿using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,6 +19,7 @@ namespace Project.Auth.Domain
         {
             UserId = userId;
         }
+
         public UserLogin(string loginProvider, string providerKey)
         {
             LoginProvider = loginProvider;
@@ -36,10 +35,10 @@ namespace Project.Auth.Domain
     {
         public void Configure(EntityTypeBuilder<UserLogin> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.HasOne(userLogin => userLogin.User)
                 .WithMany(user => user.UserLogins)
                 .HasForeignKey(userLogin => userLogin.UserId);
-
             builder.HasIndex(userLogin => new {userLogin.UserId, userLogin.LoginProvider}).IsUnique();
         }
     }

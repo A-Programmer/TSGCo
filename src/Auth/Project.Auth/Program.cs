@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Auth;
 using Project.Auth.Contracts;
+using Project.Auth.Data;
 using Project.Auth.Services;
 using Project.Auth.Utilities;
 
@@ -40,6 +41,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         });
 });
 
+builder.Services.AddTransient<DataSeeder>();
+
 builder.Services.AddControllersWithViews();
 
 var identityServer = builder.Services.AddIdentityServer();
@@ -73,14 +76,7 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-    using (var scope = scopeFactory.CreateScope())
-    {
-        using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
-        {
-            context.Database.Migrate();
-        }
-    }
+    MigrateDbAndSeed(app);
 }
 
 app.UseIdentityServer();
@@ -92,8 +88,31 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "AdminArea",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+});
 
 app.Run();
+
+void MigrateDbAndSeed(IHost app)
+{
+    var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+    using (var scope = scopeFactory.CreateScope())
+    {
+        using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
+        {
+            context.Database.Migrate();
+        }
+        var service = scope.ServiceProvider.GetService<DataSeeder>();
+        service.Seed();
+    }
+}

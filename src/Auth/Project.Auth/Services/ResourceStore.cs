@@ -54,8 +54,8 @@ namespace Project.Auth.Services
             var apis = query
                 .Include(x => x.Secrets)
                 .Include(x => x.Scopes)
-                    .ThenInclude(s => s.UserClaims)
-                .Include(x => x.UserClaims);
+                    .ThenInclude(s => s.ApiScopeClaims)
+                .Include(x => x.ApiResourceClaims);
 
             var api = apis.FirstOrDefault();
 
@@ -91,8 +91,8 @@ namespace Project.Auth.Services
             var apis = query
                 .Include(x => x.Secrets)
                 .Include(x => x.Scopes)
-                    .ThenInclude(s => s.UserClaims)
-                .Include(x => x.UserClaims);
+                    .ThenInclude(s => s.ApiScopeClaims)
+                .Include(x => x.ApiResourceClaims);
 
             var results = apis.ToArray();
             var models = results.Select(x => x.ToModel()).ToArray();
@@ -125,7 +125,7 @@ namespace Project.Auth.Services
                 select identityResource;
 
             var resources = query
-                .Include(x => x.UserClaims);
+                .Include(x => x.IdentityClaims);
 
             var results = resources.ToArray();
 
@@ -144,7 +144,7 @@ namespace Project.Auth.Services
                 select identityResource;
 
             var resources = query
-                .Include(x => x.UserClaims);
+                .Include(x => x.IdentityClaims);
 
             var results = resources.ToArray();
 
@@ -160,16 +160,16 @@ namespace Project.Auth.Services
         public Task<IdentityServer4.Models.Resources> GetAllResourcesAsync()
         {
             var identity = _identityResources
-              .Include(x => x.UserClaims);
+              .Include(x => x.IdentityClaims);
 
             var apis = _apiResources
                 .Include(x => x.Secrets)
                 .Include(x => x.Scopes)
-                    .ThenInclude(s => s.UserClaims)
-                .Include(x => x.UserClaims);
+                    .ThenInclude(s => s.ApiScopeClaims)
+                .Include(x => x.ApiResourceClaims);
             
             var apiScopes = _apiScopes
-                .Include(x => x.UserClaims);
+                .Include(x => x.ApiScopeClaims);
 
             var result = new IdentityServer4.Models.Resources(
                 identity.ToArray().Select(x => x.ToModel()).AsEnumerable(),
