@@ -3,7 +3,6 @@ using Project.Auth.Domain;
 using Project.Auth.Domain.IdentityServer4Entities;
 using Microsoft.EntityFrameworkCore;
 using UserClaim = Project.Auth.Domain.UserClaim;
-using Project.Auth.DataLayer.Configurations;
 using KSFramework.Utilities;
 using System.Reflection;
 

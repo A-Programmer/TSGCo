@@ -4,6 +4,9 @@
 
 #pragma warning disable 1591
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
     public class ClientScope
@@ -11,5 +14,13 @@ namespace Project.Auth.Domain.IdentityServer4Entities
         public int Id { get; set; }
         public string Scope { get; set; }
         public Client Client { get; set; }
+    }
+
+    public class ClientScopeConfiguration : IEntityTypeConfiguration<ClientScope>
+    {
+        public void Configure(EntityTypeBuilder<ClientScope> scope)
+        {
+            scope.Property(x => x.Scope).HasMaxLength(200).IsRequired();
+        }
     }
 }

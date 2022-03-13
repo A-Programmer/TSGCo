@@ -4,10 +4,24 @@
 
 #pragma warning disable 1591
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
     public class ClientSecret : Secret
     {
         public Client Client { get; set; }
+    }
+
+
+    public class ClientSecretConfiguration : IEntityTypeConfiguration<ClientSecret>
+    {
+        public void Configure(EntityTypeBuilder<ClientSecret> secret)
+        {
+            secret.Property(x => x.Value).HasMaxLength(2000).IsRequired();
+            secret.Property(x => x.Type).HasMaxLength(250);
+            secret.Property(x => x.Description).HasMaxLength(2000);
+        }
     }
 }

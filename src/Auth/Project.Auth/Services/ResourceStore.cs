@@ -69,7 +69,7 @@ namespace Project.Auth.Services
         public Task<IEnumerable<IdentityServer4.Models.ApiResource>> FindApiResourcesByNameAsync(IEnumerable<string> apiResourceNames)
         {
             var names = apiResourceNames.ToArray();
-            var result = _apiResources.Where(x => MemoryExtensions.Contains<string>(names, x.Name)).ToArray();
+            var result = _apiResources.Where(x => names.Contains(x.Name)).ToArray();
             var model = result.Select(x => x.ToModel());
             return Task.FromResult(model);
         }
@@ -105,7 +105,7 @@ namespace Project.Auth.Services
         public Task<IEnumerable<IdentityServer4.Models.ApiScope>> FindApiScopesByNameAsync(IEnumerable<string> scopeNames)
         {
             var names = scopeNames.ToArray();
-            var result = _apiScopes.Where(x => MemoryExtensions.Contains<string>(names, x.Name)).ToArray();
+            var result = _apiScopes.Where(x => names.Contains(x.Name)).ToArray();
             var model = result.Select(x => x.ToModel());
             return Task.FromResult(model);
         }

@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using KSFramework.Domain;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain
 {
     public class UserLogin : BaseEntity<Guid>
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         
         public User User { get; set; }
 
@@ -15,7 +17,7 @@ namespace Project.Auth.Domain
         public string ProviderKey { get; set; }
 
 
-        public void SetUserId(string userId)
+        public void SetUserId(Guid userId)
         {
             UserId = userId;
         }
@@ -27,6 +29,18 @@ namespace Project.Auth.Domain
         private UserLogin()
         {
             
+        }
+    }
+
+    public class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
+    {
+        public void Configure(EntityTypeBuilder<UserLogin> builder)
+        {
+            builder.HasOne(userLogin => userLogin.User)
+                .WithMany(user => user.UserLogins)
+                .HasForeignKey(userLogin => userLogin.UserId);
+
+            builder.HasIndex(userLogin => new {userLogin.UserId, userLogin.LoginProvider}).IsUnique();
         }
     }
 }

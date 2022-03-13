@@ -4,6 +4,9 @@
 
 #pragma warning disable 1591
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
     public class ClientRedirectUri
@@ -11,5 +14,13 @@ namespace Project.Auth.Domain.IdentityServer4Entities
         public int Id { get; set; }
         public string RedirectUri { get; set; }
         public Client Client { get; set; }
+    }
+
+    public class ClientRedirectUriConfiguration : IEntityTypeConfiguration<ClientRedirectUri>
+    {
+        public void Configure(EntityTypeBuilder<ClientRedirectUri> redirectUri)
+        {
+            redirectUri.Property(x => x.RedirectUri).HasMaxLength(2000).IsRequired();
+        }
     }
 }

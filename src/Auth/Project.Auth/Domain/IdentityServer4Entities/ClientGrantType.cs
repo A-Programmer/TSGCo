@@ -4,6 +4,9 @@
 
 #pragma warning disable 1591
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
     public class ClientGrantType
@@ -11,5 +14,13 @@ namespace Project.Auth.Domain.IdentityServer4Entities
         public int Id { get; set; }
         public string GrantType { get; set; }
         public Client Client { get; set; }
+    }
+
+    public class ClientGrantTypeConfiguration : IEntityTypeConfiguration<ClientGrantType>
+    {
+        public void Configure(EntityTypeBuilder<ClientGrantType> grantType)
+        {
+            grantType.Property(x => x.GrantType).HasMaxLength(250).IsRequired();
+        }
     }
 }
