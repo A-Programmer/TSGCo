@@ -11,11 +11,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Project.Auth.Domain.IdentityServer4Entities
 {
-    public class PersistedGrant : BaseEntity<Guid>
+    public class PersistedGrant : IEntity
     {
+        public string Key { get; set; }
         public string Type { get; set; }
         public Guid UserId { get; set; }
-        public Guid ClientId { get; set; }
+        public string ClientId { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? Expiration { get; set; }
         public string Data { get; set; }
@@ -40,7 +41,7 @@ namespace Project.Auth.Domain.IdentityServer4Entities
         {
             UserId = userId;
         }
-        public void SetClientId(Guid clientId)
+        public void SetClientId(string clientId)
         {
             ClientId = clientId;
         }
@@ -50,7 +51,7 @@ namespace Project.Auth.Domain.IdentityServer4Entities
     {
         public void Configure(EntityTypeBuilder<PersistedGrant> grant)
         {
-            grant.Property(x => x.Id).HasMaxLength(200).ValueGeneratedNever();
+            grant.Property(x => x.Key).HasMaxLength(200).ValueGeneratedNever();
             grant.Property(x => x.Type).HasMaxLength(50).IsRequired();
             grant.Property(x => x.UserId).HasMaxLength(200);
             grant.Property(x => x.ClientId).HasMaxLength(200).IsRequired();
@@ -59,7 +60,7 @@ namespace Project.Auth.Domain.IdentityServer4Entities
             // apparently anything over 4K converts to nvarchar(max) on SqlServer
             grant.Property(x => x.Data).HasMaxLength(50000).IsRequired();
 
-            grant.HasKey(x => x.Id);
+            grant.HasKey(x => x.Key);
 
             grant.HasIndex(x => new { x.UserId, x.ClientId, x.Type });
         }

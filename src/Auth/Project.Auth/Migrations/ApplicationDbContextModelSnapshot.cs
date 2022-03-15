@@ -602,14 +602,14 @@ namespace Project.Auth.Migrations
 
             modelBuilder.Entity("Project.Auth.Domain.IdentityServer4Entities.PersistedGrant", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Key")
                         .HasMaxLength(200)
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("ClientId")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -631,7 +631,7 @@ namespace Project.Auth.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("Key");
 
                     b.HasIndex("UserId", "ClientId", "Type");
 

@@ -62,6 +62,7 @@ namespace Project.Auth.Controllers.Account
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
         {
+            Console.WriteLine($"\n\n\n\n\n\n{"CMSClientSecretKeyGoesHere".Sha256()}\n\n\n\n\n\n");
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 

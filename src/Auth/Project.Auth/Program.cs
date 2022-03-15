@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
 using Project.Auth;
 using Project.Auth.Contracts;
 using Project.Auth.Data;
@@ -44,6 +45,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddTransient<DataSeeder>();
 
 builder.Services.AddControllersWithViews();
+
+IdentityModelEventSource.ShowPII = true;
 
 var identityServer = builder.Services.AddIdentityServer();
 

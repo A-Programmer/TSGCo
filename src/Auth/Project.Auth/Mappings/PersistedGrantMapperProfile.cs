@@ -20,10 +20,12 @@ namespace Project.Auth.Mappings
         public PersistedGrantMapperProfile()
         {
             // entity to model
-            CreateMap<PersistedGrant, IdentityServer4.Models.PersistedGrant>(MemberList.Destination);
+            CreateMap<PersistedGrant, IdentityServer4.Models.PersistedGrant>(MemberList.Destination)
+                .ForMember(x => x.SubjectId, opt => opt.MapFrom(x => x.UserId));
 
             // model to entity
-            CreateMap<IdentityServer4.Models.PersistedGrant, PersistedGrant>(MemberList.Source);
+            CreateMap<IdentityServer4.Models.PersistedGrant, PersistedGrant>(MemberList.Source)
+            .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.SubjectId));
         }
     }
 }

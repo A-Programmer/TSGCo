@@ -5,6 +5,7 @@
 #pragma warning disable 1591
 
 using IdentityServer4;
+using IdentityServer4.Models;
 using KSFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -26,7 +27,7 @@ namespace Project.Auth.Domain.IdentityServer4Entities
         public ClientSecret(string description, string value, DateTime? expirationDate, string type = IdentityServerConstants.SecretTypes.SharedSecret)
         {
             Description = description;
-            Value = value;
+            Value = value.Sha256();
             Type = type;
             Expiration = expirationDate;
         }
