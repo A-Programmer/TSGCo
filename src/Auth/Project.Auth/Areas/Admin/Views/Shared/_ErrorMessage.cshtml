@@ -1,0 +1,16 @@
+@{
+    var result = TempData.Get<ResultMessage>("Message");
+}
+@if (result != null)
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="alert alert-@result.CssClass">
+                @Html.Raw(result.Message)
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    
+}

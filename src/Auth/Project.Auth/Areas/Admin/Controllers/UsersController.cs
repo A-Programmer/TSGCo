@@ -1,7 +1,10 @@
 
 
 using System.ComponentModel;
+using KSFramework.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using Project.Auth.Domain;
+using Project.Auth.Services;
 
 namespace Project.Auth.Areas.Admin.Controllers
 {
@@ -9,19 +12,18 @@ namespace Project.Auth.Areas.Admin.Controllers
     [DisplayName("Manage Users")]
     public class UsersController : Controller
     {
-        public UsersController()
+        private readonly IUserServices _userServices;
+        public UsersController(IUserServices userServices)
         {
-            
+            _userServices = userServices;
         }
 
         [HttpGet]
         [DisplayName("Users List")]
-        public async Task<IActionResult> Index(int? id, string currentFilter, string searchString,
-        int? filterType,
-        int? statusType)
+        public async Task<IActionResult> Index(int? id, string currentFilter, string searchString)
         {
             var page = id ?? 1;
-            var pageSize = 20;
+            var pageSize = 1;
 
             if (searchString != null)
             {
@@ -32,13 +34,21 @@ namespace Project.Auth.Areas.Admin.Controllers
                 searchString = currentFilter;
             }
             ViewData["CurrentFilter"] = searchString;
-            ViewData["filterType"] = filterType;
-            ViewData["statusType"] = statusType;
+
+            var items = _userServices.GetUsers();
+
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(x =>
+                    x.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+            }
+
+            var pagedItems = await PaginatedList<User>.CreateAsync(items, page, pageSize);
 
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
             if(isAjax)
-                return PartialView("_ListPartialView");
-            return View();
+                return PartialView("_ListPartialView", pagedItems);
+            return View(pagedItems);
         }
     }
 }

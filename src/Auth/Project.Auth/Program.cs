@@ -70,6 +70,8 @@ builder.Services.AddAuthentication();
     //     options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
     // });
 
+builder.Services.AddScoped<IUserServices, UserServices>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

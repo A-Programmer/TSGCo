@@ -88,8 +88,32 @@
     }
   }
 
+  //Buttons
+  .btn-default {
+    background-color: #f8f9fa !important;
+    border-color: #ddd !important;
+    color: #444 !important;
+  }
 
 
+//Cards
+.card-header {
+    .card-tools {
+        float: left !important;
+        margin-right: 0 !important;
+        margin-left: -0.625rem !important;
+        margin-bottom: 0 !important;
+    }
+    .card-title {
+        float: right !important;
+        margin-bottom: 0 !important;
+        margin-top: .3rem;
+    }
+    .card-search-bar {
+        float: right !important;
+        margin-bottom: 0 !important;
+    }
+}
 
 
 // Dropdonw

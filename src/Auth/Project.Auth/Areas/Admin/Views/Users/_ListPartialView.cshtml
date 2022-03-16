@@ -1,0 +1,57 @@
+@model PaginatedList<User>
+@{
+
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
+    var totalPages = Model.TotalPages;
+    var pageIndex = Model.PageIndex;
+}
+
+<div class="card-body table-responsive p-0">
+    <table class="table table-head-fixed">
+        <thead>
+            <tr>
+                <th>نام کاربری</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+</div>
+<!-- /.card-body -->
+<div class="card-footer clearfix">
+    <ul class="pagination pagination-sm m-0 float-right">
+        <li class="page-item @prevDisabled">
+            <a class="page-link" href="#" data-pageId="@(Model.PageIndex - 1)" data-currentFilter='@ViewData["CurrentFilter"]'>&laquo;</a>
+        </li>
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            @if (i == pageIndex)
+            {
+                <li class="page-item active">
+                    <a class="page-link" data-type="pagination" href="#" data-pageId="@i" data-currentFilter="@ViewData["CurrentFilter"]">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" data-type="pagination" href="#" data-pageId="@i" data-currentFilter="@ViewData["CurrentFilter"]">@i</a>
+                </li>
+            }
+
+        }
+        <li class="page-item @nextDisabled">
+            <a href="#" class="page-link" data-type="pagination" data-pageId="@(Model.PageIndex + 1)" data-currentFilter="@ViewData["CurrentFilter"]">
+                &raquo;
+            </a>
+        </li>
+    </ul>
+</div>
+    
