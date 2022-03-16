@@ -65,7 +65,6 @@ $(function () {
         var tableUrl = tableElement.data('url');
         var pageId = $(this).attr('data-pageId');
         var currentFilter = $(this).attr('data-currentFilter');
-        console.log(pageId);
         $.get(tableUrl + '/' + pageId + '?CurrentFilter=' + currentFilter ).done(function (table) {
             tableElement.replaceWith(table);
         });

@@ -2,18 +2,19 @@
 
 @{
     ViewData["PageTitle"] = "مدیریت کاربران";
-    var prevDisabled = !Model.HasPreviousPage ? "hidden" : "";
-    var nextDisabled = !Model.HasNextPage ? "hidden" : "";
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
     var totalPages = Model.TotalPages;
     var pageIndex = Model.PageIndex;
 }
 
 
-<partial name="_ErrorMessage" />
+<partial name="_Message" />
 
 <div class="row">
     <div class="col-12">
         <div class="card">
+            
             <div class="card-header">
                 <div class="card-search-bar">
                     <div class="input-group input-group-sm">
@@ -25,18 +26,15 @@
                 </div>
 
                 <div class="card-tools">
-                    <button type="button" class="btn bg-secondary btn-sm" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn bg-secondary btn-sm" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
+                    <button type="button" class="left btn btn-primary btn-sm" data-toggle="ajax-modal" data-target="#add-role" data-url="@Url.Action("Add")">
+                        <i class="fa fa-plus"></i> افزودن
                     </button>
                 </div>
             </div>
             <!-- /.card-header -->
-            <div id="datatable" data-url="/Admin/Users/Index">
+            
                 <partial name="_ListPartialView" />
-            </div>
+            
             
         </div>
     <!-- /.card -->

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using KSFramework.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Project.Auth.Domain;
+using Project.Auth.Extensions;
 using Project.Auth.Services;
 
 namespace Project.Auth.Areas.Admin.Controllers
@@ -23,7 +24,7 @@ namespace Project.Auth.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int? id, string currentFilter, string searchString)
         {
             var page = id ?? 1;
-            var pageSize = 1;
+            var pageSize = 50;
 
             if (searchString != null)
             {
@@ -49,6 +50,20 @@ namespace Project.Auth.Areas.Admin.Controllers
             if(isAjax)
                 return PartialView("_ListPartialView", pagedItems);
             return View(pagedItems);
+        }
+
+        [HttpGet]
+        public IActionResult ChangeStatus(Guid id)
+        {
+            return PartialView("_ChangeStatusPartialView", id);
+        }
+
+        [HttpPost, ActionName("ChangeStatus")]
+        public async Task<IActionResult> ChangeStatusPost(Guid id)
+        {
+            var ressult = await _userServices.ChangeStatus(id);
+            TempData.Put("Message", ressult);
+            return PartialView("_ChangeStatusPartialView", id);
         }
     }
 }
