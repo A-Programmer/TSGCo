@@ -1,155 +1,19 @@
-using Project.Auth.Contracts;
-using Project.Auth.Domain;
-using Project.Auth.Domain.IdentityServer4Entities;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UserClaim = Project.Auth.Domain.UserClaim;
-using KSFramework.Utilities;
-using System.Reflection;
+using Project.Auth.Domain;
 
 namespace Project.Auth.Data
 {
-    public class ApplicationDbContext : DbContext, IUnitOfWork
+    public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            base.OnModelCreating(modelBuilder);
-
-            var entitiesAssembly = typeof(User).Assembly;
-
-            #region Register All Entities
-            modelBuilder.RegisterAllEntities<User>(entitiesAssembly);
-            #endregion
-
-            #region Apply Entities Configuration
-            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
-            #endregion
-
-            #region Config Delete Behevior for not Cascade Delete
-            modelBuilder.AddRestrictDeleteBehaviorConvention();
-            #endregion
-
-            #region Add Sequential GUID for Id properties
-            modelBuilder.AddSequentialGuidForIdConvention();
-            #endregion
-
-            #region Pluralize Table Names
-            modelBuilder.AddPluralizingTableNameConvention();
-            #endregion
-
         }
 
-
-
-
-        #region Override SaveChanges methods
-        public override int SaveChanges()
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            FixYeke();
-            SetDetailFields();
-            return base.SaveChanges();
+            base.OnModelCreating(builder);
         }
-
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            FixYeke();
-            SetDetailFields();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
-        }
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            FixYeke();
-            SetDetailFields();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            FixYeke();
-            SetDetailFields();
-            return base.SaveChangesAsync(cancellationToken);
-        }
-        #endregion
-
-        #region Fix Persian Chars
-        public void FixYeke()
-        {
-            var changedEntities = ChangeTracker.Entries()
-                .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
-            foreach (var item in changedEntities)
-            {
-                if (item.Entity == null)
-                    continue;
-
-                var properties = item.Entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(p => p.CanRead && p.CanWrite && p.PropertyType == typeof(string));
-
-                foreach (var property in properties)
-                {
-                    var propName = property.Name;
-                    var val = (string)property.GetValue(item.Entity, null);
-
-                    if (val.HasValue())
-                    {
-                        var newVal = val.Fa2En().FixPersianChars();
-                        if (newVal == val)
-                            continue;
-                        property.SetValue(item.Entity, newVal, null);
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region Setting detail fields
-
-        public void SetDetailFields()
-        {
-            //x.State == EntityState.Modified
-            var addedEntities = ChangeTracker.Entries()
-                .Where(x => x.State == EntityState.Added);
-            foreach (var item in addedEntities)
-            {
-                if (item.Entity == null)
-                    continue;
-
-                var createdAtProperty = item.Entity.GetType().GetProperties()
-                    .FirstOrDefault(x => x.Name == "CreatedAt");
-                var modifiedAtProperty = item.Entity.GetType().GetProperties()
-                    .FirstOrDefault(x => x.Name == "ModifiedAt");
-                
-                if (createdAtProperty != null)
-                {
-                    createdAtProperty.SetValue(item.Entity, DateTimeOffset.UtcNow);
-                }
-
-                if (modifiedAtProperty != null)
-                {
-                    modifiedAtProperty.SetValue(item.Entity, DateTimeOffset.UtcNow);
-                }
-            }
-
-
-            var changedEntities = ChangeTracker.Entries()
-                .Where(x => x.State == EntityState.Modified);
-            foreach (var item in changedEntities)
-            {
-                if (item.Entity == null)
-                    continue;
-
-                var modifiedAtProperty = item.Entity.GetType().GetProperties()
-                    .FirstOrDefault(x => x.Name == "ModifiedAt");
-                
-                if (modifiedAtProperty != null)
-                {
-                    modifiedAtProperty.SetValue(item.Entity, DateTimeOffset.Now);
-                }
-
-            }
-
-        }
-        #endregion
     }
 }

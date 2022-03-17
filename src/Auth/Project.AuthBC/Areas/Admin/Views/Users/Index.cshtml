@@ -1,0 +1,49 @@
+@model PaginatedList<User>
+
+@{
+    ViewData["PageTitle"] = "مدیریت کاربران";
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
+    var totalPages = Model.TotalPages;
+    var pageIndex = Model.PageIndex;
+}
+
+
+<partial name="_Message" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            
+            <div class="card-header">
+                <div class="card-search-bar">
+                    <div class="input-group input-group-sm">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="جست و جو ...">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-tools">
+                    <button type="button" class="left btn btn-primary btn-sm" data-toggle="ajax-modal" data-target="#add-role" data-url="@Url.Action("Add")">
+                        <i class="fa fa-plus"></i> افزودن
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            
+                <partial name="_ListPartialView" />
+            
+            
+        </div>
+    <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+
+
+
+
+
+

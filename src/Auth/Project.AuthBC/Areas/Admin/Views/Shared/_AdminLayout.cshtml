@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 3 | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="/admin/css/libs/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="/admin/plugins/jqvmap/jqvmap.min.css">
+  <!-- Vazir Fonts -->
+  <link rel="stylesheet" href="/admin/css/fonts.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/admin/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="/admin/plugins/summernote/summernote-bs4.css">
+  <!-- Bootstrap 4 RTL -->
+  <link rel="stylesheet" href="/admin/css/libs/bootstrap-rtl.min.css">
+  <!-- Custom style for RTL -->
+  <link rel="stylesheet" href="/admin/css/custom.min.css">
+
+  @RenderSection("Styles", false)
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    @await Html.PartialAsync("PartialViews/_TopNavigation")
+
+    @await Html.PartialAsync("PartialViews/_RightPanel")
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1>@ViewData["PageTitle"]</h1>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          
+          @RenderBody()
+          
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    @await Html.PartialAsync("PartialViews/_Footer")
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <div class="p-3 control-sidebar-content">
+        <h5>Customize AdminLTE</h5>
+        <hr class="mb-2">
+        <div class="mb-4"><input type="checkbox" value="1" class="mr-1"><span>Dark Mode</span></div>
+        <h6>Header Options</h6>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Fixed</span></div>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Dropdown Legacy Offset</span></div>
+        <div class="mb-4"><input type="checkbox" value="1" class="mr-1"><span>No border</span></div>
+        <h6>Sidebar Options</h6>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Collapsed</span></div>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Fixed</span></div>
+        <div class="mb-1"><input type="checkbox" value="1" checked="checked" class="mr-1"><span>Sidebar Mini</span></div>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Sidebar Mini MD</span></div>
+        <h6>Footer Options</h6>
+        <div class="mb-4"><input type="checkbox" value="1" class="mr-1"><span>Fixed</span></div>
+        <h6>Small Text Options</h6>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Body</span></div>
+        <div class="mb-1"><input type="checkbox" value="1" class="mr-1"><span>Navbar</span></div>
+        <h6>Navbar Variants</h6>
+        <div class="d-flex">
+          <select class="custom-select mb-3 text-light border-0 bg-white">
+              <option class="bg-primary">Primary</option>
+              <option class="bg-secondary">Secondary</option>
+              <option class="bg-info">Info</option>
+              <option class="bg-success">Success</option>
+              <option class="bg-danger">Danger</option>
+              <option class="bg-indigo">Indigo</option>
+          </select>
+        </div>
+        <h6>Accent Color Variants</h6>
+        <div class="d-flex"></div>
+        <select class="custom-select mb-3 border-0">
+          <option>None Selected</option>
+          <option class="bg-primary">Primary</option>
+          <option class="bg-warning">Warning</option>
+          <option class="bg-info">Info</option>
+          <option class="bg-danger">Danger</option>
+        </select>
+    </div>
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+  <div id="modal-placeholder"></div>
+<!-- jQuery -->
+<script src="/admin/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 rtl -->
+<script src="/admin/js/libs/bootstrap.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/admin/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/admin/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/admin/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/admin/plugins/jqvmap/maps/jquery.vmap.world.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/admin/plugins/moment/moment.min.js"></script>
+<script src="/admin/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/admin/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/admin/js/adminlte.js"></script>
+
+
+<!-- AdminLTE dashboard demo (This is only for demo purposes) This is a demo data source, In production data must read from real data -->
+<script src="/admin/js/pages/dashboard.js"></script>
+<script src="/admin/js/demo.js"></script>
+
+
+
+<script src="/admin/js/scripts.js"></script>
+
+@RenderSection("Scripts", false)
+
+</body>
+</html>
