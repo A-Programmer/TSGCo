@@ -1,8 +1,10 @@
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Project.Auth.Data;
 using Project.Auth.Domain;
+using Project.Auth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration;
@@ -30,9 +32,15 @@ builder.Services.AddIdentity<User, Role>()
 
 IdentityModelEventSource.ShowPII = true;
 
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, 
+        UserClaimsPrincipalFactory<User>>();
+
+builder.Services.AddTransient<IProfileService, ProfileService>();
+
 builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
     .AddAspNetIdentity<User>()
+    .AddProfileService<ProfileService>()
     .AddConfigurationStore(options =>
     {
         options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("AuthServiceConnectionString"), sql => sql.MigrationsAssembly("Project.Auth"));
@@ -41,6 +49,9 @@ builder.Services.AddIdentityServer()
     {
         options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("AuthServiceConnectionString"), sql => sql.MigrationsAssembly("Project.Auth"));
     });
+    
+builder.Services.AddLocalApiAuthentication();
+
 
 
 var app = builder.Build();
@@ -48,6 +59,8 @@ var app = builder.Build();
 MigrateDb(app);
 
 // DatabaseInitializer.PopulateIdentityServer(app);
+
+app.UseIdentityServer();
 
 app.UseHttpsRedirection();
 
@@ -69,8 +82,6 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}"
     );
 });
-
-app.UseIdentityServer();
 
 app.Run();
 
