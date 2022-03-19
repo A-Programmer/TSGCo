@@ -4,10 +4,12 @@ using System.ComponentModel;
 using IdentityServer4.Models;
 using KSFramework.Pagination;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.Auth.Data;
 using Project.Auth.Domain;
 using Project.Auth.Extensions;
+using static IdentityServer4.IdentityServerConstants;
 // using Project.Auth.Services;
 
 namespace Project.Auth.Areas.Admin.Controllers
@@ -17,6 +19,7 @@ namespace Project.Auth.Areas.Admin.Controllers
     public class UsersController : Controller
     {
         // private readonly IUserServices _userServices;
+        private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _db;
         public UsersController(ApplicationDbContext db)//IUserServices userServices)
         {
@@ -24,7 +27,7 @@ namespace Project.Auth.Areas.Admin.Controllers
             _db = db;
         }
 
-        [HttpGet, DisplayName("Users List"),Authorize(Roles = "admin")]
+        [HttpGet, DisplayName("Users List")]
         public async Task<IActionResult> Index(int? id, string currentFilter, string searchString)
         {
             Console.WriteLine($"\n\n\n\n\n{"admin".Sha256()}\n\n\n\n\n{"user".Sha256()}\n\n\n\n\n\n\n");
@@ -55,8 +58,12 @@ namespace Project.Auth.Areas.Admin.Controllers
             if(isAjax)
                 return PartialView("_ListPartialView", pagedItems);
             return View(pagedItems);
+        }
 
-            return PartialView("_ListPartialView", pagedItems);
+        [HttpGet]
+        public async Task<IActionResult> GetData()
+        {
+            return View();
         }
 
         #region Add User

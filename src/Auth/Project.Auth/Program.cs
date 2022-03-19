@@ -30,12 +30,12 @@ builder.Services.AddIdentity<User, Role>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-IdentityModelEventSource.ShowPII = true;
-
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, 
         UserClaimsPrincipalFactory<User>>();
 
 builder.Services.AddTransient<IProfileService, ProfileService>();
+
+IdentityModelEventSource.ShowPII = true;
 
 builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
