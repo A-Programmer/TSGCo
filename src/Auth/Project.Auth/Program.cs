@@ -58,7 +58,7 @@ var app = builder.Build();
 
 MigrateDb(app);
 
-// DatabaseInitializer.PopulateIdentityServer(app);
+DatabaseInitializer.PopulateIdentityServer(app);
 
 app.UseIdentityServer();
 

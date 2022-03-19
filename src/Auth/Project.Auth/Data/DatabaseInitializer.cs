@@ -1,51 +1,74 @@
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.EntityFrameworkCore;
+using Project.Auth.Domain;
 
 namespace Project.Auth.Data
 {
     public static class DatabaseInitializer
     {
-        public static void PopulateIdentityServer(IApplicationBuilder app)
+        public static async void PopulateIdentityServer(IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
             var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+            var db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             context.Database.Migrate();
-
-            foreach (var client in Config.Clients)
+            if(!context.Clients.Any())
             {
-                var item = context.Clients.SingleOrDefault(c => c.ClientName == client.ClientId);
-
-                if (item == null)
+                foreach (var client in Config.Clients)
                 {
-                    context.Clients.Add(client.ToEntity());
+                    var item = context.Clients.SingleOrDefault(c => c.ClientName == client.ClientId);
+
+                    if (item == null)
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
                 }
             }
 
-            foreach (var resource in Config.ApiResources)
+            if(!context.ApiResources.Any())
             {
-                var item = context.ApiResources.SingleOrDefault(c => c.Name == resource.Name);
-
-                if (item == null)
+                foreach (var resource in Config.ApiResources)
                 {
-                    context.ApiResources.Add(resource.ToEntity());
+                    var item = context.ApiResources.SingleOrDefault(c => c.Name == resource.Name);
+
+                    if (item == null)
+                    {
+                        context.ApiResources.Add(resource.ToEntity());
+                    }
                 }
             }
 
-            foreach (var scope in Config.ApiScopes)
+            if(!context.ApiScopes.Any())
             {
-                var item = context.ApiScopes.SingleOrDefault(c => c.Name == scope.Name);
-
-                if (item == null)
+                foreach (var scope in Config.ApiScopes)
                 {
-                    context.ApiScopes.Add(scope.ToEntity());
+                    var item = context.ApiScopes.SingleOrDefault(c => c.Name == scope.Name);
+
+                    if (item == null)
+                    {
+                        context.ApiScopes.Add(scope.ToEntity());
+                    }
                 }
             }
+
 
             context.SaveChanges();
+
+            if(db.Users.Include(x => x.Profile).Any())
+            {
+                var admin = await db.Users.FirstOrDefaultAsync(x => x.UserName == "admin");
+                if(admin != null && admin.Profile != null)
+                {
+                    var adminProfile = new UserProfile("کامران", "سادین");
+                    admin.SetProfile(adminProfile);
+
+                    await db.SaveChangesAsync();
+                }
+            }
         }
     }
 }

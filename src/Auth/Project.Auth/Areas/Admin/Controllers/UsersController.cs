@@ -6,9 +6,12 @@ using KSFramework.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project.Auth.Areas.Admin.ViewModels.Users;
 using Project.Auth.Data;
 using Project.Auth.Domain;
 using Project.Auth.Extensions;
+using Project.Auth.Models;
 using static IdentityServer4.IdentityServerConstants;
 // using Project.Auth.Services;
 
@@ -30,7 +33,6 @@ namespace Project.Auth.Areas.Admin.Controllers
         [HttpGet, DisplayName("Users List")]
         public async Task<IActionResult> Index(int? id, string currentFilter, string searchString)
         {
-            Console.WriteLine($"\n\n\n\n\n{"admin".Sha256()}\n\n\n\n\n{"user".Sha256()}\n\n\n\n\n\n\n");
             var page = id ?? 1;
             var pageSize = 50;
 
@@ -44,7 +46,7 @@ namespace Project.Auth.Areas.Admin.Controllers
             }
             ViewData["CurrentFilter"] = searchString;
 
-            var items = _db.Users.AsQueryable();
+            var items = _db.Users.Include(x => x.Profile).AsQueryable();
 
             if(!string.IsNullOrEmpty(searchString))
             {
@@ -60,11 +62,6 @@ namespace Project.Auth.Areas.Admin.Controllers
             return View(pagedItems);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetData()
-        {
-            return View();
-        }
 
         #region Add User
         [HttpGet, DisplayName("Add User")]
@@ -107,6 +104,101 @@ namespace Project.Auth.Areas.Admin.Controllers
             // var ressult = await _userServices.ChangeStatus(id);
             // TempData.Put("Message", ressult);
             return PartialView("_ChangeStatusPartialView", id);
+        }
+        #endregion
+
+
+        #region RemoveProfile
+        [HttpGet]
+        public IActionResult RemoveProfile(Guid id)
+        {
+            return PartialView("_RemoveProfilePartialView", id);
+        }
+
+        [HttpPost, ActionName("RemoveProfile")]
+        public async Task<IActionResult> RemoveProfilePost(Guid id)
+        {
+            var rm = new ResultMessage()
+            {
+                Status = false,
+                Message = "",
+                CssClass = "warning"
+            };
+
+            var user = await _db.Users.Include(x => x.Profile).FirstOrDefaultAsync(x => x.Id == id);
+            if(user != null)
+            {
+                user.RemoveProfile();
+                rm.CssClass = "success";
+                rm.Message = "عملیات با موفقیت انجام شد";
+                rm.Status = true;
+            }
+            else
+            {
+
+                rm.CssClass = "warning";
+                rm.Message = "کاربر مورد نظر یافت نشد.";
+                rm.Status = true;
+            }
+            await _db.SaveChangesAsync();
+            TempData.Put("Message", rm);
+
+            return PartialView("_RemoveProfilePartialView", id);
+        }
+        #endregion
+
+
+        #region Add Profile
+        [HttpGet]
+        public IActionResult AddProfile(Guid id)
+        {
+            var profile = new AddUserProfileViewModel() { UserId = id };
+            return PartialView("_AddUserProfilePartialView", profile);
+        }
+
+        [HttpPost, ActionName("AddProfile")]
+        public async Task<IActionResult> AddProfilePost(AddUserProfileViewModel userProfileViewModel)
+        {
+            var rm = new ResultMessage()
+            {
+                Status = false,
+                Message = "",
+                CssClass = "warning"
+            };
+            
+            if(ModelState.IsValid)
+            {
+                var user = await _db.Users.Include(x => x.Profile).FirstOrDefaultAsync(x => x.Id == userProfileViewModel.UserId);
+                if(user != null)
+                {
+                    user.RemoveProfile();
+                    var userProfile = new UserProfile(userProfileViewModel.FirstName, userProfileViewModel.LastName);
+                    // user.SetProfileId(userProfile.Id);
+                    user.SetProfile(userProfile);
+
+                    await _db.SaveChangesAsync();
+
+                    rm.CssClass = "success";
+                    rm.Message = "پروفایل کاربر با موفقیت صبت شد.";
+                    rm.Status = true;
+                }
+                else
+                {
+                    rm.CssClass = "warning";
+                    rm.Message = "کاربر مورد نظر یافت نشد.";
+                    rm.Status = false;
+                }
+            }
+            else
+            {
+                rm.CssClass = "warning";
+                rm.Message = "لطفا فرم مورد نظر را با دقت پر کنید.";
+                rm.Status = false;
+            }
+
+            TempData.Put("Message", rm);
+            
+            return PartialView("_AddUserProfilePartialView", userProfileViewModel);
         }
         #endregion
     }

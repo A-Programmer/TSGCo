@@ -11,6 +11,8 @@ namespace Project.Auth.Data
         {
         }
 
+        public DbSet<UserProfile> Profiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
