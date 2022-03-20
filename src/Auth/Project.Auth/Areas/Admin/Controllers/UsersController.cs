@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Project.Auth.Areas.Admin.ViewModels;
 using Project.Auth.Areas.Admin.ViewModels.Users;
 using Project.Auth.Data;
 using Project.Auth.Domain;
 using Project.Auth.Extensions;
 using Project.Auth.Models;
+using Project.Auth.Services;
 using static IdentityServer4.IdentityServerConstants;
 // using Project.Auth.Services;
 
@@ -21,13 +23,13 @@ namespace Project.Auth.Areas.Admin.Controllers
     [DisplayName("Manage Users")]
     public class UsersController : Controller
     {
-        // private readonly IUserServices _userServices;
+        private readonly IUserServices _userServices;
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _db;
-        public UsersController(ApplicationDbContext db)//IUserServices userServices)
+        public UsersController(IUserServices userServices, UserManager<User> userManager)
         {
-            // _userServices = userServices;
-            _db = db;
+            _userServices = userServices;
+            _userManager = userManager;
         }
 
         [HttpGet, DisplayName("Users List")]
@@ -46,12 +48,15 @@ namespace Project.Auth.Areas.Admin.Controllers
             }
             ViewData["CurrentFilter"] = searchString;
 
-            var items = _db.Users.Include(x => x.Profile).AsQueryable();
+            var items = _userServices.GetUsersQueryable().Include(x => x.Profile).AsQueryable();
 
             if(!string.IsNullOrEmpty(searchString))
             {
                 items = items.Where(x =>
-                    x.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+                    x.UserName.ToLower().Contains(searchString) ||
+                    x.Profile.FirstName.ToLower().Contains(searchString) ||
+                    x.Profile.LastName.ToLower().Contains(searchString)
+                );
             }
 
             var pagedItems = await PaginatedList<User>.CreateAsync(items, page, pageSize);
@@ -65,28 +70,45 @@ namespace Project.Auth.Areas.Admin.Controllers
 
         #region Add User
         [HttpGet, DisplayName("Add User")]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            // var roles = await _roleManager.Roles
-            //     .Where(x => x.Name.ToLower() != "admin")
-            //     .OrderBy(r => r.Title).ToListAsync();
-            // ViewBag.Roles = new SelectList(roles, "Name", "Title");
             return PartialView("_AddPartialView");
         }
 
         [HttpPost, ValidateAntiForgeryToken, DisplayName("Adding User"), ActionName("Add")]
-        public async Task<IActionResult> AddUser()//AddUserViewModel model)
+        public async Task<IActionResult> AddUser(AddUserViewModel model)
         {
-            // var roles = await _roleManager.Roles
-            //     .Where(x => x.Name.ToLower() != "admin")
-            //     .OrderBy(r => r.Title).ToListAsync();
-            // ViewBag.Roles = new SelectList(roles, "Name", "Title");
-
-            // if (ModelState.IsValid)
-            // {
-            //     var result = await _userServic.CreateUser(model);
-            //     TempData.Put("Message", result);
-            // }
+            if(!ModelState.IsValid)
+            {
+                return PartialView("_AddPartialView", model);
+            }
+            var user = new User()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
+            };
+            if(!string.IsNullOrEmpty(model.FirstName) || !string.IsNullOrEmpty(model.LastName))
+            {
+                var profile = new UserProfile(model.FirstName, model.LastName);
+                user.SetProfile(profile);
+            }
+            var registerationResult = await _userManager.CreateAsync(user, model.Password);
+            if(!registerationResult.Succeeded)
+            {
+                foreach(var err in registerationResult.Errors)
+                {
+                    ModelState.AddModelError("", err.Description);
+                }
+                return PartialView("_AddPartialView", model);
+            }
+            var result = new ResultMessage
+            {
+                CssClass = "success",
+                Status = true,
+                Message = "کاربر مورد نظر با موفقیت  ثبت شد."
+            };
+            TempData.Put("Message", result);
             return PartialView("_AddPartialView");//model);
         }
         #endregion

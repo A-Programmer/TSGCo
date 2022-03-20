@@ -10,7 +10,6 @@ $(function () {
             //If has chosenJS
             chosenInit();
 
-
         });
         loading();
     });

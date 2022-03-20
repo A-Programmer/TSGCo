@@ -12,9 +12,8 @@
         <table class="table table-head-fixed">
             <thead>
                 <tr>
-                    <th>شماره</th>
+                    <th>#</th>
                     <th>نام کاربری</th>
-                    <th>وضعیت</th>
                     <th>پروفایل</th>
                     <th>دستورات</th>
                 </tr>
@@ -26,21 +25,29 @@
                         <td>
                             @(rowNo += 1)
                         </td>
-                        <td>@item.Name</td>
+                        <td>@item.UserName</td>
+                        <td>
+                            @if(item.Profile != null)
+                            {
+                                <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#removeprofile-modal" data-url="@Url.Action("RemoveProfile", "Users", new { Area = "Admin", id = item.Id })">
+                                    <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="حذف پروفایل"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#updateprofile-modal" data-url="@Url.Action("UpdateProfile", "Users", new { Area = "Admin", id = item.Id })">
+                                    <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="ویرایش پروفایل"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#addprofile-modal" data-url="@Url.Action("AddProfile", "Users", new { Area = "Admin", id = item.Id })">
+                                    <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="افزودن پروفایل"></i>
+                                </button>
+                            }
+                        </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#changestatus-modal" data-url="@Url.Action("ChangeStatus", "Users", new { Area = "Admin", id = item.Id })">
                                 <i ks-value="@item.IsActive" data-toggle="tooltip" data-placement="top" title="تغییر وضعیت"></i>
                             </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#removeprofile-modal" data-url="@Url.Action("RemoveProfile", "Users", new { Area = "Admin", id = item.Id })">
-                                <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="حذف پروفایل"></i>
-                            </button>
-                            <button type="button" class="btn btn-sm btn-success" data-toggle="ajax-modal" data-target="#addprofile-modal" data-url="@Url.Action("AddProfile", "Users", new { Area = "Admin", id = item.Id })">
-                                <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="افزودن پروفایل"></i>
-                            </button>
-                        </td>
-                        <td>
+
                             <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#edit-modal" data-url="@Url.Action("Edit", "Users", new { Area = "Panel", id = item.Id })">
                                 <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="ویرایش"></i>
                             </button>

@@ -52,6 +52,8 @@ builder.Services.AddIdentityServer()
     
 builder.Services.AddLocalApiAuthentication();
 
+builder.Services.AddScoped<IUserServices, UserServices>();
+
 
 
 var app = builder.Build();
