@@ -17,10 +17,13 @@ namespace Project.Auth.Areas.Admin.ViewModels
         public string PhoneNumber { get; set; }
 
         [Display(Name = "نام")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [Display(Name = "نام خانوادگی")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
+
+        [Display(Name = "وضعیت فعال بودن کاربر")]
+        public bool IsActive { get; set; }
 
     }
 }

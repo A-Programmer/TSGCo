@@ -24,11 +24,16 @@ namespace Project.Auth.Domain
             }
         }
 
-        protected Guid UserId { get; private set; }
+        public Guid UserId { get; set; }
 
         public void SetUserId(Guid userId)
         {
             UserId = userId;
+        }
+        public void Update(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
         }
 
         public UserProfile(string firstName, string lastName)

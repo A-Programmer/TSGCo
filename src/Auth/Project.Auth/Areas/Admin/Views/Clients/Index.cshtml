@@ -1,0 +1,53 @@
+@model PaginatedList<Client>
+
+@{
+    ViewData["PageTitle"] = "مدیریت کلاینت‌ها";
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
+    var totalPages = Model.TotalPages;
+    var pageIndex = Model.PageIndex;
+}
+
+
+<partial name="_Message" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            
+            <div class="card-header">
+                <div class="card-search-bar">
+                    <form class="search-form" method="GET">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control float-right" placeholder="جست و جو ..."  name="SearchString" value='@ViewData["currentFilter"]' />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-tools">
+                    <button type="button" class="left btn btn-primary btn-sm" data-toggle="ajax-modal" data-target="#add-modal" data-url="@Url.Action("Add")">
+                        <i class="fa fa-plus"></i> افزودن
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            
+                <partial name="_ListPartialView" />
+            
+            
+        </div>
+    <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+
+
+
+
+
+

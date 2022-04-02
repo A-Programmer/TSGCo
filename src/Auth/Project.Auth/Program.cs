@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Logging;
 using Project.Auth.Data;
 using Project.Auth.Domain;
 using Project.Auth.Services;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration;
@@ -21,6 +22,8 @@ else
                             .AddJsonFile("appsettings.Development.json")
                             .Build();
 }
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -53,6 +56,8 @@ builder.Services.AddIdentityServer()
 builder.Services.AddLocalApiAuthentication();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IClientServices, ClientServices>();
+builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
 
 
 

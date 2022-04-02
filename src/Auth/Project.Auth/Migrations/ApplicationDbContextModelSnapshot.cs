@@ -202,6 +202,9 @@ namespace Project.Auth.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("ProfileId1")
                         .HasColumnType("uniqueidentifier");
 
@@ -243,6 +246,9 @@ namespace Project.Auth.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

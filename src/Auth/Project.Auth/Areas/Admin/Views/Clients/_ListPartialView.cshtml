@@ -1,0 +1,118 @@
+@model PaginatedList<Client>
+@{
+
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
+    var totalPages = Model.TotalPages;
+    var pageIndex = Model.PageIndex;
+    int rowNo = 0;
+}
+<div id="datatable" data-url="/Admin/Users/Index">
+    <div class="card-body table-responsive p-0">
+        <table class="table table-head-fixed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>آی‌دی</th>
+                    <th>نام</th>
+                    <th>زیرمجموعه‌ها</th>
+                    <th>دستورات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @(rowNo += 1)
+                        </td>
+                        <td>
+                            @item.ClientId
+                        </td>
+                        <td>@item.ClientName</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#secrets-modal" data-url="@Url.Action("Secrets", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fa fa-key" data-toggle="tooltip" data-placement="top" title="کلمه عبورها"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#redirectUris-modal" data-url="@Url.Action("RedirectUris", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fas fa-directions" data-toggle="tooltip" data-placement="top" title="Redirect Uris"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#postLogoutRedirectUris-modal" data-url="@Url.Action("PostLogoutRedirectUris", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fa fa-directions" data-toggle="tooltip" data-placement="top" title="Post Logout Redirect Uris"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#grantTypes-modal" data-url="@Url.Action("GrantTypes", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fa fa-file" data-toggle="tooltip" data-placement="top" title="Grant Types"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#scopes-modal" data-url="@Url.Action("Scopes", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fa fa-folder-open" data-toggle="tooltip" data-placement="top" title="Scopes"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#corsOrigins-modal" data-url="@Url.Action("CorsOrigins", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fas fa-map-signs" data-toggle="tooltip" data-placement="top" title="Cors Origins"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#Properties-modal" data-url="@Url.Action("Properties", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fas fa-puzzle-piece" data-toggle="tooltip" data-placement="top" title="Properties"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#claims-modal" data-url="@Url.Action("Claims", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fas fa-tasks" data-toggle="tooltip" data-placement="top" title="Claims"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#idpRestrictions-modal" data-url="@Url.Action("IdentityProviderRestrictions", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fas fa-ban" data-toggle="tooltip" data-placement="top" title="Identity Provider Restrictions"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#details-modal" data-url="@Url.Action("Details", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fa fa-info" data-toggle="tooltip" data-placement="top" title="جزییات"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#update-modal" data-url="@Url.Action("Update", "Clients", new { Area = "Admin", id = item.Id })">
+                                <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="ویرایش"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="ajax-modal" data-target="#delete-modal" data-url="@Url.Action("Delete", "Clients", new { Area = "Admin", id = item.Id.ToString() })">
+                                <i class="fa fa-trash text-danger" data-toggle="tooltip" data-placement="top" title="حذف"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer clearfix">
+        <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item @prevDisabled">
+                <a class="page-link" href="#" data-type="pagination" data-pageId="@(Model.PageIndex - 1)" data-currentFilter='@ViewData["CurrentFilter"]'>&laquo;</a>
+            </li>
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                @if (i == pageIndex)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" data-type="pagination" href="#" data-pageId="@i" data-currentFilter="@ViewData["CurrentFilter"]">@i</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" data-type="pagination" href="#" data-pageId="@i" data-currentFilter="@ViewData["CurrentFilter"]">@i</a>
+                    </li>
+                }
+
+            }
+            <li class="page-item @nextDisabled">
+                <a class="page-link" href="#" data-type="pagination" data-pageId="@(Model.PageIndex + 1)" data-currentFilter="@ViewData["CurrentFilter"]">
+                    &raquo;
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

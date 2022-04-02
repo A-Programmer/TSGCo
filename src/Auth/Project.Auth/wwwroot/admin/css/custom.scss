@@ -4,6 +4,10 @@
 .farsi_digits {
     font-feature-settings: "ss01";
 }
+.ltr {
+    direction: ltr !important;
+    text-align: left;
+}
 .layout-fixed .main-sidebar {
     right: 0;
 }
@@ -86,6 +90,24 @@
       left: 0;
       right: auto;
     }
+  }
+  
+  //Form Legend
+  .fieldset {
+    border: 1px solid #e5e5e5;
+    padding: 2em 1em 1em;
+    margin-top: 2em;
+    position: relative;
+  }
+  .fieldset legend {
+    border: 0;
+    background: #fff;
+    width: auto;
+    transform: translateY(-50%);
+    position: absolute;
+    top: 0; right: 1em;
+    padding: 0 .5em !important;
+    color: #c01e1e;
   }
 
   //Buttons

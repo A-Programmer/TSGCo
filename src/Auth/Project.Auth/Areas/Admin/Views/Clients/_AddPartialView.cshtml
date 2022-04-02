@@ -1,0 +1,315 @@
+@model AddClientViewModel
+
+
+<div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">افزودن کلاینت</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_Message" />
+                <form method="post" asp-action="Add">
+                    <fieldset class="fieldset">
+                        <legend>اطلاعات عمومی</legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ClientId">آی‌دی کلاینت</label>
+                                    <input asp-for="ClientId" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ClientName">عنوان کلاینت</label>
+                                    <input asp-for="ClientName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ClientUri">آدرس کلاینت</label>
+                                    <input asp-for="ClientUri" class="form-control ltr" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label asp-for="Description">توضیحات</label>
+                                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="LogoUri">لوگو</label>
+                                    <br/>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FrontChannelLogoutUri">آدرس Front Channel Logout</label>
+                                    <input asp-for="FrontChannelLogoutUri" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="BackChannelLogoutUri">آدرس Back Channel Logout</label>
+                                    <input asp-for="BackChannelLogoutUri" class="form-control ltr" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ProtocolType"></label>
+                                    <input asp-for="ProtocolType" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ClientClaimsPrefix"></label>
+                                    <input asp-for="ClientClaimsPrefix" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="PairWiseSubjectSalt"></label>
+                                    <input asp-for="PairWiseSubjectSalt" class="form-control ltr" />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset">
+                        <legend>مقادیر عددی</legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IdentityTokenLifetime"></label>
+                                    <input asp-for="IdentityTokenLifetime" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="AccessTokenLifetime"></label>
+                                    <input asp-for="AccessTokenLifetime" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="AuthorizationCodeLifetime"></label>
+                                    <input asp-for="AuthorizationCodeLifetime" class="form-control ltr" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ConsentLifetime"></label>
+                                    <input asp-for="ConsentLifetime" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="AbsoluteRefreshTokenLifetime"></label>
+                                    <input asp-for="AbsoluteRefreshTokenLifetime" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="SlidingRefreshTokenLifetime"></label>
+                                    <input asp-for="SlidingRefreshTokenLifetime" class="form-control ltr" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="RefreshTokenUsage"></label>
+                                    <input asp-for="RefreshTokenUsage" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="RefreshTokenExpiration"></label>
+                                    <input asp-for="RefreshTokenExpiration" class="form-control ltr" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="AccessTokenType"></label>
+                                    <input asp-for="AccessTokenType" class="form-control ltr" />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset">
+                        <legend>مقادیر صحیح غلط</legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="Enabled" value=""  />
+                                        <label for="Enabled"></label>
+                                    </div>
+                                    <span class="text">Enabled</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="RequireClientSecret" value=""  />
+                                        <label for="RequireClientSecret"></label>
+                                    </div>
+                                    <span class="text">RequireClientSecret</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="RequireConsent" value=""  />
+                                        <label for="RequireConsent"></label>
+                                    </div>
+                                    <span class="text">RequireConsent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="AllowRememberConsent" value=""  />
+                                        <label for="AllowRememberConsent"></label>
+                                    </div>
+                                    <span class="text">AllowRememberConsent</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="AlwaysIncludeUserClaimsInIdToken" value=""  />
+                                        <label for="AlwaysIncludeUserClaimsInIdToken"></label>
+                                    </div>
+                                    <span class="text">AlwaysIncludeUserClaimsInIdToken</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="FrontChannelLogoutSessionRequired" value=""  />
+                                        <label for="FrontChannelLogoutSessionRequired"></label>
+                                    </div>
+                                    <span class="text">FrontChannelLogoutSessionRequired</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="AllowOfflineAccess" value=""  />
+                                        <label for="AllowOfflineAccess"></label>
+                                    </div>
+                                    <span class="text">AllowOfflineAccess</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="BackChannelLogoutSessionRequired" value=""  />
+                                        <label for="BackChannelLogoutSessionRequired"></label>
+                                    </div>
+                                    <span class="text">BackChannelLogoutSessionRequired</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="EnableLocalLogin" value=""  />
+                                        <label for="EnableLocalLogin"></label>
+                                    </div>
+                                    <span class="text">EnableLocalLogin</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="RequirePkce" value=""  />
+                                        <label for="RequirePkce"></label>
+                                    </div>
+                                    <span class="text">RequirePkce</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="AllowPlainTextPkce" value=""  />
+                                        <label for="AllowPlainTextPkce"></label>
+                                    </div>
+                                    <span class="text">AllowPlainTextPkce</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="UpdateAccessTokenClaimsOnRefresh" value=""  />
+                                        <label for="UpdateAccessTokenClaimsOnRefresh"></label>
+                                    </div>
+                                    <span class="text">UpdateAccessTokenClaimsOnRefresh</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="AllowAccessTokensViaBrowser" value=""  />
+                                        <label for="AllowAccessTokensViaBrowser"></label>
+                                    </div>
+                                    <span class="text">AllowAccessTokensViaBrowser</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="IncludeJwtId" value=""  />
+                                        <label for="IncludeJwtId"></label>
+                                    </div>
+                                    <span class="text">IncludeJwtId</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input asp-for="AlwaysSendClientClaims" value=""  />
+                                        <label for="AlwaysSendClientClaims"></label>
+                                    </div>
+                                    <span class="text">AlwaysSendClientClaims</span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                <button type="button" data-save="modal" class="btn btn-primary">ذخیره</button>
+            </div>
+        </div>
+    </div>
+</div>
