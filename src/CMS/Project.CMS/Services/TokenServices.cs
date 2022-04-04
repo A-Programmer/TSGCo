@@ -69,12 +69,9 @@ namespace Project.CMS.Services
             var expires_at = await currentContext.GetTokenAsync("expires_at");
 
             if (string.IsNullOrWhiteSpace(expires_at) || DateTime.Parse(expires_at).AddSeconds(-60).ToUniversalTime() < DateTime.UtcNow)
-            {
-                Console.WriteLine($"\n\n\n\n\n{DateTime.Parse(expires_at).AddSeconds(-60).ToUniversalTime() < DateTime.UtcNow}\n\n\n\n\n\n");
-            }
+                accessToken = await RenewTokens();
             else
                 accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-                accessToken = await RenewTokens();
 
             if (!string.IsNullOrWhiteSpace(accessToken))
             {
@@ -108,9 +105,6 @@ namespace Project.CMS.Services
             var tokenEndpoint = discoveryDocument.TokenEndpoint;
 
             var currentRefreshToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
-
-            Console.WriteLine($"\n\n\n\n\nRefresh Token: {currentRefreshToken}\n\n\n\n");
-
 
             TokenResponse tokenRespons = await _client.RequestRefreshTokenAsync(new RefreshTokenRequest
             {
