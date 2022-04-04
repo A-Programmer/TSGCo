@@ -1,106 +1,60 @@
-using IdentityServer4.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Logging;
-using Project.Auth.Data;
-using Project.Auth.Domain;
-using Project.Auth.Services;
-using AutoMapper;
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-var builder = WebApplication.CreateBuilder(args);
-IConfiguration Configuration;
 
-if(builder.Environment.IsProduction())
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
+using System;
+
+namespace Project.Auth
 {
-    Configuration = Configuration = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.Production.json")
-                            .Build();
-}
-else
-{
-    Configuration = Configuration = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.Development.json")
-                            .Build();
-}
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(Configuration.GetConnectionString("AuthServiceConnectionString"))
-);
-builder.Services.AddIdentity<User, Role>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, 
-        UserClaimsPrincipalFactory<User>>();
-
-builder.Services.AddTransient<IProfileService, ProfileService>();
-
-IdentityModelEventSource.ShowPII = true;
-
-builder.Services.AddIdentityServer()
-    .AddDeveloperSigningCredential()
-    .AddAspNetIdentity<User>()
-    .AddProfileService<ProfileService>()
-    .AddConfigurationStore(options =>
+    public class Program
     {
-        options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("AuthServiceConnectionString"), sql => sql.MigrationsAssembly("Project.Auth"));
-    })
-    .AddOperationalStore(options =>
-    {
-        options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("AuthServiceConnectionString"), sql => sql.MigrationsAssembly("Project.Auth"));
-    });
-    
-builder.Services.AddLocalApiAuthentication();
-
-builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddScoped<IClientServices, ClientServices>();
-builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
-
-
-
-var app = builder.Build();
-
-MigrateDb(app);
-
-DatabaseInitializer.PopulateIdentityServer(app);
-
-app.UseIdentityServer();
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "AdminArea",
-        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
-
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}"
-    );
-});
-
-app.Run();
-
-
-void MigrateDb(IHost app)
-{
-    var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-    using (var scope = scopeFactory.CreateScope())
-    {
-        using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
+        public static int Main(string[] args)
         {
-            context.Database.Migrate();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
+                .MinimumLevel.Override("System", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                // uncomment to write to Azure diagnostics stream
+                //.WriteTo.File(
+                //    @"D:\home\LogFiles\Application\identityserver.txt",
+                //    fileSizeLimitBytes: 1_000_000,
+                //    rollOnFileSizeLimit: true,
+                //    shared: true,
+                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Starting host...");
+                CreateHostBuilder(args).Build().Run();
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly.");
+                return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseSerilog()
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
