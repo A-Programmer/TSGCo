@@ -128,6 +128,21 @@ src/Shared/KSFramework/[Rr]eleases/
 src/Shared/KSFramework/[Rr]elease/
 src/Shared/KSFramework/[Dd]ebugPublic/
 src/Shared/KSFramework/[Dd]ebug/
+# Common
+src/Shared/Common/Project.Common/[Oo]ut/
+src/Shared/Common/Project.Common/[Oo]bj/
+src/Shared/Common/Project.Common/[Bb]in/
+src/Shared/Common/Project.Common/bld/
+src/Shared/Common/Project.Common/build/
+src/Shared/Common/Project.Common/x86/
+src/Shared/Common/Project.Common/x64/
+src/Shared/Common/Project.Common/[Rr]eleases/
+src/Shared/Common/Project.Common/[Rr]elease/
+src/Shared/Common/Project.Common/[Dd]ebugPublic/
+src/Shared/Common/Project.Common/[Dd]ebug/
+src/Shared/Common/Project.Common/.vscode/
+src/Shared/Common/Project.Common/.vs/
+src/Shared/Common/Project.Common/.idea/
 
 
 # AdminUI
@@ -168,6 +183,92 @@ src/Auth/Project.Auth/[Rr]elease/
 src/Auth/Project.Auth/[Dd]ebugPublic/
 src/Auth/Project.Auth/[Dd]ebug/
 
+
+
+############# CMS Api #############
+
+# Core Layer
+src/CMS/Project.CMS.Api/Core/Project.Application/[Oo]ut/
+src/CMS/Project.CMS.Api/Core/Project.Application/[Oo]bj/
+src/CMS/Project.CMS.Api/Core/Project.Application/[Bb]in/
+src/CMS/Project.CMS.Api/Core/Project.Application/bld/
+src/CMS/Project.CMS.Api/Core/Project.Application/build/
+src/CMS/Project.CMS.Api/Core/Project.Application/x86/
+src/CMS/Project.CMS.Api/Core/Project.Application/x64/
+src/CMS/Project.CMS.Api/Core/Project.Application/[Rr]eleases/
+src/CMS/Project.CMS.Api/Core/Project.Application/[Rr]elease/
+src/CMS/Project.CMS.Api/Core/Project.Application/[Dd]ebugPublic/
+src/CMS/Project.CMS.Api/Core/Project.Application/[Dd]ebug/
+src/CMS/Project.CMS.Api/Core/Project.Application/.vscode/
+src/CMS/Project.CMS.Api/Core/Project.Application/.vs/
+src/CMS/Project.CMS.Api/Core/Project.Application/.idea/
+
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Oo]ut/
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Oo]bj/
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Bb]in/
+src/CMS/Project.CMS.Api/Core/Project.Domain/bld/
+src/CMS/Project.CMS.Api/Core/Project.Domain/build/
+src/CMS/Project.CMS.Api/Core/Project.Domain/x86/
+src/CMS/Project.CMS.Api/Core/Project.Domain/x64/
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Rr]eleases/
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Rr]elease/
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Dd]ebugPublic/
+src/CMS/Project.CMS.Api/Core/Project.Domain/[Dd]ebug/
+src/CMS/Project.CMS.Api/Core/Project.Domain/.vscode/
+src/CMS/Project.CMS.Api/Core/Project.Domain/.vs/
+src/CMS/Project.CMS.Api/Core/Project.Domain/.idea/
+
+
+# Infrastructure Layer
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Oo]ut/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Oo]bj/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Bb]in/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/bld/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/build/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/x86/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/x64/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Rr]eleases/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Rr]elease/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Dd]ebugPublic/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/[Dd]ebug/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/.vscode/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/.vs/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/.idea/
+src/CMS/Project.CMS.Api/Infrastructure/Project.Infrastructure/Migrations/
+
+# Api
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Oo]ut/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Oo]bj/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Bb]in/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/bld/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/build/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/x86/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/x64/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Rr]eleases/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Rr]elease/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Dd]ebugPublic/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/[Dd]ebug/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/Resources/*.*
+!src/Presentation/Project.Api/Resources/*.html
+src/CMS/Project.CMS.Api/Presentation/Project.Api/.vscode/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/.vs/
+src/CMS/Project.CMS.Api/Presentation/Project.Api/.idea/
+
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Oo]ut/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Oo]bj/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Bb]in/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/bld/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/build/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/x86/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/x64/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Rr]eleases/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Rr]elease/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Dd]ebugPublic/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/[Dd]ebug/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/.vscode/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/.vs/
+src/CMS/Project.CMS.Api/Presentation/Project.WebFrameworks/.idea/
+############# CMS Api End Section #############
 
 #### Test Projects
 src/TestProjects/

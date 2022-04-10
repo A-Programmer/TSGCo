@@ -41,7 +41,7 @@ namespace Project.Auth
                     RefreshTokenExpiration = TokenExpiration.Sliding,
                     ClientId = "cmsclient",
                     ClientName = "CMS Client",
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     RedirectUris = 
                     {
                         "https://localhost:7001/signin-oidc"
